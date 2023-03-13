@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import firebase from './firebase';
+import GlobalStyle from './styles/Global';
+
 
 function App() {
   const [isFirebaseConnected, setIsFirebaseConnected] = useState(false);
 
   useEffect(() => {
- 
-
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log('User is signed in.');
@@ -20,13 +19,10 @@ function App() {
   }, []);
 
   return (
-    <div>
-      {isFirebaseConnected ? (
-        <p>Firebase is connected.</p>
-      ) : (
-        <p>Firebase is not connected.</p>
-      )}
-    </div>
+    <React.Fragment>
+      <GlobalStyle />
+      {/* <h2>테스트~</h2> */}
+    </React.Fragment>
   );
 }
 export default App;
