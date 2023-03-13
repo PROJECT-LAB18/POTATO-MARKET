@@ -1,21 +1,28 @@
+/* eslint-disable import/no-unresolved */
+import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
-const Bgcolor = styled.div`
-  color: red;
-`
-export default function ChatInfo() {
-  return (
-    <article>
+import classes from '@/styles/chatInfoStyle.module.css'
 
-    <section className='mainChat-header'>
-      <img src="" alt="상대방 프로필" />
-      <button type='button'>더보기</button>
-      <div>
-        <div>알림음 끄기</div>
-        <div>대화상대 차단하기</div>
-        <div>채팅방 나가기</div>
-      </div>
+import defaultProfile from '@/assets/default_profile.png'
+
+import HamburgerMenu from './HambugerMenu'
+
+  const Bgcolor = styled.div`
+    color: red;
+    `
+
+  export default function ChatInfo() {
+  const [isToggleOpen,setIsToggleOpen] =useState(false);
+    
+  return (
+    <article className={classes.main}>
+    <section className={classes.header}>
+      <img className='other-profile' src={defaultProfile} width='40px' alt="프로필" />
+      <HamburgerMenu isToggleOpen={isToggleOpen} setIsToggleOpen={setIsToggleOpen}/>
     </section>
+    
     <section>
       <div>제품사진</div>
       <Bgcolor>

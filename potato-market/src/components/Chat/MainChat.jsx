@@ -1,14 +1,18 @@
+import classes from '@/styles/mainChatStyle.module.css'
+import ChatInfo from '@/components/Chat/ChatInfo';
 
 export default function MainChat() {
   return (
-    <>
-     <article>
+    <article className={classes.main}>
+        <ChatInfo/>
+
+     <section >
       
       <span>000님은 당근페이 사용자예요. 채팅방에서 바로 송금할 수 있어요.</span>
 
-      </article>
+      </section>
       <div>시간</div> 
-      <article>
+      <section>
         <img src="" alt="상대방 프로필 사진" />
         <div>
           <span>
@@ -27,8 +31,8 @@ export default function MainChat() {
           </span>
         </div>
 
-      </article>
-      <article>
+      </section>
+      <section>
         <textarea name="" id="" cols="30" rows="10"></textarea>
       <div>
         <button type='button'> <img src="" alt="이미지" /></button>
@@ -36,8 +40,8 @@ export default function MainChat() {
         <button type='button'> <img src="" alt="이미지" /></button>
         <button type='button'>전송</button>
       </div>
-      </article>
-    </>
+      </section>
+    </article>
   );
 }
 

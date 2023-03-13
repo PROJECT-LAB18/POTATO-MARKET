@@ -1,0 +1,10 @@
+.main{
+  display: flex;
+  flex-direction: column;
+  background-color: lime;
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
