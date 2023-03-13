@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -40,6 +40,9 @@ const LoginForm = styled.form`
 `;
 
 const SignIn = () => {
+
+  const navigate = useNavigate();
+
   return (
     <Section>
       <h2>로그인</h2>
@@ -59,10 +62,10 @@ const SignIn = () => {
             <li><Link to={"#"}>비밀번호 찾기</Link></li>
           </ul>
           <FormButton primary type="submit">로그인</FormButton>
-          <FormButton as="a" to={"/signup"}>회원가입</FormButton>
+          <FormButton as={"a"} onClick={() => navigate("/signup")}>회원가입</FormButton>
         </fieldset>
       </LoginForm>
-    </Section>
+    </Section >
   )
 };
 

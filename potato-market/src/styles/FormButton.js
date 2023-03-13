@@ -12,6 +12,7 @@ const FormButton = styled.button`
   font-size: 16px;
   font-weight: 700;
   text-align: center;
+  cursor: pointer;
   ${(props) =>
     props.primary &&
     css`
