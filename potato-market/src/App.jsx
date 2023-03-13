@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import firebase from './firebase';
+import Header from './pages/Header';
 import GlobalStyle from './styles/Global';
 
 
@@ -22,6 +23,7 @@ function App() {
     <React.Fragment>
       <GlobalStyle />
       {/* <h2>테스트~</h2> */}
+      <Header/>
     </React.Fragment>
   );
 }
