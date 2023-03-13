@@ -121,6 +121,13 @@ align-items: center;
 width : 15px;
 margin-bottom: 3px;
 `
+
+const OtherProfile =styled.img.attrs({src:`${defaultProfile}`})`
+    border-radius:50%;
+    margin-right: 10px;
+    border: 1px solid ${gray3};
+    width: 40px;
+`
 export default function ChatList() {
   return (
     <Layout>
@@ -138,7 +145,7 @@ export default function ChatList() {
             <ul>
               <li className='chat-list'> 
                 <div>
-                  <img className='other-profile' src={defaultProfile} width='40px' alt="프로필" />
+                  <OtherProfile alt="프로필" />
                   <div className='chat-preview'>
                     <div>
                       <span className='other-name'>상대방</span>

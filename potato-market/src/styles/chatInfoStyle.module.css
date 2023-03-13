@@ -1,7 +1,7 @@
 .main{
   display: flex;
   flex-direction: column;
-  background-color: lime;
+  position: relative;
 }
 .header{
   display: flex;

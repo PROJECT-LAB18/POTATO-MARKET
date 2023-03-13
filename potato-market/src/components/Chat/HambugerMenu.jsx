@@ -16,10 +16,10 @@ display: inline-flex;
     padding: 0 10px;
     width: 24px;
     height: 24px;
-  &:hover{
+  &:hover:active{
     background-color: ${gray5};
     background-size: 100%;
-    transition: background-color 2s ease-out;
+    transition: background-color 1s ease-out;
   } 
 `
 
@@ -27,7 +27,7 @@ display: inline-flex;
 const ToggleItem = styled.ul`
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 58px;
     border: 1px solid ${gray6};
     border-radius: 8px;
     padding: 10px;
