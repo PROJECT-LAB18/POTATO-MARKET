@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import firebase from './firebase';
+import SignIn from './pages/SignIn';
 import GlobalStyle from './styles/Global';
-
 
 function App() {
   const [isFirebaseConnected, setIsFirebaseConnected] = useState(false);
@@ -21,7 +22,13 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
-      {/* <h2>테스트~</h2> */}
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route element={<SignIn />} path="/signin" />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </React.Fragment>
   );
 }
