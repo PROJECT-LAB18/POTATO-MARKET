@@ -8,6 +8,17 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Roboto', sans-serif;
   }
+  .a11yHidden,
+  legend {
+    display: inline-block;
+    overflow: hidden;
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+  }
 `;
 
 export const primaryColor = "#CFA36E" // potato
