@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+
 import firebase from './firebase';
+import Productdetail from './pages/productdetail';
 import GlobalStyle from './styles/Global';
 
 
@@ -10,7 +12,7 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('User is signed in.');
+        console.log(isFirebaseConnected+'User is signed in.');
       } else {
         console.log('User is signed out.');
       }
@@ -21,7 +23,7 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
-      {/* <h2>테스트~</h2> */}
+      <Productdetail/>
     </React.Fragment>
   );
 }
