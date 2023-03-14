@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from 'react';
 
-import firebase from './firebase';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import { RecoilRoot } from 'recoil';
+
+import ChatPage from './pages/ChatPage';
 import GlobalStyle from './styles/Global';
 
 function App() {
@@ -11,15 +10,11 @@ function App() {
 
   return (
     <React.Fragment>
-      <GlobalStyle />
-      <BrowserRouter>
-        <div className="App">
-          <Routes>
-            <Route element={<SignIn />} path="/signin" />
-            <Route element={<SignUp />} path="/signup" />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <RecoilRoot>
+      <GlobalStyle/>
+    <ChatPage/>
+        
+      </RecoilRoot>
     </React.Fragment>
   );
 }

@@ -30,7 +30,7 @@ display: inline-flex;
 const ToggleItem = styled.ul`
     position: absolute;
     right: 0;
-    top: 58px;
+    top: 60px;
     border: 1px solid ${gray6};
     border-radius: 8px;
     padding: 10px;

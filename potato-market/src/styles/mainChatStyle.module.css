@@ -1,6 +1,16 @@
 .main{
 display: flex;
 flex-direction: column;
-
+justify-content: space-between;
+width: 850px;
+min-width: 450px;
+height: 100vh;
 }
 
+.chatRecord { 
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh  - 40vh);
+  overflow: scroll;
+  
+}

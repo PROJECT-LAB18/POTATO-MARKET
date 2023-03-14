@@ -4,6 +4,7 @@
 import ChatList from '../components/Chat/ChatList';
 
 import MainChat from '../components/Chat/MainChat';
+
 import classes from '@/styles/chatLayout.module.css'
 
 export default function ChatPage() {
@@ -12,6 +13,7 @@ export default function ChatPage() {
     <main className={classes.main}>
 
         <ChatList/>
+
         <MainChat/>
 
     </main>

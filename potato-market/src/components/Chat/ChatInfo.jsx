@@ -15,7 +15,7 @@ const ProfileInfoPreview = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
+  height: 70px;
   min-height: 64px;
   border-bottom: 1px solid ${gray3};
     div{
@@ -34,7 +34,7 @@ const ProfileInfoPreview = styled.section`
             color: ${primaryColor};
             text-align: center;
             font-size: 10px;
-            padding: 0 4px;
+            padding: 3px 5px;
             margin-left: 5px;
           }
       }

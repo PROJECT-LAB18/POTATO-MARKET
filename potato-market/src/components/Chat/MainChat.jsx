@@ -15,6 +15,7 @@ import classes from '@/styles/mainChatStyle.module.css'
 
 
 const GuideMent = styled.section`
+position: relative;
   border: 1px solid ${gray2};
   border-radius: 10px;
   padding:20px;
@@ -78,14 +79,14 @@ const MyMessageBox=styled.div`
 const TextInputBox=styled.section`
 display: flex;
 flex-direction: column;
-height: 100vh;
+justify-content: end;
 form{
   display: flex;
   justify-content: space-between;
     flex-direction: column;
     position: relative;
     border: 1px solid #212121;
-    margin: 15px 0;
+    margin-top: 15px;
     border-radius: 8px;
     height: 125px;
 }
@@ -141,15 +142,14 @@ export default function MainChat() {
 
 
   return (
-    <main>
 
     <article className={classes.main}>
      <ChatInfo/>
      <GuideMent >
       <span>000님은 당근페이 사용자예요. 채팅방에서 바로 송금할 수 있어요.</span>
       </GuideMent>
+      <section className={classes.chatRecord}>
       <DayRecord>0000년 00월 00일</DayRecord> 
-      <section>
         <MessageBox>
         <OtherProfile alt="상대방 프로필 사진" />
           <span>채팅내용</span>
@@ -192,7 +192,6 @@ export default function MainChat() {
           </form>
       </TextInputBox>
     </article>
-    </main>
   );
 }
 
