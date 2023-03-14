@@ -52,7 +52,9 @@ const CustomButton = styled.button`
 `
 
 const Main = styled.main`
-
+& a{
+  color:black;
+}
 display:flex;
 flex-flow:column;
 align-items: center;
@@ -124,7 +126,7 @@ const Section = styled.section`
  & .best-product{
   display:inline-block;
  }
- & .best-product div{
+ & .best-product .product{
   margin:20px 11px;
  }
  & .article{
@@ -282,6 +284,5 @@ Productdetail.defaultProps={
   heart : '0',
   chat : '0',
   check : '0'
-
 }
 export default Productdetail;

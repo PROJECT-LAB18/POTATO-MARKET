@@ -2,17 +2,21 @@ import styled from "styled-components";
 
 import test_image from "../assets/test/핑구 메모.jpg"
 
-const Div = styled.div`
+const Div = styled.a`
   display:inline-block;
   width:201px;
+  text-decoration:none;
+  color:black;
+  cursor:pointer;
 `
-const Section = styled.section`
+const Section = styled.div`
    
   width:201px;
   display:flex;
   flex-flow: column;
 `
-const ImageSection = styled.section`
+const Imagediv = styled.div`
+margin:0;
   & a{
     display:block;
     border-radius: 12px;
@@ -21,7 +25,7 @@ const ImageSection = styled.section`
     overflow:hidden;
   }
 `
-const SubList = styled.section`
+const SubList = styled.div`
 
   flex-flow: row;
 
@@ -62,12 +66,13 @@ margin-top: 5px;
 function Product({name,price,address,heart,chat}){
 
   return(
-    <Div>     
-      <ImageSection>
+    <Div className="product" href="#" target="_blank" rel="noopener noreferrer">     
+      <Imagediv>
+        
         <a href="#" target="_blank" rel="noopener noreferrer">
           <Image alt="상품 자세히 보기" src={test_image} />
         </a>       
-      </ImageSection>
+      </Imagediv>
       <Section>
         <H2>{name}</H2>
         <PriceSpan>{price}원</PriceSpan>
