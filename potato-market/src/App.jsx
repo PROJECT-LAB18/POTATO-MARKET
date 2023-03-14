@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 import firebase from './firebase';
+import Productdetail from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import GlobalStyle from './styles/Global';
@@ -12,7 +14,7 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('User is signed in.');
+        console.log(isFirebaseConnected+'User is signed in.');
       } else {
         console.log('User is signed out.');
       }
@@ -23,6 +25,7 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
+      <Productdetail/>
       <BrowserRouter>
         <div className="App">
           <Routes>
