@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 import { gray2, gray3, gray4, primaryColor, gray7, gray8 } from '../../styles/Global';
 
+import alias from '@/assets/alias.png'
 import defaultProfile from '@/assets/default_profile.png'
 
+import imogi from '@/assets/imogi.png'
+import inputFile from '@/assets/inpu_file.png'
 import ChatInfo from '@/components/Chat/ChatInfo';
 import classes from '@/styles/mainChatStyle.module.css'
-import inputFile from '@/assets/inpu_file.png'
-import alias from '@/assets/alias.png'
-import imogi from '@/assets/imogi.png'
 
 
 const GuideMent = styled.section`
@@ -76,18 +76,21 @@ const MyMessageBox=styled.div`
 
 `
 const TextInputBox=styled.section`
+display: flex;
+flex-direction: column;
+height: 100vh;
 form{
   display: flex;
   justify-content: space-between;
     flex-direction: column;
     position: relative;
-    margin: 16px;
     border: 1px solid #212121;
+    margin: 15px 0;
     border-radius: 8px;
     height: 125px;
 }
 textarea{
-      margin: 12px 12px 0px;
+      margin: 15px 15px 0px;
       resize: none;
       font-size: 14px;
       border: none;
@@ -118,6 +121,7 @@ const InputSubmitButton =styled.button`
   color: ${gray2};
   width: 64px;
   height: 32px;
+  margin-left: 10px;
 `
 export default function MainChat() {
   const [message, setMessage] = useState('');
@@ -157,35 +161,35 @@ export default function MainChat() {
           <MyMessageBox>
             <span>
 
-          {/* {messages.map((msg, index) => (<div key={index}>{msg}</div>))} */}
+          {messages.map((msg, index) => (<div key={index}>{msg}</div>))}
             채팅
             </span>
           </MyMessageBox>
          </div>
       </section>
       <TextInputBox>
-      <form onSubmit={handleMessageSubmit}>
-         <textarea  className='textbox' placeholder='메세지를 입력해주세요' value={message} onChange={handleMessageChange} />
-        <div>
-          <div>
-            
-          <label  htmlFor="file-input" > 
-          <img id='file-input' src={inputFile} alt="이미지 파일 추가 " />
-          </label>
-          <label  htmlFor="file-input" > 
-          <img id='file-input' src={alias} alt="단축어" />
-          </label>
-          <label  htmlFor="file-input" > 
-          <img id='file-input' src={imogi} alt="이모티콘" />
-          </label>
-          </div>
-          <div>
+          <form onSubmit={handleMessageSubmit}>
+            <textarea  className='textbox' placeholder='메세지를 입력해주세요' value={message} maxLength={1000} onChange={handleMessageChange} />
+            <div>
+              <div>
+                
+              <label  htmlFor="file-input" > 
+              <img id='file-input' src={inputFile} alt="이미지 파일 추가 " />
+              </label>
+              <label  htmlFor="file-input" > 
+              <img id='file-input' src={alias} alt="단축어" />
+              </label>
+              <label  htmlFor="file-input" > 
+              <img id='file-input' src={imogi} alt="이모티콘" />
+              </label>
+              </div>
+              <div>
 
-          <span className='text-length'>0/1000</span>
-          <InputSubmitButton type='submit'>전송</InputSubmitButton>
-          </div>
-        </div>
-      </form>
+              <span className='text-length'>{message.length}/1000</span>
+              <InputSubmitButton type='submit'>전송</InputSubmitButton>
+              </div>
+            </div>
+          </form>
       </TextInputBox>
     </article>
     </main>

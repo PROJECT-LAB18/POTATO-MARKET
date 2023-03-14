@@ -1,14 +1,10 @@
 main{
-  display: flex;
-  height: calc(100vh - 64px);
-  justify-content: center;
-  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 .main{
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  position: relative;
-  margin: 0px auto;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
