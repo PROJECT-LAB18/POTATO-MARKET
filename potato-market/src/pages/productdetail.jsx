@@ -1,39 +1,14 @@
-import styled from "styled-components"
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState } from "react"
 
+import styled from "styled-components"
+
+import close_button from "../assets/closebutton.svg"
 import test_img from "../assets/test/핑구 메모.jpg"
 import Product from "../components/product"
+import SwiperPhoto from "../components/swiper"
 
-import 'swiper/css';
-import 'swiper/css/pagination';
 
-const SwiperPhoto = () => {
-  return (
-    <Swiper
-      modules={[Pagination]}
-      pagination={{ clickable: true }}
-      spaceBetween={50}
-      slidesPerView={1}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
-      </SwiperSlide>
-      <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
-      </SwiperSlide>
-      <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
-      </SwiperSlide>
-      <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
-      </SwiperSlide>
-      
-    </Swiper>
-  );
-};
+
 
 const CustomButton = styled.button`
   cursor:pointer;
@@ -200,18 +175,74 @@ const Section = styled.section`
  & .button-list button{
   margin-left:18px;
  }
+ & .module-swiper{
+  top:0;
+  left:0;
+  z-index:999;
+  position:fixed;
+  width:100%;
+  height:100%; 
+  
+ }
+ & .module-swiper .swiper{
+  background-color: black;
+  height:100%; 
+  
+ }
+ & .module-swiper .swiper-slide-active{
+  text-align: center;
+ }
+ & .module-swiper img{
+  max-width:1200px;
+  max-height:100%;
+  width:100%;
+  height:auto;
+ }
+ & .module-swiper .swiper-pagination-bullet{
+  position: relative;
+  bottom:10px;
+  width:50px;
+  height:50px; 
+ }
+ & .a11yhidden-button{
+  border:0;
+  position:absolute;
+  right:20%;
+  color:white;
+  font-size:80px;
+  top:0;
+  z-index:9999;
+  background-color: inherit;
+  
+  
+ }
  `
 
 function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check}){
 
+  const [click,setClick] = useState(false);
+
+  const clickButton = () => {setClick(click?0:1)}
+
   return(
     <Main>
       <Section>
-        <div className="swiper">
-          <SwiperPhoto>
-          </SwiperPhoto>
+        <div aria-label="화면 클릭 하면 확대가능합니" onClick={clickButton}>
+          <SwiperPhoto />       
           {/* <img src={test_img} alt="상품사진" /> */}
         </div>
+        {click?
+        <div className="module-swiper">
+        <button className="a11yhidden-button" type="button" onClick={clickButton}>
+          <img src={close_button} alt="닫기 버튼" />
+        </button>
+        <SwiperPhoto/>       
+        {/* <img src={test_img} alt="상품사진" /> */}
+      </div>
+   
+        :null}
+        
+        
         <a href="#" rel="noopener noreferrer" target="_blank" className="profile">
           <div className="left-profile">
               <img className="profile-image" src={test_img} alt="프로필 사진" />
