@@ -92,7 +92,6 @@ Product.defaultProps = {
   address : "인천시 부평구 산곡동",
   heart : 0,
   chat : 0,
-
 }
 
 export default Product;

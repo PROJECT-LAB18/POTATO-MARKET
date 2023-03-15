@@ -1,39 +1,14 @@
-import styled from "styled-components"
-import { Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState } from "react"
 
+import styled from "styled-components"
+
+import close_button from "../assets/closebutton.svg"
 import test_img from "../assets/test/핑구 메모.jpg"
 import Product from "../components/product"
+import SwiperPhoto from "../components/swiper"
 
-import 'swiper/css';
-import 'swiper/css/pagination';
 
-const SwiperPhoto = () => {
-  return (
-    <Swiper
-      modules={[Pagination]}
-      pagination={{ clickable: true }}
-      slidesPerView={1}
-      spaceBetween={50}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      <SwiperSlide>
-        <img alt="상품사진" src={test_img} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img alt="상품사진" src={test_img} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img alt="상품사진" src={test_img} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img alt="상품사진" src={test_img} />
-      </SwiperSlide>
 
-    </Swiper>
-  );
-};
 
 const CustomButton = styled.button`
   cursor:pointer;
@@ -200,18 +175,83 @@ const Section = styled.section`
  & .button-list button{
   margin-left:18px;
  }
+ & .module-swiper{
+  top:0;
+  left:0;
+  z-index:999;
+  position:fixed;
+  width:100%;
+  height:100%; 
+  
+ }
+ & .module-swiper .swiper{
+  background-color: black;
+  height:100%; 
+  
+ }
+ & .module-swiper .swiper-slide-active{
+  text-align: center;
+ }
+ & .module-swiper img{
+  max-width:1200px;
+  max-height:100%;
+  width:100%;
+  height:auto;
+ }
+ & .module-swiper .swiper-pagination-bullet{
+  position: relative;
+  bottom:10px;
+  width:50px;
+  height:50px; 
+ }
+ & .a11yhidden-button{
+  border:0;
+  position:absolute;
+  right:20%;
+  color:white;
+  font-size:80px;
+  top:0;
+  z-index:9999;
+  background-color: inherit;
+  
+  
+ }
+ & .image-button{
+  cursor:pointer;
+  background-color: inherit;
+  border:0;
+  width:100%;
+ }
  `
 
-function Productdetail({ title, side, nickname, address, temperature, date, price, content, heart, chat, check }) {
+
+function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc,}){
+
+  const [click,setClick] = useState(false);
+
+  const clickButton = () => {setClick(click?0:1)}
+
 
   return (
     <Main>
       <Section>
-        <div className="swiper">
-          <SwiperPhoto />
+        <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" onClick={clickButton}>
+          <SwiperPhoto imgsrc={imgsrc} />       
           {/* <img src={test_img} alt="상품사진" /> */}
-        </div>
-        <a className="profile" href="#" rel="noopener noreferrer" target="_blank">
+        </button>
+        {click?
+        <div className="module-swiper">
+        <button className="a11yhidden-button" type="button" onClick={clickButton}>
+          <img src={close_button} alt="닫기 버튼" />
+        </button>
+        <SwiperPhoto imgsrc={imgsrc}/>       
+        {/* <img src={test_img} alt="상품사진" /> */}
+      </div>
+   
+        :null}
+        
+        
+        <a href="#" rel="noopener noreferrer" target="_blank" className="profile">
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={test_img} />
             <div>
@@ -271,17 +311,21 @@ function Productdetail({ title, side, nickname, address, temperature, date, pric
   )
 }
 
-Productdetail.defaultProps = {
-  title: '제목을 입력해주세요.',
-  side: '가구',
-  nickname: '닉네임',
-  address: '인천시 부평구 산곡동',
-  temperature: '36.5',
-  date: '1',
-  price: '500',
-  content: '판매 완료',
-  heart: '0',
-  chat: '0',
-  check: '0'
+Productdetail.defaultProps={
+  title:'제목을 입력해주세요.',
+  side:'가구',
+  nickname : '닉네임',
+  address : '인천시 부평구 산곡동',
+  temperature : '36.5',
+  date : '1',
+  price : '500',
+  content : '판매 완료',
+  heart : '0',
+  chat : '0',
+  check : '0',
+  imgsrc : ["https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"]
 }
 export default Productdetail;
