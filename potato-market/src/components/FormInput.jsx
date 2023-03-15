@@ -71,10 +71,8 @@ const VaildNotice = styled(DescText)`
 `;
 
 const Button = styled.button`
-  flex-grow: 1;
-  flex-shrink: 0;
+  flex: 1 0 auto;
   width: 143px;
-  max-width: 340px;
   height: 44px;
   background-color: #fff;
   border: 1px solid ${primaryColor};
@@ -83,6 +81,7 @@ const Button = styled.button`
   color: ${primaryColor};
   @media screen and (max-width: 700px) {
     width: 100%;
+    max-width: 340px;
     max-width: none;
   }
 `;
@@ -92,7 +91,7 @@ export const FormInputImage = () => {
     <>
       <LabelText htmlFor="userProfileImage">프로필 사진</LabelText>
       <InputBox>
-        <input accept=".png, .jpg, .jpeg, .svg" type="file" />
+        <input accept=".png, .jpg, .jpeg, .svg" id="userProfileImage" type="file" />
       </InputBox>
     </>
   )

@@ -44,7 +44,7 @@ const SignUpForm = styled.form`
     flex-shrink: 0;
     width: 139px;
     font-weight: 700;
-    line-height: 44px;
+    line-height: 32px;
   }
   .term-check {
     width: 100%;
