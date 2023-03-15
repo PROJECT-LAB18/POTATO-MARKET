@@ -7,6 +7,7 @@ import Product from "@/components/product";
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
 import firebase from '@/firebase';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const db = firebase.firestore();
 
@@ -22,7 +23,6 @@ function HotArticles(){
       db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{ 
       serverdata[i] = item.data();
       i++;
-      console.log(serverdata);
      Setrender(1);
   })})},[])
   
@@ -36,7 +36,7 @@ function HotArticles(){
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
         {render?serverdata.map(({content,title,price,side})=>(
           <Product key={title} content={content} title={title} price={price} side={side}/>
-        )):<h1>렌더링중입니다.</h1>}
+        )):<LoadingSpinner className="loading"/>}
       </ProductList>
     </main>
   )
@@ -48,6 +48,15 @@ const ProductList = styled.section`
   gap: 55px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 309px;
+  & .loading{
+    left:43%;
+    position: absolute;
+  }
+  @media (max-width: 640px){
+    margin: 0 auto;
+    width:100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
 `
 
 export default HotArticles;

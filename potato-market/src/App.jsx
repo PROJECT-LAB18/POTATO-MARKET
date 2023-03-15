@@ -28,7 +28,7 @@ function App() {
       <GlobalStyle />
       <div className="App">
         <Header />
-        {/* <WriteArticle/> */}
+        <WriteArticle/>
         <HotArticles />
         <Footer />
       </div>
