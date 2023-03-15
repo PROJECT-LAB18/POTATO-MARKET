@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import AddPhoto from './AddPhoto';
-import WriteForm from './WriteForm';
+import AddPhoto from '@/components/AddPhoto';
+import WriteForm from '@/components/WriteForm';
 
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 function WriteArticle(){
