@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-
+import Footer from './components/Footer';
+import Header from './components/Header';
 import firebase from './firebase';
+
 import Productdetail from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+
 import GlobalStyle from './styles/Global';
+
 
 function App() {
   const [isFirebaseConnected, setIsFirebaseConnected] = useState(false);
@@ -25,6 +29,11 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
+      <div className="App">
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
       <Productdetail/>
       <BrowserRouter>
         <div className="App">
@@ -34,6 +43,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
+
     </React.Fragment>
   );
 }
