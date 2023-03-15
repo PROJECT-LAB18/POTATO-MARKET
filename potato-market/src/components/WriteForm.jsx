@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import styled, { css } from 'styled-components';
 
@@ -8,31 +8,29 @@ import { gray4, gray6, primaryColor } from "@/styles/global";
 
 const db = firebase.firestore();
 
-
-
 function WriteForm(){
-  const titleInputRef = useRef();
-  const priceInputRef = useRef();
-  const contentInputRef = useRef();
+  // const [state, setState] = useState(true)
+  
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
-    price : 0,
+    price : '',
     content: '',
   });
-
+  
   const handleChange = (e) => {
     setFormState({
       ...formState,
       [e.target.name] : e.target.value,
     })
   }
-  const handleSubmit = (e) => {
+
+  const handleSubmit = () => {
     db.collection('UserWrite').add({
-    title: formState.title,
-    side: '물품 종류',
-    price : formState.price,
-    content: formState.content,
+      title: formState.title,
+      side: '물품 종류',
+      price : formState.price,
+      content: formState.content,
     })
   }
   
@@ -41,7 +39,7 @@ function WriteForm(){
     <Form>
       <fieldset>
         <legend>게시글 등록 폼</legend>      
-        <WriteInput ref={titleInputRef} name="title" placeholder="제목을 입력해주세요"  required={true} type="text" value={formState.title} onChange={handleChange} />
+        <WriteInput name="title" placeholder="제목을 입력해주세요"  required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
           <span>지역</span>
@@ -50,27 +48,27 @@ function WriteForm(){
         </RegionInformation>
 
         <ProductPriceBox>
-          <WriteInput ref={priceInputRef} name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
-          <span className="productPrice">판매 가격 : {"10,000원"}</span>
+          <WriteInput name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
+          <span className="productPrice">판매 가격 : {formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</span>
         </ProductPriceBox>
 
-        <WriteInput content ref={contentInputRef} name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
+        <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
         
         <WriteButtonBox>
           <Button>취소</Button>
-          <Button type="submit" onClick={handleSubmit}>완료</Button>
+          <Button disabled={!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
         </WriteButtonBox>
       </fieldset>
     </Form>
   </section>
 }
 
-export function WriteInput({placeholder, type, content, value, accept, required,onChange,ref, name}){
+export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name}){
   return <label>
     {
       content ?
-      <Textarea name={name} ref={ref} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input name={name} ref={ref} accept={accept} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/>
+      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+      <Input accept={accept} disabled={disabled} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/>
     }
   </label>
 }
