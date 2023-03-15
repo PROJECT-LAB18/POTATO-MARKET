@@ -216,9 +216,15 @@ const Section = styled.section`
   
   
  }
+ & .image-button{
+  cursor:pointer;
+  background-color: inherit;
+  border:0;
+  width:100%;
+ }
  `
 
-function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check}){
+function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc,}){
 
   const [click,setClick] = useState(false);
 
@@ -227,16 +233,16 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
   return(
     <Main>
       <Section>
-        <div aria-label="화면 클릭 하면 확대가능합니" onClick={clickButton}>
-          <SwiperPhoto />       
+        <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" onClick={clickButton}>
+          <SwiperPhoto imgsrc={imgsrc} />       
           {/* <img src={test_img} alt="상품사진" /> */}
-        </div>
+        </button>
         {click?
         <div className="module-swiper">
         <button className="a11yhidden-button" type="button" onClick={clickButton}>
           <img src={close_button} alt="닫기 버튼" />
         </button>
-        <SwiperPhoto/>       
+        <SwiperPhoto imgsrc={imgsrc}/>       
         {/* <img src={test_img} alt="상품사진" /> */}
       </div>
    
@@ -314,6 +320,10 @@ Productdetail.defaultProps={
   content : '판매 완료',
   heart : '0',
   chat : '0',
-  check : '0'
+  check : '0',
+  imgsrc : ["https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+    "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"]
 }
 export default Productdetail;
