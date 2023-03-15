@@ -63,7 +63,7 @@ font-size: 13px;
 margin-top: 5px;
 `
 
-function Product({name,price,address,heart,chat}){
+function Product({title,price,address,heart,chat}){
 
   return(
     <Div className="product" href="#" target="_blank" rel="noopener noreferrer">     
@@ -74,7 +74,7 @@ function Product({name,price,address,heart,chat}){
         </a>       
       </Imagediv>
       <Section>
-        <H2>{name}</H2>
+        <H2>{title}</H2>
         <PriceSpan>{price}원</PriceSpan>
         <AddressSpan>{address}</AddressSpan>
       </Section>
@@ -87,7 +87,7 @@ function Product({name,price,address,heart,chat}){
 }
 
 Product.defaultProps = {   
-  name : "상품 이름",
+  title : "상품 이름",
   price : 505445,
   address : "인천시 부평구 산곡동",
   heart : 0,

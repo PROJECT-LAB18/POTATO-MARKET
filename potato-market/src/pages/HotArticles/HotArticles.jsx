@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Filter from "./Filter";
@@ -10,19 +10,23 @@ import firebase from '@/firebase';
 
 const db = firebase.firestore();
 
-const boarddata = db.collection('UserWrite').get();
-const boarddata2 = db.collection('UserWrite').get().then((item)=>{return item})
-
-db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{item.data()})})
 
 
+let serverdata = [];
+let i = 0;
+// console.log(serverdata)
 
 function HotArticles(){
-
+  const [render,Setrender] = useState(0);
   useEffect(()=>{
-  },[])
-  const {title, price, content, side} = boarddata.then((item)=>{item.forEach((item)=>{item.data().price})})
-
+      db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{ 
+      serverdata[i] = item.data();
+      i++;
+      console.log(serverdata);
+     Setrender(1);
+  })})},[])
+  
+  
   return(
     <main className="wrapper">
       <ContainerGlobalStyle />
@@ -30,10 +34,9 @@ function HotArticles(){
       <Filter />
       <ProductList >
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
-        {/* {boarddata.then((item)=>{item.forEach((item)=>(
-          <Product title={item.data().title} price={item.data().price} side={item.data().side} content={item.data().content}/>
-        ))})} */}
-        <Product title={title} price={price} side={side} content={content}/>
+        {render?serverdata.map(({content,title,price,side})=>(
+          <Product key={title} content={content} title={title} price={price} side={side}/>
+        )):<h1>렌더링중입니다.</h1>}
       </ProductList>
     </main>
   )
