@@ -13,24 +13,24 @@ const SwiperPhoto = () => {
     <Swiper
       modules={[Pagination]}
       pagination={{ clickable: true }}
-      spaceBetween={50}
       slidesPerView={1}
+      spaceBetween={50}
       onSlideChange={() => console.log('slide change')}
       onSwiper={(swiper) => console.log(swiper)}
     >
       <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
+        <img alt="상품사진" src={test_img} />
       </SwiperSlide>
       <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
+        <img alt="상품사진" src={test_img} />
       </SwiperSlide>
       <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
+        <img alt="상품사진" src={test_img} />
       </SwiperSlide>
       <SwiperSlide>
-      <img src={test_img} alt="상품사진" />
+        <img alt="상품사진" src={test_img} />
       </SwiperSlide>
-      
+
     </Swiper>
   );
 };
@@ -202,19 +202,18 @@ const Section = styled.section`
  }
  `
 
-function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check}){
+function Productdetail({ title, side, nickname, address, temperature, date, price, content, heart, chat, check }) {
 
-  return(
+  return (
     <Main>
       <Section>
         <div className="swiper">
-          <SwiperPhoto>
-          </SwiperPhoto>
+          <SwiperPhoto />
           {/* <img src={test_img} alt="상품사진" /> */}
         </div>
-        <a href="#" rel="noopener noreferrer" target="_blank" className="profile">
+        <a className="profile" href="#" rel="noopener noreferrer" target="_blank">
           <div className="left-profile">
-              <img className="profile-image" src={test_img} alt="프로필 사진" />
+            <img alt="프로필 사진" className="profile-image" src={test_img} />
             <div>
               <span className="nickname">{nickname}</span>
               <span className="address">{address}</span>
@@ -225,7 +224,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
               <span className="temperature">{temperature} ℃</span>
               <span className="thermometer"></span>
             </div>
-            <img className="temperature-image" src={test_img} alt="당근 온도 이모티콘" />
+            <img alt="당근 온도 이모티콘" className="temperature-image" src={test_img} />
           </div>
         </a>
         <div className="article">
@@ -257,32 +256,32 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
           <h2>당근마켓 인기중고</h2>
           <a href="#" rel="noopener noreferrer" target="_blank">더 구경하기</a>
         </div>
-          
-        
+
+
         <div className="best-product">
-         <Product name="인기" price="4000" address="인천시 부평구 삼산동" heart="1"/>
-         <Product name="무료나눔" price="2100" address="인천시 남구 학익동" heart="9999" chat="521"/>
-         <Product name="판매 완료" price="1" />
-         <Product/>
-         <Product/>
-         <Product/>
+          <Product address="인천시 부평구 삼산동" heart="1" name="인기" price="4000" />
+          <Product address="인천시 남구 학익동" chat="521" heart="9999" name="무료나눔" price="2100" />
+          <Product name="판매 완료" price="1" />
+          <Product />
+          <Product />
+          <Product />
         </div>
       </Section>
     </Main>
   )
 }
 
-Productdetail.defaultProps={
-  title:'제목을 입력해주세요.',
-  side:'가구',
-  nickname : '닉네임',
-  address : '인천시 부평구 산곡동',
-  temperature : '36.5',
-  date : '1',
-  price : '500',
-  content : '판매 완료',
-  heart : '0',
-  chat : '0',
-  check : '0'
+Productdetail.defaultProps = {
+  title: '제목을 입력해주세요.',
+  side: '가구',
+  nickname: '닉네임',
+  address: '인천시 부평구 산곡동',
+  temperature: '36.5',
+  date: '1',
+  price: '500',
+  content: '판매 완료',
+  heart: '0',
+  chat: '0',
+  check: '0'
 }
 export default Productdetail;
