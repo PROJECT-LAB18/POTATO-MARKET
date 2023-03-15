@@ -14,15 +14,26 @@ height: 100vh;
   flex-direction: column;
   justify-content: start;
   height: calc(100vh  - 40vh);
-  overflow-y: scroll;
-  
+  overflow-y: auto;
+}
+.chatRecord::-webkit-scrollbar {
+  width: 12px;
+}
+.chatRecord::-webkit-scrollbar-thumb {
+  background-color: #ADB5BD;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.chatRecord::-webkit-scrollbar-track {
+  border-radius: 10px;
+  height: 50px;
 }
 
- .addMessageBox{
-display: flex;
+.addMessageBox{
+  display: flex;
   justify-content: end;
-
-width: fit-content;
+  width: fit-content;
   padding: 10px 14px;
       margin-top: 10px;
       font-size: 14px;
