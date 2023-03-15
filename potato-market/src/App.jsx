@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import firebase from './firebase';
+import HotArticles from './pages/HotArticles/HotArticles';
+import WriteArticle from './pages/WriteArticle';
 
 import GlobalStyle from './styles/Global';
 
@@ -26,7 +28,8 @@ function App() {
       <GlobalStyle />
       <div className="App">
         <Header />
-        <Outlet />
+        {/* <WriteArticle/> */}
+        <HotArticles />
         <Footer />
       </div>
     </React.Fragment>
