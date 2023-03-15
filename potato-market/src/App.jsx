@@ -4,8 +4,8 @@ import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import firebase from './firebase';
-import GlobalStyle from './styles/Global';
 
+import GlobalStyle from './styles/Global';
 
 function App() {
   const [isFirebaseConnected, setIsFirebaseConnected] = useState(false);
@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('User is signed in.');
+        console.log(isFirebaseConnected+'User is signed in.');
       } else {
         console.log('User is signed out.');
       }
@@ -29,7 +29,6 @@ function App() {
         <Outlet />
         <Footer />
       </div>
-
     </React.Fragment>
   );
 }
