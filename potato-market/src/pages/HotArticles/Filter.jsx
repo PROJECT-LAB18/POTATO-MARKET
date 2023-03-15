@@ -27,7 +27,7 @@ const FilterContainer = styled.form`
     border-radius: 6px;
     box-shadow: 1px 1px 0 1px rgba(0, 0, 0, 0.04);
     appearance: none;
-    background: url('../../public/icon-arrow-under.svg') no-repeat;
+    background: url('src/assets/icon-arrow-under.svg') no-repeat;
     background-position: 170px center;
   }
 `
