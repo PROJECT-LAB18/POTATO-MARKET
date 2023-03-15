@@ -5,7 +5,7 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto(){
-  return <>    
+  return <Container>    
     <PhotoContainer>
       <WriteInput accept=".png, .jpeg, jpg" type="file" />
       <ProductImage>
@@ -22,8 +22,13 @@ function AddPhoto(){
       </ProductImage>
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
-  </>
+  </Container>
 }
+
+const Container = styled.div`
+  width: 886px;
+  margin: 0 auto;
+`
 
 const PhotoUploadTitle = styled.span`
   display: inline-block;

@@ -119,7 +119,7 @@ const ProductPriceBox = styled.div`
 `
 
 const WriteButtonBox = styled.div`
-  width: 218px
+  width: 218px;
   height: 40px;
   margin: 40px auto 80px auto;
   display: flex;
