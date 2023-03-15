@@ -151,8 +151,8 @@ export default function MainChat() {
       <section className={classes.chatRecord}>
       <DayRecord>0000년 00월 00일</DayRecord> 
         <MessageBox>
-        <OtherProfile alt="상대방 프로필 사진" />
-          <span>채팅내용</span>
+            <OtherProfile alt="상대방 프로필 사진" />
+            <span>채팅내용</span>
           </MessageBox>
         <TimeRecord>오전 1:55</TimeRecord> 
         <DayRecord>0000년 00월 00일</DayRecord> 
@@ -160,12 +160,13 @@ export default function MainChat() {
           <TimeRecord>오전 1:55</TimeRecord> 
           <MyMessageBox>
             <span>
-
-          {messages.map((msg, index) => (<div key={index}>{msg}</div>))}
-            채팅
+              채팅
             </span>
           </MyMessageBox>
          </div>
+        {messages.map((msg, index) => (
+            <span className={classes.addMessageBox}key={index}>{msg}</span>
+        ))}
       </section>
       <TextInputBox>
           <form onSubmit={handleMessageSubmit}>
