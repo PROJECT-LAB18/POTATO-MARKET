@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App'
 import Chat from './pages/Chat';
 import Home from './pages/Home';
-import HotArticles from './pages/HotArticles';
+import HotArticles from './pages/HotArticles/HotArticles';
 import MyArticle from './pages/MyArticle';
+import Productdetail from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import WriteArticle from './pages/WriteArticle';
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: 'hotarticles',
         element: <HotArticles />,
+      },
+      {
+        path: 'detailarticle',
+        element: <Productdetail />
       },
       {
         path: 'writearticle',
