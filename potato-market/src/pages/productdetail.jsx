@@ -224,13 +224,15 @@ const Section = styled.section`
  }
  `
 
+
 function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc,}){
 
   const [click,setClick] = useState(false);
 
   const clickButton = () => {setClick(click?0:1)}
 
-  return(
+
+  return (
     <Main>
       <Section>
         <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" onClick={clickButton}>
@@ -251,7 +253,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
         
         <a href="#" rel="noopener noreferrer" target="_blank" className="profile">
           <div className="left-profile">
-              <img className="profile-image" src={test_img} alt="프로필 사진" />
+            <img alt="프로필 사진" className="profile-image" src={test_img} />
             <div>
               <span className="nickname">{nickname}</span>
               <span className="address">{address}</span>
@@ -262,7 +264,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
               <span className="temperature">{temperature} ℃</span>
               <span className="thermometer"></span>
             </div>
-            <img className="temperature-image" src={test_img} alt="당근 온도 이모티콘" />
+            <img alt="당근 온도 이모티콘" className="temperature-image" src={test_img} />
           </div>
         </a>
         <div className="article">
@@ -294,15 +296,15 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
           <h2>당근마켓 인기중고</h2>
           <a href="#" rel="noopener noreferrer" target="_blank">더 구경하기</a>
         </div>
-          
-        
+
+
         <div className="best-product">
-         <Product name="인기" price="4000" address="인천시 부평구 삼산동" heart="1"/>
-         <Product name="무료나눔" price="2100" address="인천시 남구 학익동" heart="9999" chat="521"/>
-         <Product name="판매 완료" price="1" />
-         <Product/>
-         <Product/>
-         <Product/>
+          <Product address="인천시 부평구 삼산동" heart="1" name="인기" price="4000" />
+          <Product address="인천시 남구 학익동" chat="521" heart="9999" name="무료나눔" price="2100" />
+          <Product name="판매 완료" price="1" />
+          <Product />
+          <Product />
+          <Product />
         </div>
       </Section>
     </Main>
