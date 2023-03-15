@@ -58,6 +58,10 @@ const Form = styled.form`
   flex-flow: column nowrap;
   margin-left: auto;
   margin-right: auto;
+
+  fieldset{
+    padding: 0;
+  }
 `
 
 const RegionInformation = styled.div`

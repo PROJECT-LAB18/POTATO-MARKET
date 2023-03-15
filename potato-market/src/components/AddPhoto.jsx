@@ -5,8 +5,7 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto(){
-  return <>
-    <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
+  return <>    
     <PhotoContainer>
       <WriteInput accept=".png, .jpeg, jpg" type="file" />
       <ProductImage>
@@ -22,19 +21,21 @@ function AddPhoto(){
         <img alt="매물1" src="src/assets/logo.svg" />
       </ProductImage>
     </PhotoContainer>
+    <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </>
 }
 
 const PhotoUploadTitle = styled.span`
+  display: inline-block;
   font-size: 12px;
   color: ${primaryColor};
+  margin-bottom: 30px;
 `
 
 const PhotoContainer = styled.div`
   display: flex;
   gap 20px;
   padding: 10px 0;
-  margin-bottom: 20px;
   
   & label{
     display: inline-block;
