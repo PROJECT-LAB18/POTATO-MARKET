@@ -1,12 +1,14 @@
+
 import React from 'react';
 
 import { RecoilRoot } from 'recoil';
 
 import ChatPage from './pages/ChatPage';
+
 import GlobalStyle from './styles/Global';
 
-function App() {
 
+function App() {
 
   return (
     <React.Fragment>
@@ -15,6 +17,7 @@ function App() {
     <ChatPage/>
         
       </RecoilRoot>
+
     </React.Fragment>
   );
 }
