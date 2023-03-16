@@ -121,7 +121,7 @@ export const FormInputLocation = ({ process }) => {
   )
 };
 
-const FormInput = ({ id, type, placeholder, text, desc, valid, label, button }) => {
+const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, label, button }) => {
   return (
     <>
       {label
@@ -129,7 +129,7 @@ const FormInput = ({ id, type, placeholder, text, desc, valid, label, button }) 
         : <label className="a11yHidden" htmlFor={id}>{text}</label>
       }
       <InputBox>
-        <input required id={id} name={id} placeholder={placeholder} type={type} />
+        <input id={id} name={id} placeholder={placeholder} type={type} value={value} onChange={onChange} />
         {desc &&
           <DescText>{desc}</DescText>
         }

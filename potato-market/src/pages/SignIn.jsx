@@ -1,4 +1,8 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
 import styled from 'styled-components';
 
@@ -43,18 +47,44 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+    const db = getFirestore();
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.size > 0) {
+        console.log("로그인완");
+      } else {
+        console.log("님가입안했음");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Section>
       <h2>로그인</h2>
-      <LoginForm action="" id="loginForm" method="POST" target="">
+      <LoginForm id="loginForm" onSubmit={handleLogin}>
         <fieldset>
           <legend>회원 로그인 폼</legend>
           <ul className="form-list">
+            {/* <li>
+              <FormInput id={"userPhoneNumber"} placeholder={"핸드폰 번호를 입력해주세요"} text={"핸드폰 번호"} type={"number"} />
+            </li> */}
             <li>
-              <FormInput id={"userId"} placeholder={"아이디를 입력해주세요"} text={"아이디"} type={"text"} />
+              <FormInput id={"userEmail"} placeholder={"이메일을 입력해주세요"} text={"아이디"} type={"text"} value={email} onChange={(e) => setEmail(e.target.value)} />
             </li>
             <li>
-              <FormInput id={"userPW"} placeholder={"비밀번호를 입력해주세요"} text={"비밀번호"} type={"password"} />
+              <FormInput id={"userPW"} placeholder={"비밀번호를 입력해주세요"} text={"비밀번호"} type={"password"} value={password} onChange={(e) => setPassword(e.target.value)} />
             </li>
           </ul>
           <ul className="account-find">

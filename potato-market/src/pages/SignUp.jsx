@@ -1,3 +1,9 @@
+import { useState } from 'react';
+
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
 import styled from 'styled-components';
 
 import FormInput, { FormInputLocation, FormInputImage } from '../components/FormInput';
@@ -62,50 +68,112 @@ const SignUpForm = styled.form`
 `;
 
 const SignUp = () => {
+
+  const [formState, setFormState] = useState({
+    phoneNumber: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    nickname: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formState.password !== formState.confirmPassword) {
+      setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+      return;
+    }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(formState.email, formState.password)
+      .then((userCredential) => {
+        const db = firebase.firestore();
+        db.collection("users").doc(userCredential.user.uid).set({
+          email: formState.email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          phoneNumber: formState.phoneNumber,
+          nickname: formState.nickname,
+        });
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <Section>
       <h2>회원가입</h2>
-      <SignUpForm action="" id="signupForm" method="POST" name="signupForm" target="">
+      <SignUpForm onSubmit={handleSubmit}>
         <fieldset>
           <legend>신규 회원가입 폼</legend>
+          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>}
           <ul className="form-list">
             <li className="form-item">
               <FormInput
                 label
                 button={"인증번호 받기"}
-                id={"userPhone"}
+                id={"phoneNumber"}
                 placeholder={"숫자만 입력해주세요"}
                 text={"휴대폰"}
                 type={"tel"}
+                value={formState.phoneNumber}
+                onChange={handleInputChange}
               />
             </li>
             <li className="form-item">
               <FormInput
                 label
-                id={"userPw"}
+                button={"인증번호 받기"}
+                id={"email"}
+                placeholder={"이메일을 입력해주세요"}
+                text={"이메일"}
+                type={"email"}
+                value={formState.email}
+                onChange={handleInputChange}
+              />
+            </li>
+            <li className="form-item">
+              <FormInput
+                label
+                id={"password"}
                 placeholder={"비밀번호를 입력해주세요"}
                 text={"비밀번호"}
                 type={"password"}
                 valid={"최소 8자 이상 입력"}
+                value={formState.password}
+                onChange={handleInputChange}
               />
             </li>
             <li className="form-item">
               <FormInput
                 label
-                id={"userPwAgain"}
+                id={"confirmPassword"}
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
                 type={"password"}
                 valid={"동일한 비밀번호를 입력"}
+                value={formState.confirmPassword}
+                onChange={handleInputChange}
               />
             </li>
             <li className="form-item">
               <FormInput
                 label
-                id={"userNickname"}
+                id={"nickname"}
                 placeholder={"닉네임을 입력해주세요"}
                 text={"닉네임"}
                 type={"text"}
+                value={formState.nickname}
+                onChange={handleInputChange}
               />
             </li>
             <li className="form-item">
@@ -131,7 +199,7 @@ const SignUp = () => {
           <FormButton primary type="submit">가입하기</FormButton>
         </fieldset>
       </SignUpForm>
-    </Section>
+    </Section >
   )
 };
 

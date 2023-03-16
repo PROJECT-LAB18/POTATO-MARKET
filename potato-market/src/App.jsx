@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(isFirebaseConnected+'User is signed in.');
+        console.log(isFirebaseConnected + 'User is signed in.');
       } else {
         console.log('User is signed out.');
       }
