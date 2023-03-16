@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+// import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
 import styled from 'styled-components';
 
 import FormInput from '../components/FormInput';
 import FormButton from '../styles/FormButton';
+
+import firebase from '@/firebase';
 
 const Section = styled.section`
   padding: 80px 0 70px;
@@ -47,33 +49,44 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formState, setFormState] = useState({
+    // phoneNumber: "",
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    const auth = getAuth();
-    const db = getFirestore();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('email', '==', email));
-      const querySnapshot = await getDocs(q);
+      const userCredential = await auth.signInWithEmailAndPassword(formState.email, formState.password);
+      const usersRef = db.collection('users');
+      const q = usersRef.where('email', '==', formState.email);
+      const querySnapshot = await q.get();
       if (querySnapshot.size > 0) {
         console.log("로그인완");
       } else {
         console.log("님가입안했음");
       }
+      navigate(-1);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleInputChange = (e) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   return (
     <Section>
       <h2>로그인</h2>
-      <LoginForm id="loginForm" onSubmit={handleLogin}>
+      <LoginForm id="loginForm" onSubmit={handleSignIn}>
         <fieldset>
           <legend>회원 로그인 폼</legend>
           <ul className="form-list">
@@ -81,10 +94,24 @@ const SignIn = () => {
               <FormInput id={"userPhoneNumber"} placeholder={"핸드폰 번호를 입력해주세요"} text={"핸드폰 번호"} type={"number"} />
             </li> */}
             <li>
-              <FormInput id={"userEmail"} placeholder={"이메일을 입력해주세요"} text={"아이디"} type={"text"} value={email} onChange={(e) => setEmail(e.target.value)} />
+              <FormInput
+                id={"email"}
+                placeholder={"이메일을 입력해주세요"}
+                text={"이메일"}
+                type={"email"}
+                value={formState.email}
+                onChange={handleInputChange}
+              />
             </li>
             <li>
-              <FormInput id={"userPW"} placeholder={"비밀번호를 입력해주세요"} text={"비밀번호"} type={"password"} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <FormInput
+                id={"password"}
+                placeholder={"비밀번호를 입력해주세요"}
+                text={"비밀번호"}
+                type={"password"}
+                value={formState.password}
+                onChange={handleInputChange}
+              />
             </li>
           </ul>
           <ul className="account-find">

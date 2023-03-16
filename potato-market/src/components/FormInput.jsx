@@ -23,6 +23,7 @@ const InputBox = styled.div`
   input[type="text"],
   input[type="password"],
   input[type="tel"],
+  input[type="email"],
   input[type="file"]::file-selector-button {
     width: 340px;
     height: 44px;
@@ -53,6 +54,7 @@ const InputBox = styled.div`
     input[type="text"],
     input[type="password"],
     input[type="tel"],
+    input[type="email"],
     input[type="file"]::file-selector-button,
     button {
       width: 100%;

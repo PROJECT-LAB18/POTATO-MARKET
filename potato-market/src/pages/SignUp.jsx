@@ -1,8 +1,5 @@
 import { useState } from 'react';
-
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
+import { useNavigate } from 'react-router';
 
 import styled from 'styled-components';
 
@@ -11,6 +8,8 @@ import FormTerms from '../components/FormTerms';
 import FormButton from '../styles/FormButton';
 
 import { gray8 } from '../styles/Global';
+
+import firebase from '@/firebase';
 
 const Section = styled.section`
   padding: 80px 0 40px;
@@ -67,7 +66,12 @@ const SignUpForm = styled.form`
   }
 `;
 
-const SignUp = () => {
+function SignUp() {
+
+  const navigate = useNavigate();
+
+  // 회원가입 가능 상태 조절 예정
+  const [confirmState, setConfirmState] = useState(false);
 
   const [formState, setFormState] = useState({
     phoneNumber: "",
@@ -75,10 +79,13 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     nickname: "",
+    // profileImage: '',
+    // location: "",
   });
+
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSignUp = (e) => {
     e.preventDefault();
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
@@ -91,10 +98,12 @@ const SignUp = () => {
         const db = firebase.firestore();
         db.collection("users").doc(userCredential.user.uid).set({
           email: formState.email,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           phoneNumber: formState.phoneNumber,
           nickname: formState.nickname,
+          // profileImage: formState.profileImage,
+          // loaction: formState.loaction
         });
+        navigate(-1);
       })
       .catch((error) => {
         setError(error.message);
@@ -102,20 +111,22 @@ const SignUp = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
     setFormState((prevState) => ({
       ...prevState,
-      [name]: value,
+      [e.target.name]: e.target.value,
     }));
   };
 
   return (
     <Section>
       <h2>회원가입</h2>
-      <SignUpForm onSubmit={handleSubmit}>
+      <SignUpForm onSubmit={handleSignUp}>
         <fieldset>
           <legend>신규 회원가입 폼</legend>
+
+          {/* 에러메세지 확인용 */}
           {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>}
+
           <ul className="form-list">
             <li className="form-item">
               <FormInput
@@ -160,7 +171,7 @@ const SignUp = () => {
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
                 type={"password"}
-                valid={"동일한 비밀번호를 입력"}
+                // valid={"동일한 비밀번호를 입력"}
                 value={formState.confirmPassword}
                 onChange={handleInputChange}
               />
@@ -196,7 +207,11 @@ const SignUp = () => {
               <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} />
             </div>
           </div>
-          <FormButton primary type="submit">가입하기</FormButton>
+          <FormButton
+            primary
+            // disabled={!formState.phoneNumber}
+            type="submit"
+          >가입하기</FormButton>
         </fieldset>
       </SignUpForm>
     </Section >
