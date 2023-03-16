@@ -34,12 +34,6 @@ function WriteForm(){
       price : formState.price,
       content: formState.content,
     })
-    setFormState({
-      title: '',
-      side: '물품 종류',
-      price : '',
-      content: '',
-    })
     navigate("/HotArticles");
   }
   
@@ -72,12 +66,12 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name}){
+export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple}){
   return <label>
     {
       content ?
       <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input accept={accept} disabled={disabled} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/>
+      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/>
     }
   </label>
 }

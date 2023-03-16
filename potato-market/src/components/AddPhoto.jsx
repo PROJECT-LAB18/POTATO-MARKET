@@ -1,3 +1,5 @@
+import {useState} from 'react'
+
 import styled from 'styled-components';
 
 import { WriteInput } from "./WriteForm";
@@ -5,21 +7,55 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto(){
+  const [state, setState] = useState({
+    uploadImageFile: null,
+    uploadImageUrl: null,    
+  })  
+
+  const setImageFromFile = ({ file, setImageUrl }) => {
+    let reader = new FileReader();
+    reader.onload = function () {
+      setImageUrl({ result: reader.result });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeImage = () => {
+    setState({
+      uploadImageFile: null,
+      uploadImageUrl: null,  
+    })
+  }
+  
+
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, jpg" type="file" />
-      <ProductImage>
-        <button type="button">
-          <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
-        </button>
-        <img alt="매물1" src="src/assets/logo.svg" />
-      </ProductImage>
-      <ProductImage>
-        <button type="button">
-          <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
-        </button>
-        <img alt="매물1" src="src/assets/logo.svg" />
-      </ProductImage>
+      <WriteInput accept=".png, .jpeg, jpg"  multiple={true} type="file"
+        onChange={
+          ({ target: { files } }) => {
+            if (files.length) {
+              setImageFromFile({
+                file: files[0],
+                setImageUrl: ({ result }) => setState({
+                  uploadImageFile: files[0], uploadImageUrl: result
+                })
+              });
+            }
+          }
+        }
+      />
+      { state.uploadImageFile ? (
+        <>
+          <ProductImage>
+            <button type="button" onClick={removeImage}>
+              <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
+            </button>
+            <img alt={state.uploadImageFile} src={state.uploadImageUrl} />
+          </ProductImage>
+          <ProductImage />
+        </>
+      ):<ProductImage />}
+      
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </Container>
