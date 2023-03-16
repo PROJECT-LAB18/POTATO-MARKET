@@ -35,28 +35,30 @@ function WriteForm(){
   const handleSubmit = (e) => {
     e.preventDefault();
     const file = inputRef.current.files;
-    let url ;
-    for(let i=0; i<file.length;i++){
-      const mountainRef = ref(storage,'writeimages/'+file[i].name);
-      uploadBytes(mountainRef,file[i]).then(()=>{
-        url = getDownloadURL(mountainRef);
-        url.then((res)=>{photoURL[i] = res});   
+    const uploadPromises = [];
+  
+    Promise.all(uploadPromises).then(() => {
+      const urlPromises = [];
+      for (let i = 0; i < file.length; i++) {
+        const mountainRef = ref(storage, "writeimages/" + file[i].name);
+        urlPromises.push(getDownloadURL(mountainRef));
+      }
+      Promise.all(urlPromises).then((urls) => {
+        db.collection("UserWrite")
+          .add({
+            title: formState.title,
+            side: "물품 종류",
+            price: formState.price,
+            content: formState.content,
+            data: new Date(),
+            imgsrc: urls,
+            chat: 0,
+            check: 0,
+            heart: 0,
+          })
+            navigate("/HotArticles");
       })
-    }
-   
-    db.collection('UserWrite').add({
-      title: formState.title,
-      side: '물품 종류',
-      price : formState.price,
-      content: formState.content,
-      data: new Date(),
-      imgsrc : [...photoURL],
-      chat : 0 ,
-      check : 0,
-      heart : 0,
-
     })
-    // navigate("/HotArticles");
   }
   
   return <section>    

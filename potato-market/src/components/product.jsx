@@ -69,7 +69,7 @@ function Product({title,price,address,heart,chat,imgsrc}){
     <Div className="product" href="#" target="_blank" rel="noopener noreferrer">     
       <Imagediv>
         
-        <a href="#" target="_blank" rel="noopener noreferrer">
+        <a href="naver.com" target="_blank" rel="noopener noreferrer">
           <Image alt="상품 자세히 보기" src={imgsrc} />
         </a>       
       </Imagediv>

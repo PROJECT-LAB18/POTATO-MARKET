@@ -34,8 +34,8 @@ function HotArticles(){
       <Filter />
       <ProductList >
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
-        {render?serverdata.map(({content,title,price,side,imgsrc})=>(
-          <Product imgsrc={imgsrc} key={title} content={content} title={title} price={price} side={side}/>
+        {render?serverdata.map(({content,title,price,side,imgsrc,},index)=>(
+          <Product key={index} imgsrc={imgsrc} content={content} title={title} price={price} side={side}/>
         )):<LoadingSpinner className="loading"/>}
       </ProductList>
     </main>
