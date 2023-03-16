@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 import styled, { css } from 'styled-components';
 
@@ -6,9 +7,11 @@ import firebase from '@/firebase';
 
 import { gray4, gray6, primaryColor } from "@/styles/global";
 
+
 const db = firebase.firestore();
 
 function WriteForm(){  
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
@@ -37,6 +40,7 @@ function WriteForm(){
       price : '',
       content: '',
     })
+    navigate("/HotArticles");
   }
   
   return <section>
