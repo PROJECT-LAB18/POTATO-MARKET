@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
     height: 1px;
     margin: -1px;
   }
+
   fieldset {
     padding: 0;
   }

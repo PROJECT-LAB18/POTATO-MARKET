@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import firebase from './firebase';
-
 import GlobalStyle from './styles/Global';
 
 function App() {
@@ -24,11 +23,13 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
+
       <div className="App">
         <Header />
         <Outlet />
         <Footer />
       </div>
+
     </React.Fragment>
   );
 }
