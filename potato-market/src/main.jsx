@@ -1,7 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App'
+import Chat from './pages/Chat';
+import Home from './pages/Home';
+import HotArticles from './pages/HotArticles/HotArticles';
+import MyArticle from './pages/MyArticle';
+import Productdetail from './pages/productdetail';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import WriteArticle from './pages/WriteArticle';
+
 // import {
 //   RecoilRoot,
 //   atom,
@@ -67,11 +77,49 @@ import App from './App'
 //   );
 // }
 
-
-
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '',
+        element: <Home />,
+      },
+      {
+        path: 'hotarticles',
+        element: <HotArticles />,
+      },
+      {
+        path: 'detailarticle',
+        element: <Productdetail />
+      },
+      {
+        path: 'writearticle',
+        element: <WriteArticle />,
+      },
+      {
+        path: 'myarticle',
+        element: <MyArticle />,
+      },
+      {
+        path: 'signin',
+        element: <SignIn />,
+      },
+      {
+        path: 'signup',
+        element: <SignUp />,
+      },
+      {
+        path: 'chat',
+        element: <Chat />,
+      },
+    ],
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )

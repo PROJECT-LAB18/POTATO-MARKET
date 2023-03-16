@@ -22,6 +22,9 @@ const GlobalStyle = createGlobalStyle`
   fieldset {
     padding: 0;
   }
+  button {
+    cursor: pointer;
+  }
 `;
 
 export const primaryColor = "#CFA36E" // potato

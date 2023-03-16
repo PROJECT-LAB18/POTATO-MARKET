@@ -27,6 +27,7 @@ module.exports = {
         'jsx-a11y',
     ],
     "rules": {
+      "import/no-unresolved": "off",
         'react-hooks/rules-of-hooks': 'error',
 		    'react-hooks/exhaustive-deps': ['warn',
         {
