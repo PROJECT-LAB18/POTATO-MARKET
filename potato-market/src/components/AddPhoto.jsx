@@ -7,56 +7,50 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto({myinputRef}){
-  const [state, setState] = useState({
-    uploadImageFile: null,
-    uploadImageUrl: null,    
-  })  
+  const [, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
+  const [detailImages, setDetailImages] = useState([]); // 프리뷰 보여줄 이미지 데이터
 
-  const setImageFromFile = ({ file, setImageUrl }) => {
-    let reader = new FileReader();
-    reader.onload = function () {
-      setImageUrl({ result: reader.result });
-    };
-    reader.readAsDataURL(file);
+  const uploadFile = (event) => {
+    let fileArr = event.target.files; //  사용자가 선택한 파일들
+    setPostImages(Array.from(fileArr));
+    let fileURLs = [];
+    let filesLength = fileArr.length > 5 ? 5 : fileArr.length;
+
+    // 프리뷰
+    for (let i = 0; i < filesLength; i++) {
+      let file = fileArr[i];
+      let reader = new FileReader();
+      reader.onload = () => {
+        fileURLs[i] = reader.result;
+        setDetailImages([...fileURLs]);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const removeImage = () => {
-    setState({
-      uploadImageFile: null,
-      uploadImageUrl: null,  
-    })
-  }
-  
+  const removeImage = (e) => {
+    e.preventDefault();
+    // 파일 여러개가 동시에 지워짐
+    setPostImages([]);
+    setDetailImages([]);
+  }  
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, jpg"  multiple={true} type="file"
-        onChange={
-          ({ target: { files } }) => {
-            if (files.length) {
-              setImageFromFile({
-                file: files[0],
-                setImageUrl: ({ result }) => setState({
-                  uploadImageFile: files[0], uploadImageUrl: result
-                })
-              });
-            }
-          }
-        }
-        myinputRef={myinputRef}
+      <WriteInput accept=".png, .jpeg, jpg" multiple={true} myinputRef={myinputRef} type="file"        
+      onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
-      { state.uploadImageFile ? (
-        <>
-          <ProductImage>
+      {
+        detailImages.map((url) => {
+          return <ProductImage key={url}>
             <button type="button" onClick={removeImage}>
               <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
             </button>
-            <img alt={state.uploadImageFile} src={state.uploadImageUrl} />
+            <img alt={url} src={url} />
           </ProductImage>
-          <ProductImage />
-        </>
-      ):<ProductImage />}
-      
+        })
+      }
+      <ProductImage/>
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </Container>
