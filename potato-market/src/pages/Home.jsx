@@ -100,7 +100,6 @@ const MainTop = styled.section`
       font-size: 1rem;
       line-height: 1.5rem;
     }
-
   }
 
   .home-main-image {
@@ -169,7 +168,6 @@ const MainReversed = styled.section`
 
   .home-main-image {
     position: relative;
-
   }
 
   img {
@@ -188,7 +186,6 @@ const HotArticles8 = styled.section`
   h2 {
     font-size: 40px;
     text-align: center;
-  
   }
 
   div {
@@ -199,7 +196,6 @@ const HotArticles8 = styled.section`
     margin-right: auto;
     margin-top: 85px;
   }
-
   `;
 
   const UnderlineButton = styled.button`
@@ -212,7 +208,7 @@ const HotArticles8 = styled.section`
     text-decoration: underline;
     cursor: pointer;
     display: block;
-  `;
+`;
 
 const HomeKeywords = styled.section`
   
@@ -221,9 +217,6 @@ const HomeKeywords = styled.section`
   margin-right: auto;
   margin-top: 1.438rem;
   padding-bottom: 1rem;
-  button {
-    
-  }
 
   ul {
     margin-top: 1rem;
