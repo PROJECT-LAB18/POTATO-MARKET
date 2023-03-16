@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 
 import styled, { css } from 'styled-components';
 
+import AddPhoto from '@/components/AddPhoto';
 import firebase from '@/firebase';
 
 import { gray4, gray6, primaryColor } from "@/styles/global";
@@ -37,7 +38,8 @@ function WriteForm(){
     navigate("/HotArticles");
   }
   
-  return <section>
+  return <section>    
+    <AddPhoto />
     <h3 className="a11yHidden">게시글 작성란</h3>
     <Form>
       <fieldset>

@@ -101,7 +101,7 @@ const PhotoContainer = styled.div`
 `
 
 const ProductImage = styled.div`
-  background: ${gray4};
+  border: 1px dashed ${gray4};
   display: flex;
   justify-content: center;
   align-items: center;
