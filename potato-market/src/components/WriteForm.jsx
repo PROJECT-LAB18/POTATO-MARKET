@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 import styled, { css } from 'styled-components';
 
@@ -10,8 +12,10 @@ import { gray4, gray6, primaryColor } from "@/styles/global";
 
 
 const db = firebase.firestore();
+const storage = getStorage();
 
 function WriteForm(){  
+  const inputRef = useRef();
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
     title: '',
@@ -29,17 +33,31 @@ function WriteForm(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const file = inputRef.current.files;
+    // let url ;
+    for(let i=0; i<file.length;i++){
+      const mountainRef = ref(storage,'writeimages/'+file[i].name);
+      uploadBytes(mountainRef,file[i]).then(()=>{
+        console.log(`${((i+1)/file.length)*100}% 업로드 성공`);
+        // url = getDownloadURL(mountainRef);
+        // photoURL[i]= url;
+        // console.log(photoURL);
+        
+      })
+    }
+   
+    console.log(inputRef.current.files)
     db.collection('UserWrite').add({
       title: formState.title,
       side: '물품 종류',
       price : formState.price,
       content: formState.content,
     })
-    navigate("/HotArticles");
+    // navigate("/HotArticles");
   }
   
   return <section>    
-    <AddPhoto />
+    <AddPhoto myinputRef={inputRef} />
     <h3 className="a11yHidden">게시글 작성란</h3>
     <Form>
       <fieldset>
@@ -68,12 +86,12 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple}){
+export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
   return <label>
     {
       content ?
-      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/>
+      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/> :
+      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/>
     }
   </label>
 }

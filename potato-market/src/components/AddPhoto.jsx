@@ -6,7 +6,7 @@ import { WriteInput } from "./WriteForm";
 
 import { gray4, primaryColor } from "@/styles/global";
 
-function AddPhoto(){
+function AddPhoto({myinputRef}){
   const [state, setState] = useState({
     uploadImageFile: null,
     uploadImageUrl: null,    
@@ -43,6 +43,7 @@ function AddPhoto(){
             }
           }
         }
+        myinputRef={myinputRef}
       />
       { state.uploadImageFile ? (
         <>
