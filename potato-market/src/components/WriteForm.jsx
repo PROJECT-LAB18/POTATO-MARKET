@@ -8,9 +8,7 @@ import { gray4, gray6, primaryColor } from "@/styles/global";
 
 const db = firebase.firestore();
 
-function WriteForm(){
-  // const [state, setState] = useState(true)
-  
+function WriteForm(){  
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
@@ -25,12 +23,19 @@ function WriteForm(){
     })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     db.collection('UserWrite').add({
       title: formState.title,
       side: '물품 종류',
       price : formState.price,
       content: formState.content,
+    })
+    setFormState({
+      title: '',
+      side: '물품 종류',
+      price : '',
+      content: '',
     })
   }
   
