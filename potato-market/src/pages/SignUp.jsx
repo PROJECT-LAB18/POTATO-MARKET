@@ -129,12 +129,12 @@ function SignUp() {
     }));
   };
   const handleAllCheckboxChange = (event) => {
-    const { checked } = event.target;
-    setIsAllChecked(checked);
+    const { isChecked } = event.target;
+    setIsAllChecked(isChecked);
     setCheckedTerms((prevState) => {
       const updatedState = {};
       for (const key in prevState) {
-        updatedState[key] = checked;
+        updatedState[key] = isChecked;
       }
       return updatedState;
     });
@@ -238,10 +238,14 @@ function SignUp() {
             <span className="term-title">이용약관동의</span>
             <div className="term-check">
               <FormTerms all isAllChecked={isAllChecked} onChange={handleAllCheckboxChange}/>            
-              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}  checked={checkedTerms.term1} onChange={handleCheckboxChange} />
-              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}  checked={checkedTerms.term2} onChange={(checked) => handleCheckboxChange('term2', checked)}/>
-              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"} checked={checkedTerms.term3} onChange={(checked) => handleCheckboxChange('term3', checked)}/>
-              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} checked={checkedTerms.term4} onChange={(checked) => handleCheckboxChange('term4', checked)}/>
+              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}   isChecked={checkedTerms.term1}
+        onCheckboxChange={handleCheckboxChange}/>
+              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}   isChecked={checkedTerms.term2}
+        onCheckboxChange={handleCheckboxChange}/>
+              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}  isChecked={checkedTerms.term3}
+        onCheckboxChange={handleCheckboxChange}/>
+              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  isChecked={checkedTerms.term4}
+        onCheckboxChange={handleCheckboxChange}/>
             </div>
           </div>
           <FormButton
