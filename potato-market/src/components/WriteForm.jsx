@@ -17,7 +17,7 @@ const storage = getStorage();
 function WriteForm(){  
   const inputRef = useRef();
   const navigate = useNavigate();
-  const [photoURL, setphotoURL] = useState([]);
+  const [click,setClick] = useState(0)
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
@@ -33,9 +33,14 @@ function WriteForm(){
   }
 
   const handleSubmit = (e) => {
+    setClick(1);
     e.preventDefault();
     const file = inputRef.current.files;
     const uploadPromises = [];
+    for (let i = 0; i < file.length; i++) {
+      const mountainRef = ref(storage, "writeimages/" + file[i].name);
+      uploadPromises.push(uploadBytes(mountainRef, file[i]));
+    }
   
     Promise.all(uploadPromises).then(() => {
       const urlPromises = [];
@@ -56,11 +61,10 @@ function WriteForm(){
             check: 0,
             heart: 0,
           })
-            navigate("/HotArticles");
+          navigate("/HotArticles");
       })
     })
   }
-  
   return <section>    
     <AddPhoto myinputRef={inputRef} />
     <h3 className="a11yHidden">게시글 작성란</h3>
@@ -84,19 +88,19 @@ function WriteForm(){
         
         <WriteButtonBox>
           <Button>취소</Button>
-          <Button disabled={!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
+          <Button disabled={click||!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
         </WriteButtonBox>
       </fieldset>
     </Form>
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
+export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
   return <label>
     {
       content ?
-      <Textarea ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/> :
-      <Input ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick}/>
+      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/> :
+      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/>
     }
   </label>
 }
