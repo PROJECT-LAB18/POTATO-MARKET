@@ -9,8 +9,6 @@ import firebase from '@/firebase';
 
 import { gray4, gray6, primaryColor } from "@/styles/global";
 
-
-
 const db = firebase.firestore();
 const storage = getStorage();
 
@@ -55,7 +53,7 @@ function WriteForm(){
             side: "물품 종류",
             price: formState.price,
             content: formState.content,
-            data: new Date(),
+            date: new Date(),
             imgsrc: urls,
             chat: 0,
             check: 0,
@@ -65,6 +63,7 @@ function WriteForm(){
       })
     })
   }
+  
   return <section>    
     <AddPhoto myinputRef={inputRef} />
     <h3 className="a11yHidden">게시글 작성란</h3>
@@ -99,8 +98,8 @@ export function WriteInput({placeholder, disabled, type, content, value, accept,
   return <label>
     {
       content ?
-      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/> :
-      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/>
+      <Textarea ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+      <Input ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
     }
   </label>
 }
