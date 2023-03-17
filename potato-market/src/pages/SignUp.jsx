@@ -110,12 +110,49 @@ function SignUp() {
       });
   };
 
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedTerms, setCheckedTerms] = useState({
+    term1: false,
+    term2: false,
+    term3: false,
+    term4: false,
+
+  });
+
+
+
+
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
+  const handleAllCheckboxChange = (event) => {
+    const { checked } = event.target;
+    setIsAllChecked(checked);
+    setCheckedTerms((prevState) => {
+      const updatedState = {};
+      for (const key in prevState) {
+        updatedState[key] = checked;
+      }
+      return updatedState;
+    });
+  };
+
+  const handleCheckboxChange = (id, checked) => {
+    setCheckedTerms((prevState) => ({
+      ...prevState,
+      [id]: checked,
+    }));
+    setIsAllChecked(
+      Object.values({ ...checkedTerms, [id]: checked }).every(
+        (isChecked) => isChecked
+      )
+    );
+  };
+
+
 
   return (
     <Section>
@@ -200,11 +237,11 @@ function SignUp() {
           <div className="term-list">
             <span className="term-title">이용약관동의</span>
             <div className="term-check">
-              <FormTerms all />
-              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"} />
-              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"} />
-              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"} />
-              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} />
+              <FormTerms all isAllChecked={isAllChecked} onChange={handleAllCheckboxChange}/>            
+              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}  checked={checkedTerms.term1} onChange={handleCheckboxChange} />
+              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}  checked={checkedTerms.term2} onChange={(checked) => handleCheckboxChange('term2', checked)}/>
+              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"} checked={checkedTerms.term3} onChange={(checked) => handleCheckboxChange('term3', checked)}/>
+              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} checked={checkedTerms.term4} onChange={(checked) => handleCheckboxChange('term4', checked)}/>
             </div>
           </div>
           <FormButton
