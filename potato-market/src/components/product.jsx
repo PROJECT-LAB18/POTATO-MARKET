@@ -70,7 +70,7 @@ function Product({title,price,address,heart,chat,imgsrc}){
       <Imagediv>
         
         <a href="naver.com" target="_blank" rel="noopener noreferrer">
-          <Image alt="상품 자세히 보기" src={imgsrc} />
+          <Image alt="상품 자세히 보기" src={imgsrc[0]} />
         </a>       
       </Imagediv>
       <Section>
@@ -87,7 +87,7 @@ function Product({title,price,address,heart,chat,imgsrc}){
 }
 
 Product.defaultProps = {   
-  imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+  imgsrc:["https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"],
   title : "상품 이름",
   price : 505445,
   address : "인천시 부평구 산곡동",

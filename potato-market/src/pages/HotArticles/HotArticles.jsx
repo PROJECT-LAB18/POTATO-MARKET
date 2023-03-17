@@ -23,6 +23,7 @@ function HotArticles(){
       db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{ 
       serverdata[i] = item.data();
       i++;
+      console.log(serverdata)
      Setrender(1);
   })})},[])
   
@@ -36,7 +37,8 @@ function HotArticles(){
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
         {render?serverdata.map(({content,title,price,side,imgsrc,},index)=>(
           <Product key={index} imgsrc={imgsrc} content={content} title={title} price={price} side={side}/>
-        )):<LoadingSpinner className="loading"/>}
+        )):<LoadingSpinner className="l
+        oading"/>}
       </ProductList>
     </main>
   )
