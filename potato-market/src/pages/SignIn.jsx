@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
-
 import styled from 'styled-components';
 
 import FormInput from '../components/FormInput';
+import Popup from '../components/Popup';
 import FormButton from '../styles/FormButton';
 
 import firebase from '@/firebase';
@@ -49,6 +47,8 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const [showPopup, setShowPopup] = useState(false);
+
   const [formState, setFormState] = useState({
     // phoneNumber: "",
     email: "",
@@ -66,13 +66,10 @@ const SignIn = () => {
       const q = usersRef.where('email', '==', formState.email);
       const querySnapshot = await q.get();
       if (querySnapshot.size > 0) {
-        console.log("로그인완");
-      } else {
-        console.log("님가입안했음");
+        navigate(-1);
       }
-      navigate(-1);
     } catch (error) {
-      console.error(error);
+      setShowPopup(true);
     }
   };
 
@@ -91,7 +88,7 @@ const SignIn = () => {
           <legend>회원 로그인 폼</legend>
           <ul className="form-list">
             {/* <li>
-              <FormInput id={"userPhoneNumber"} placeholder={"핸드폰 번호를 입력해주세요"} text={"핸드폰 번호"} type={"number"} />
+              <FormInput id={"userPhoneNumber"} placeholder={"핸드폰 번호를 입력해주세요"} text={"핸드폰 번호"} type={"tel"} />
             </li> */}
             <li>
               <FormInput
@@ -122,6 +119,13 @@ const SignIn = () => {
           <FormButton as={"a"} onClick={() => navigate("/signup")}>회원가입</FormButton>
         </fieldset>
       </LoginForm>
+      {showPopup &&
+        <Popup
+          setShowPopup={setShowPopup}
+          showPopup={showPopup}
+          text={"아이디, 비밀번호를 확인해주세요."}
+        />
+      }
     </Section >
   )
 };
