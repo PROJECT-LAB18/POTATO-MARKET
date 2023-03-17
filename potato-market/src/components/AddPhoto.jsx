@@ -7,7 +7,7 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto({myinputRef}){
-  const [, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
+  const [postImages, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
   const [detailImages, setDetailImages] = useState([]); // 프리뷰 보여줄 이미지 데이터
 
   const uploadFile = (event) => {
@@ -28,12 +28,15 @@ function AddPhoto({myinputRef}){
     }
   };
 
-  const removeImage = (e) => {
-    e.preventDefault();
-    // 파일 여러개가 동시에 지워짐
-    setPostImages([]);
-    setDetailImages([]);
-  }  
+  const removeImage = (index) => {
+    const newPostImages = [...postImages];
+    newPostImages.splice(index, 1);
+    setPostImages(newPostImages);
+
+    const newDetailImages = [...detailImages];
+    newDetailImages.splice(index, 1);
+    setDetailImages(newDetailImages);
+  }
 
   return <Container>    
     <PhotoContainer>
@@ -41,9 +44,9 @@ function AddPhoto({myinputRef}){
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
-        detailImages.map((url) => {
+        detailImages.map((url, index) => {
           return <ProductImage key={url}>
-            <button type="button" onClick={removeImage}>
+            <button type="button" onClick={()=>removeImage(index)}>
               <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
             </button>
             <img alt={url} src={url} />
