@@ -7,35 +7,34 @@ import { WriteInput } from "./WriteForm";
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto({myinputRef}){
-  const [postImages, setPostImages] = useState([]); // 서버로 보낼 이미지 데이터
-  const [detailImages, setDetailImages] = useState([]); // 프리뷰 보여줄 이미지 데이터
+  const [postImg, setPostImg] = useState([]);
+  const [previewImg, setPreviewImg] = useState([]);
 
   const uploadFile = (event) => {
-    let fileArr = event.target.files; //  사용자가 선택한 파일들
-    setPostImages(Array.from(fileArr));
+    let fileArr = event.target.files;
+    setPostImg(Array.from(fileArr));
     let fileURLs = [];
     let filesLength = fileArr.length > 5 ? 5 : fileArr.length;
 
-    // 프리뷰
     for (let i = 0; i < filesLength; i++) {
       let file = fileArr[i];
       let reader = new FileReader();
       reader.onload = () => {
         fileURLs[i] = reader.result;
-        setDetailImages([...fileURLs]);
+        setPreviewImg([...fileURLs]);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const removeImage = (index) => {
-    const newPostImages = [...postImages];
-    newPostImages.splice(index, 1);
-    setPostImages(newPostImages);
+    const newPostImg = [...postImg];
+    newPostImg.splice(index, 1);
+    setPostImg(newPostImg);
 
-    const newDetailImages = [...detailImages];
-    newDetailImages.splice(index, 1);
-    setDetailImages(newDetailImages);
+    const newPreviewImg = [...previewImg];
+    newPreviewImg.splice(index, 1);
+    setPreviewImg(newPreviewImg);
   }
 
   return <Container>    
@@ -44,7 +43,7 @@ function AddPhoto({myinputRef}){
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
-        detailImages.map((url, index) => {
+        previewImg.map((url, index) => {
           return <ProductImage key={url}>
             <button type="button" onClick={()=>removeImage(index)}>
               <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />

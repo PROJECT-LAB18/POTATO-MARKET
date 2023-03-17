@@ -21,7 +21,7 @@ function WriteForm(){
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
-    price : '',
+    price : ' - ',
     content: '',
   });
   
