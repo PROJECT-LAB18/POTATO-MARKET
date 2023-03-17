@@ -10,6 +10,7 @@ import MyArticle from './pages/MyArticle';
 import Productdetail from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+
 import WriteArticle from './pages/WriteArticle';
 
 // import {
@@ -114,6 +115,7 @@ const router = createBrowserRouter([
         path: 'chat',
         element: <Chat />,
       },
+     
     ],
   },
 ]);

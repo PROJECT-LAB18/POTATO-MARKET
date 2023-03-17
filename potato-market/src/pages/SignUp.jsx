@@ -122,41 +122,50 @@ function SignUp() {
   };
 
 
-  const data = [
-    {id: 1, title: '선택 1'},
-    {id: 2, title: '선택 2'},
-    {id: 3, title: '선택 3'},
-    {id: 4, title: '선택 4'}
-  ];
+  const [isCheckedAll, setIsCheckedAll] = useState(false);
+  const [isCheckedOne, setIsCheckedOne] = useState(false);
+  const [isCheckedTwo, setIsCheckedTwo] = useState(false);
+  const [isCheckedThree, setIsCheckedThree] = useState(false);
+  const [isCheckedFour, setIsCheckedFour] = useState(false);
 
-  // 체크된 아이템을 담을 배열
-  const [checkItems, setCheckItems] = useState([]);
 
-  // 체크박스 단일 선택
-  const handleSingleCheck = (checked, id) => {
-    if (checked) {
-      // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems(prev => [...prev, id]);
-    } else {
-      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(checkItems.filter((el) => el !== id));
+  const handleCheckboxChangeAll = (event) => {
+    const isChecked = event.target.checked;
+    setIsCheckedAll(isChecked);
+    setIsCheckedOne(isChecked ? true : false);
+    setIsCheckedTwo(isChecked ? true : false);
+    setIsCheckedThree(isChecked ? true : false);
+    setIsCheckedFour(isChecked ? true : false);
+
+  };
+
+  const handleCheckboxChangeOne = (event) => {
+    setIsCheckedOne(event.target.checked);
+    if (!event.target.checked) {
+      setIsCheckedAll(false);
     }
   };
 
-  // 체크박스 전체 선택
-  const handleAllCheck = (checked) => {
-    if(checked) {
-      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      const idArray = [];
-      data.forEach((el) => idArray.push(el.id));
-      setCheckItems(idArray);
+  const handleCheckboxChangeTwo = (event) => {
+    setIsCheckedTwo(event.target.checked);
+    if (!event.target.checked) {
+      setIsCheckedAll(false);
     }
-    else {
-      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
-      setCheckItems([]);
-    }
-  }
+  };
 
+  const handleCheckboxChangeThree = (event) => {
+    setIsCheckedThree(event.target.checked);
+    if (!event.target.checked) {
+      setIsCheckedAll(false);
+    }
+  };
+
+  const handleCheckboxChangeFour = (event) => {
+    setIsCheckedFour(event.target.checked);
+    if (!event.target.checked) {
+      setIsCheckedAll(false);
+    }
+  };
   return (
     <Section>
       <h2>회원가입</h2>
@@ -240,22 +249,12 @@ function SignUp() {
           <div className="term-list">
             <span className="term-title">이용약관동의</span>
             <div className="term-check">
-    <FormTerms
-      all
-      checked={checkItems.length === data.length}
-      onCheck={(checked) => handleAllCheck(checked)}
-    />
-    {data.map((item) => (
-      <FormTerms
-        key={item.id}
-        id={item.id}
-        text={item.title}
-        checked={checkItems.includes(item.id)}
-        onCheck={(checked) => handleSingleCheck(checked, item.id)}
-      />
-    ))}
-  </div>
-
+              <FormTerms all checked={isCheckedAll} onChange={handleCheckboxChangeAll}/>            
+              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}   checked={isCheckedOne} onChange={handleCheckboxChangeOne}/>
+              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}   checked={isCheckedTwo} onChange={handleCheckboxChangeTwo}/>
+              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}  checked={isCheckedThree} onChange={handleCheckboxChangeThree}/>
+              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  checked={isCheckedFour} onChange={handleCheckboxChangeFour}/>
+            </div>
           </div>
           <FormButton
             primary

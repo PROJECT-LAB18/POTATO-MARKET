@@ -107,20 +107,16 @@ const DetailTermButton = styled.button`
   }
 `;
 
-const FormTerms = ({ id, text, all, checked, onCheck }) => {
-  const handleCheck = (event) => {
-    onCheck(id, event.target.checked);
-  };
+const FormTerms = ({ id, text, all, checked, onChange }) => {
+
   return (
     <>
       {all ? (
         <LabelAll htmlFor={id}>
-          <CheckBox
-            id={id}
-            name={id}
+          <CheckBox id={id} name={id}
             type="checkbox"
             checked={checked}
-            onChange={handleCheck} 
+            onChange={onChange} 
           />
           <i></i>
           <TextAll aria-labelledby={id}>
@@ -139,7 +135,7 @@ const FormTerms = ({ id, text, all, checked, onCheck }) => {
               name={id}
               type="checkbox"
               checked={checked}
-              onChange={handleCheck} 
+              onChange={onChange} 
             />
             <i></i>
             <Text aria-labelledby={id}>{text}</Text>

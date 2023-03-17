@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import firebase from './firebase';
 import SignUp from './pages/SignUp';
-
 import GlobalStyle from './styles/Global';
 
 function App() {
