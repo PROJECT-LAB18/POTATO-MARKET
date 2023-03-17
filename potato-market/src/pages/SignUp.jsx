@@ -5,11 +5,13 @@ import styled from 'styled-components';
 
 import FormInput, { FormInputLocation, FormInputImage } from '../components/FormInput';
 import FormTerms from '../components/FormTerms';
+import Postcode from '../components/Postcode';
 import FormButton from '../styles/FormButton';
 
 import { gray8 } from '../styles/Global';
 
 import firebase from '@/firebase';
+
 
 const Section = styled.section`
   padding: 80px 0 40px;
@@ -231,7 +233,8 @@ function SignUp() {
               <FormInputImage />
             </li>
             <li className="form-item">
-              <FormInputLocation process={"search"} />
+              {/* <FormInputLocation process={"search"} /> */}
+              <Postcode />
             </li>
             <li className="form-item">
               <FormInputLocation process={"detail"} />
