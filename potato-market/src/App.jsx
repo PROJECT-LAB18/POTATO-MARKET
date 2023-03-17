@@ -5,8 +5,6 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import LogoutButton from './components/LogoutButton';
 import firebase from './firebase';
-import SignUp from './pages/SignUp';
-
 import GlobalStyle from './styles/Global';
 
 function App() {
@@ -27,12 +25,14 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyle />
+
       <div className="App">
         <Header />
         <LogoutButton />
         <Outlet />
         <Footer />
       </div>
+
     </React.Fragment>
   );
 }
