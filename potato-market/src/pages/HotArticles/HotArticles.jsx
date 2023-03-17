@@ -1,12 +1,35 @@
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 import Filter from "./Filter";
 
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 import Product from "@/components/product";
+import firebase from '@/firebase';
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
+const db = firebase.firestore();
 
+let serverdata = [];
+let i = 0;
+
+// console.log(serverdata)
 function HotArticles(){
+  const [render,Setrender] = useState(0);
+  useEffect(()=>{
+    db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{ 
+      serverdata[i] = item.data();
+      i++;
+      Setrender(1);      
+      serverdata.sort((b, a) => a.date - b.date)
+      // console.log(serverdata)
+      // console.log(orderedDate)
+  }
+  )})
+},[])  
+  
   return(
     <main className="wrapper">
       <ContainerGlobalStyle />
@@ -14,14 +37,10 @@ function HotArticles(){
       <Filter />
       <ProductList >
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {render?serverdata.map(({content,title,price,side,imgsrc,},index)=>(
+          <Product key={index} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
+        )):<LoadingSpinner className="l
+        oading"/>}
       </ProductList>
     </main>
   )
@@ -33,6 +52,15 @@ const ProductList = styled.section`
   gap: 55px;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 309px;
+  & .loading{
+    left:43%;
+    position: absolute;
+  }
+  @media (max-width: 640px){
+    margin: 0 auto;
+    width:100%;
+    grid-template-columns: repeat(2, 1fr);
+  }
 `
 
 export default HotArticles;
