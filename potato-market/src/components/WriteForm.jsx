@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-
 import styled, { css } from 'styled-components';
 
 import AddPhoto from '@/components/AddPhoto';
@@ -11,12 +10,14 @@ import firebase from '@/firebase';
 import { gray4, gray6, primaryColor } from "@/styles/global";
 
 
+
 const db = firebase.firestore();
 const storage = getStorage();
 
 function WriteForm(){  
   const inputRef = useRef();
   const navigate = useNavigate();
+  const [photoURL, setphotoURL] = useState([]);
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
@@ -34,26 +35,30 @@ function WriteForm(){
   const handleSubmit = (e) => {
     e.preventDefault();
     const file = inputRef.current.files;
-    // let url ;
-    for(let i=0; i<file.length;i++){
-      const mountainRef = ref(storage,'writeimages/'+file[i].name);
-      uploadBytes(mountainRef,file[i]).then(()=>{
-        console.log(`${((i+1)/file.length)*100}% 업로드 성공`);
-        // url = getDownloadURL(mountainRef);
-        // photoURL[i]= url;
-        // console.log(photoURL);
-        
+    const uploadPromises = [];
+  
+    Promise.all(uploadPromises).then(() => {
+      const urlPromises = [];
+      for (let i = 0; i < file.length; i++) {
+        const mountainRef = ref(storage, "writeimages/" + file[i].name);
+        urlPromises.push(getDownloadURL(mountainRef));
+      }
+      Promise.all(urlPromises).then((urls) => {
+        db.collection("UserWrite")
+          .add({
+            title: formState.title,
+            side: "물품 종류",
+            price: formState.price,
+            content: formState.content,
+            data: new Date(),
+            imgsrc: urls,
+            chat: 0,
+            check: 0,
+            heart: 0,
+          })
+            navigate("/HotArticles");
       })
-    }
-   
-    console.log(inputRef.current.files)
-    db.collection('UserWrite').add({
-      title: formState.title,
-      side: '물품 종류',
-      price : formState.price,
-      content: formState.content,
     })
-    // navigate("/HotArticles");
   }
   
   return <section>    
