@@ -52,7 +52,7 @@ function AddPhoto({myinputRef}){
           </ProductImage>
         })
       }
-      <ProductImage/>
+      {previewImg.length>=5 ? '' : <ProductImage/>}
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </Container>
