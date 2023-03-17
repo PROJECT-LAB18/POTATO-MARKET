@@ -91,12 +91,12 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
+export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
   return <label>
     {
       content ?
-      <Textarea name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/> :
-      <Input accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} ref={myinputRef}/>
+      <Textarea ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange}/> :
+      <Input ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick}/>
     }
   </label>
 }
