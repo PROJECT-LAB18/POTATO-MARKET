@@ -110,14 +110,6 @@ function SignUp() {
       });
   };
 
-  const [isAllChecked, setIsAllChecked] = useState(false);
-  const [checkedTerms, setCheckedTerms] = useState({
-    term1: false,
-    term2: false,
-    term3: false,
-    term4: false,
-
-  });
 
 
 
@@ -128,31 +120,42 @@ function SignUp() {
       [e.target.name]: e.target.value,
     }));
   };
-  const handleAllCheckboxChange = (event) => {
-    const { checked } = event.target;
-    setIsAllChecked(checked);
-    setCheckedTerms((prevState) => {
-      const updatedState = {};
-      for (const key in prevState) {
-        updatedState[key] = checked;
-      }
-      return updatedState;
-    });
+
+
+  const data = [
+    {id: 1, title: '선택 1'},
+    {id: 2, title: '선택 2'},
+    {id: 3, title: '선택 3'},
+    {id: 4, title: '선택 4'}
+  ];
+
+  // 체크된 아이템을 담을 배열
+  const [checkItems, setCheckItems] = useState([]);
+
+  // 체크박스 단일 선택
+  const handleSingleCheck = (checked, id) => {
+    if (checked) {
+      // 단일 선택 시 체크된 아이템을 배열에 추가
+      setCheckItems(prev => [...prev, id]);
+    } else {
+      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
+      setCheckItems(checkItems.filter((el) => el !== id));
+    }
   };
 
-  const handleCheckboxChange = (id, checked) => {
-    setCheckedTerms((prevState) => ({
-      ...prevState,
-      [id]: checked,
-    }));
-    setIsAllChecked(
-      Object.values({ ...checkedTerms, [id]: checked }).every(
-        (isChecked) => isChecked
-      )
-    );
-  };
-
-
+  // 체크박스 전체 선택
+  const handleAllCheck = (checked) => {
+    if(checked) {
+      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
+      const idArray = [];
+      data.forEach((el) => idArray.push(el.id));
+      setCheckItems(idArray);
+    }
+    else {
+      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
+      setCheckItems([]);
+    }
+  }
 
   return (
     <Section>
@@ -237,16 +240,22 @@ function SignUp() {
           <div className="term-list">
             <span className="term-title">이용약관동의</span>
             <div className="term-check">
-              <FormTerms all isAllChecked={isAllChecked} onChange={handleAllCheckboxChange}/>            
-              <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}   isChecked={checkedTerms.term1}
-        onCheckboxChange={handleCheckboxChange}/>
-              <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}   isChecked={checkedTerms.term2}
-        onCheckboxChange={handleCheckboxChange}/>
-              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}  isChecked={checkedTerms.term3}
-        onCheckboxChange={handleCheckboxChange}/>
-              <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  isChecked={checkedTerms.term4}
-        onCheckboxChange={handleCheckboxChange}/>
-            </div>
+    <FormTerms
+      all
+      checked={checkItems.length === data.length}
+      onCheck={(checked) => handleAllCheck(checked)}
+    />
+    {data.map((item) => (
+      <FormTerms
+        key={item.id}
+        id={item.id}
+        text={item.title}
+        checked={checkItems.includes(item.id)}
+        onCheck={(checked) => handleSingleCheck(checked, item.id)}
+      />
+    ))}
+  </div>
+
           </div>
           <FormButton
             primary
