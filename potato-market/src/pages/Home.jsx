@@ -89,14 +89,14 @@ const MainTop = styled.section`
     & h2 {
       position: absolute;
       top: 40%;
-      left: 5rem;
+      left: 15rem;
       line-height: 1.3; 
     }
     
     & p {
       position: absolute;
       top: 60%;
-      left: 5rem;
+      left: 15rem;
       font-size: 1rem;
       line-height: 1.5rem;
     }
@@ -201,7 +201,6 @@ const HotArticles8 = styled.section`
   const UnderlineButton = styled.button`
     margin-left: auto;
     margin-right: auto;
-   
     background-color: transparent;
     border: 0;
     font-weight: 700;

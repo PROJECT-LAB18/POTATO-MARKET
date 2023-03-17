@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
-import { primaryColor, gray1, gray3, gray7 } from "../styles/Global";
+import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
   return (
@@ -13,14 +13,11 @@ function Header () {
       <MenuButton className="primary">중고거래</MenuButton>
       <MenuButton>매물 등록하기</MenuButton>
       <MenuButton>나의 매물 조회</MenuButton>
-      
       <SearchForm>
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
-
       <ChatButton>채팅하기</ChatButton>
       <MypageIcon aria-label="마이페이지"/>
-      
     </HeaderWrap>
   )
 }
@@ -31,10 +28,10 @@ const HeaderWrap = styled.header`
   height : 64px;
   margin-left: auto;
   margin-right: auto;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 
-  & .a11yHidden {
+  .a11yHidden {
     display: inline-block;
     overflow: hidden;
     position: absolute !important;
@@ -45,7 +42,7 @@ const HeaderWrap = styled.header`
     margin: -1px;
   }
 
-  & img {
+  img {
     width: 101px;
     height: 26px;
     display: inline-block;
@@ -53,11 +50,11 @@ const HeaderWrap = styled.header`
     margin-right: 35px;
   }
 
-  & .primary {
+  .primary {
     color: ${primaryColor};
   }
   
-  & .primary:hover {
+  .primary:hover {
     color: ${primaryColor};
   }
 `;
@@ -83,7 +80,6 @@ const SearchForm = styled.form`
   & input:focus {
     outline: none;
   }
-
 `;
 
 const MenuButton = styled.button`
@@ -102,7 +98,8 @@ const MenuButton = styled.button`
 const ChatButton = styled.button`
   width: 98px;
   margin-top: 12px;
-  margin-right: 16px;
+  margin-right: 2rem;
+  margin-left: 2rem;
   height: 40px;
   color: #212124;
   font-weight: 700;
@@ -113,6 +110,10 @@ const ChatButton = styled.button`
   border: 1px solid #D1D3D8;
   border-radius: 4px;
   cursor: pointer;
+  
+  &:hover {
+    background-color: ${gray2};
+  }
 `;
 
 const MypageIcon= styled.button`
