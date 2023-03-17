@@ -129,12 +129,12 @@ function SignUp() {
     }));
   };
   const handleAllCheckboxChange = (event) => {
-    const { isChecked } = event.target;
-    setIsAllChecked(isChecked);
+    const { checked } = event.target;
+    setIsAllChecked(checked);
     setCheckedTerms((prevState) => {
       const updatedState = {};
       for (const key in prevState) {
-        updatedState[key] = isChecked;
+        updatedState[key] = checked;
       }
       return updatedState;
     });
