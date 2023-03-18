@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { useRef } from 'react';
+
 import styled from 'styled-components';
 
 import FormInput, { FormInputLocation, FormInputImage } from '../components/FormInput';
@@ -8,10 +10,9 @@ import FormTerms from '../components/FormTerms';
 import Postcode from '../components/Postcode';
 import FormButton from '../styles/FormButton';
 
-import { gray8 } from '../styles/Global';
+import { gray3, gray8 ,primaryColor} from '../styles/Global';
 
 import firebase from '@/firebase';
-
 
 const Section = styled.section`
   padding: 80px 0 40px;
@@ -85,10 +86,24 @@ function SignUp() {
     // location: "",
   });
 
+  // const phoneNumberInput = useRef(null);
+  // const emailInput = useRef(null);
+  // const passwordInput = useRef(null);
+  // const confirmPasswordInput = useRef(null);
+  // const nicknameInput = useRef(null);
+  
+  /**
+   * disabled 조건
+   */
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
+
   const [error, setError] = useState("");
+
+
 
   const handleSignUp = (e) => {
     e.preventDefault();
+
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
@@ -101,11 +116,7 @@ function SignUp() {
         db.collection("users").doc(userCredential.user.uid).set({
           email: formState.email,
           phoneNumber: formState.phoneNumber,
-          nickname: formState.nickname,
-          Agree: formState.agree,
-
-          // profileImage: formState.profileImage,
-          // loaction: formState.loaction
+          nickname: formState.nickname,         
         });
         navigate(-1);
       })
@@ -113,10 +124,6 @@ function SignUp() {
         setError(error.message);
       });
   };
-
-
-
-
 
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
@@ -126,7 +133,29 @@ function SignUp() {
   };
 
 
+  // const handleButtonClick = (e) => {
+  //   e.preventDefault();
+  //   if (!formState.phoneNumber) {
+  //     phoneNumberInput.current.focus();
+  //   } else if (!formState.email) {
+  //     emailInput.current.focus();
+  //   } else if (!formState.password) {
+  //     passwordInput.current.focus();
+  //   } else if (!formState.confirmPassword) {
+  //     confirmPasswordInput.current.focus();
+  //   } else if (!formState.nickname) {
+  //     nicknameInput.current.focus();
+  //   } else {
+  //     // All fields are filled, handle button click event
+  //   }
+  // };
+
+
+
+  // 전체 선택 상태  
   const [isCheckedAll, setIsCheckedAll] = useState(false);
+  
+  //약관 보기 개별 선택 상태
   const [isCheckedOne, setIsCheckedOne] = useState(false);
   const [isCheckedTwo, setIsCheckedTwo] = useState(false);
   const [isCheckedThree, setIsCheckedThree] = useState(false);
@@ -157,6 +186,13 @@ function SignUp() {
     }
   };
 
+
+
+  /**
+   * 약관 보기 마케팅 수신 동의 (선택)이벤트,
+   * firestore user컬렉션 안의 인증 유저uid문서 필드 저장 
+   *  
+   */
   const handleCheckboxChangeThree = (event) => {
     setIsCheckedThree(event.target.checked);
     if (!event.target.checked) {
@@ -171,11 +207,8 @@ function SignUp() {
         userDocRef.set({
           Agree: "무료배송, 할인쿠폰 등 혜택/정보 수신 동의"
         }, { merge: true })
-        .then(() => {
-          console.log("User marketing consent saved to Firestore");
-        })
         .catch((error) => {
-          console.error("Error saving user marketing consent to Firestore:", error);
+          console.error("Error", error);
         });
       }
     }
@@ -231,6 +264,7 @@ function SignUp() {
                 valid={"최소 8자 이상 입력"}
                 value={formState.password}
                 onChange={handleInputChange}
+
               />
             </li>
             <li className="form-item">
@@ -243,6 +277,7 @@ function SignUp() {
                 // valid={"동일한 비밀번호를 입력"}
                 value={formState.confirmPassword}
                 onChange={handleInputChange}
+
               />
             </li>
             <li className="form-item">
@@ -254,6 +289,7 @@ function SignUp() {
                 type={"text"}
                 value={formState.nickname}
                 onChange={handleInputChange}
+
               />
             </li>
             <li className="form-item">
@@ -277,11 +313,17 @@ function SignUp() {
               <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  checked={isCheckedFour} onChange={handleCheckboxChangeFour}/>
             </div>
           </div>
+
           <FormButton
             primary
-            // disabled={!formState.phoneNumber}
+            disabled={disabled}
             type="submit"
-          >가입하기</FormButton>
+            style={{
+              backgroundColor: disabled ? gray3 : primaryColor,
+              pointerEvents: disabled ? "none" : "auto",
+            }}
+            >가입하기</FormButton>
+              
         </fieldset>
       </SignUpForm>
     </Section >
