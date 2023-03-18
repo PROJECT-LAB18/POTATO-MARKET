@@ -102,6 +102,8 @@ function SignUp() {
           email: formState.email,
           phoneNumber: formState.phoneNumber,
           nickname: formState.nickname,
+          Agree: formState.agree,
+
           // profileImage: formState.profileImage,
           // loaction: formState.loaction
         });
@@ -159,9 +161,25 @@ function SignUp() {
     setIsCheckedThree(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
+    } else {
+  
+      const currentUser = firebase.auth().currentUser;
+  
+      if (currentUser) {
+        const db = firebase.firestore();
+        const userDocRef = db.collection("users").doc(currentUser.uid);
+        userDocRef.set({
+          Agree: "무료배송, 할인쿠폰 등 혜택/정보 수신 동의"
+        }, { merge: true })
+        .then(() => {
+          console.log("User marketing consent saved to Firestore");
+        })
+        .catch((error) => {
+          console.error("Error saving user marketing consent to Firestore:", error);
+        });
+      }
     }
   };
-
   const handleCheckboxChangeFour = (event) => {
     setIsCheckedFour(event.target.checked);
     if (!event.target.checked) {
