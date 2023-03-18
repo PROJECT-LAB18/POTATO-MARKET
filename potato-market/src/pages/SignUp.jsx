@@ -108,6 +108,10 @@ function SignUp() {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
     }
+    if( !isCheckedOne || !isCheckedTwo || !isCheckedFour){
+      alert("필수 이용 약관에 동의하셔야합니다.")
+      return
+    }
     firebase
       .auth()
       .createUserWithEmailAndPassword(formState.email, formState.password)
@@ -123,7 +127,10 @@ function SignUp() {
       .catch((error) => {
         setError(error.message);
       });
+
+  
   };
+
 
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
@@ -322,6 +329,7 @@ function SignUp() {
               backgroundColor: disabled ? gray3 : primaryColor,
               pointerEvents: disabled ? "none" : "auto",
             }}
+            onClick={handleSignUp}
             >가입하기</FormButton>
               
         </fieldset>
