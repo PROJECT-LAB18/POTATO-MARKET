@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { useRef } from 'react';
 
 import styled from 'styled-components';
 
@@ -13,7 +12,6 @@ import FormButton from '../styles/FormButton';
 import { gray3, gray8 ,primaryColor} from '../styles/Global';
 
 import firebase from '@/firebase';
-
 const Section = styled.section`
   padding: 80px 0 40px;
   h2 {
@@ -103,7 +101,7 @@ function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-
+    
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
@@ -112,25 +110,31 @@ function SignUp() {
       alert("필수 이용 약관에 동의하셔야합니다.")
       return
     }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(formState.email, formState.password)
-      .then((userCredential) => {
-        const db = firebase.firestore();
-        db.collection("users").doc(userCredential.user.uid).set({
-          email: formState.email,
-          phoneNumber: formState.phoneNumber,
-          nickname: formState.nickname,         
-        });
-        navigate(-1);
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-
-  
+    
+    
+    const firestore = firebase.firestore();
+    //파이어스토어에서 user컨렉션에 nickname쿼리로 찾기 
+    const sameNickName = firestore.collection("users").where("nickname", "==", formState.nickname);
+    sameNickName.get().then((querySnapshot) => {
+      if (querySnapshot.size > 0) {
+        alert("이미 사용 중인 닉네임입니다.");
+        return
+      }
+        firebase.auth().createUserWithEmailAndPassword(formState.email, formState.password)
+          .then((userCredential) => {
+            firestore.collection("users").doc(userCredential.user.uid).set({
+              email: formState.email,
+              phoneNumber: formState.phoneNumber,
+              nickname: formState.nickname,
+            });
+            navigate(-1);
+          })
+          .catch((error) => {
+            setError(error.message);
+          });
+      
+    });
   };
-
 
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
@@ -153,7 +157,7 @@ function SignUp() {
   //   } else if (!formState.nickname) {
   //     nicknameInput.current.focus();
   //   } else {
-  //     // All fields are filled, handle button click event
+  //     모든 조건 만족... 필요없나? 
   //   }
   // };
 
@@ -213,7 +217,7 @@ function SignUp() {
         const userDocRef = db.collection("users").doc(currentUser.uid);
         userDocRef.set({
           Agree: "무료배송, 할인쿠폰 등 혜택/정보 수신 동의"
-        }, { merge: true })
+        }, { merge: true }) //문서를 합칠려면 merge 
         .catch((error) => {
           console.error("Error", error);
         });
