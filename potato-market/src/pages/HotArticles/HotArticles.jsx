@@ -7,27 +7,43 @@ import Filter from "./Filter";
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 import Product from "@/components/product";
-import firebase from '@/firebase';
+import {query , collection , onSnapshot , getDocs } from "firebase/firestore"
+import firebase  from '@/firebase';
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
 const db = firebase.firestore();
+const q = db.collection("UserWrite");
 
-let serverdata = [];
-let i = 0;
+let newArr = [];
 
 // console.log(serverdata)
 function HotArticles(){
   const [render,Setrender] = useState(0);
   useEffect(()=>{
-    db.collection('UserWrite').get().then((item)=>{item.forEach((item)=>{ 
-      serverdata[i] = item.data();
-      i++;
-      Setrender(1);      
-      serverdata.sort((b, a) => a.date - b.date)
-      // console.log(serverdata)
-      // console.log(orderedDate)
-  }
-  )})
+    newArr = [];
+  //   db.collection('UserWrite').get().then((item)=>{
+  //     item.forEach((item)=>{ 
+  //     serverdata[i] = item.data();
+  //     i++;
+  //     Setrender(1);      
+  //     serverdata.sort((b, a) => a.date - b.date)
+  //     // console.log(serverdata)
+  //     // console.log(orderedDate)
+  // }
+  // )})
+  onSnapshot(q,(snapshot)=>{
+    snapshot.docs.map((doc)=>{
+      const newObj = {
+        id : doc.id,
+        ...doc.data()
+      }
+      newArr.push(newObj);
+      newArr.sort((b, a) => a.date - b.date);
+      Setrender(1);   
+  
+      console.log(newArr)
+    })
+  })
 },[])  
   
   return(
@@ -37,8 +53,8 @@ function HotArticles(){
       <Filter />
       <ProductList >
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
-        {render?serverdata.map(({content,title,price,side,imgsrc,},index)=>(
-          <Product key={index} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
+        {render?newArr.map(({content,title,price,side,imgsrc,id,check},index)=>(
+          <Product id={id} check={check} key={index} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
         )):<LoadingSpinner className="l
         oading"/>}
       </ProductList>

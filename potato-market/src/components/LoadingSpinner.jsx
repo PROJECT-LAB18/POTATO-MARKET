@@ -5,8 +5,9 @@ import loding from "../assets/loading-spinner.gif"
 
 
 const CenterImg = styled.img`
+  position: absolute;  
+  left:40%;
   width:240px;
-  margin:0 auto;
 
 `
 

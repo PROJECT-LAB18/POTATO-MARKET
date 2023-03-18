@@ -82,7 +82,6 @@ const Footer = () => {
 };
 
 const FooterGlobal = styled.footer`
-  width: 64rem;
   border-top: 1px solid ${gray1};
   margin-top: 1rem;
   padding-top: 1rem;

@@ -86,7 +86,7 @@ function WriteForm(){
         <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
         
         <WriteButtonBox>
-          <Button>취소</Button>
+          <Button onClick={()=>{navigate("/HotArticles");}}>취소</Button>
           <Button disabled={click||!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
         </WriteButtonBox>
       </fieldset>

@@ -1,12 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router"
 
+import {doc,getDoc,updateDoc,increment} from "firebase/firestore";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
 import test_img from "../assets/test/핑구 메모.jpg"
+import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
 import SwiperPhoto from "../components/swiper"
 
+import firebase from '@/firebase';
 
 
 
@@ -224,34 +228,73 @@ const Section = styled.section`
  }
  `
 
+ let propsdata = { title : null,
+  side : null, 
+  date : null,
+  price : null,
+  content : null,
+  heart : null,
+  chat : null,
+  check : null,
+  imgsrc : null};
 
-function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc,}){
+ function Detailarticle(){
+   const [render,Setrender] = useState(0);
 
+   const uid = useParams();
+   const db = firebase.firestore();
+   const userRef = doc(db, "UserWrite", uid.id);
+   const userSnap = getDoc(userRef);
+  useEffect(()=>{
+    const newObj = {
+      check : increment(1),
+    };
+    
+    updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
+      propsdata = res.data(); 
+      Setrender(1);
+    })  });
+
+  },[])
+ 
+
+  return (
+    <>
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} price={propsdata.price} side={propsdata.side} title={propsdata.title}  
+       />:<LoadingSpinner/>}
+    </>
+    
+  )
+ }
+
+ function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc,}){
+   
   const [click,setClick] = useState(false);
-
+  
+  
   const clickButton = () => {setClick(click?0:1)}
+  
 
+  
 
   return (
     <Main>
       <Section>
-        <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" onClick={clickButton}>
+        <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" type="button" onClick={clickButton}>
           <SwiperPhoto imgsrc={imgsrc} />       
-          {/* <img src={test_img} alt="상품사진" /> */}
         </button>
         {click?
         <div className="module-swiper">
         <button className="a11yhidden-button" type="button" onClick={clickButton}>
-          <img src={close_button} alt="닫기 버튼" />
+          <img alt="닫기 버튼" src={close_button} />
         </button>
         <SwiperPhoto imgsrc={imgsrc}/>       
-        {/* <img src={test_img} alt="상품사진" /> */}
       </div>
    
         :null}
         
         
-        <a href="#" rel="noopener noreferrer" target="_blank" className="profile">
+        <a className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={test_img} />
             <div>
@@ -294,7 +337,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
       <Section>
         <div className="best-product-group">
           <h2>당근마켓 인기중고</h2>
-          <a href="#" rel="noopener noreferrer" target="_blank">더 구경하기</a>
+          <a href="naver.com" rel="noopener noreferrer" target="_blank">더 구경하기</a>
         </div>
 
 
@@ -328,4 +371,4 @@ Productdetail.defaultProps={
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"]
 }
-export default Productdetail;
+export default Detailarticle;

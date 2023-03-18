@@ -1,13 +1,16 @@
+import { Link } from 'react-router-dom';
+
 import styled from "styled-components";
 
-import test_image from "../assets/test/핑구 메모.jpg"
 
 const Div = styled.a`
+& .product{
   display:inline-block;
   width:201px;
   text-decoration:none;
   color:black;
   cursor:pointer;
+}
 `
 const Section = styled.div`
    
@@ -17,7 +20,7 @@ const Section = styled.div`
 `
 const Imagediv = styled.div`
 margin:0;
-  & a{
+  & img{
     display:block;
     border-radius: 12px;
     width:201px;
@@ -34,10 +37,13 @@ const SubList = styled.div`
   font-size: 12px;
   color: #868E96;
 }
-& span:first-child::after{
+& span::after{
   content: '•';
   margin : 0 4px;
   
+}
+& span:last-child::after{
+  content:'';
 }
 `
 
@@ -63,25 +69,31 @@ font-size: 13px;
 margin-top: 5px;
 `
 
-function Product({title,price,address,heart,chat,imgsrc}){
+function Product({title,price,address,heart,chat,imgsrc,id,check}){
 
   return(
-    <Div className="product" href="#" target="_blank" rel="noopener noreferrer">     
-      <Imagediv>
-        
-        <a href="naver.com" target="_blank" rel="noopener noreferrer">
-          <Image alt="상품 자세히 보기" src={imgsrc[0]} />
-        </a>       
-      </Imagediv>
-      <Section>
-        <H2>{title}</H2>
-        <PriceSpan>{price}원</PriceSpan>
-        <AddressSpan>{address}</AddressSpan>
-      </Section>
-      <SubList>
-        <span>관심 {heart}</span>
-        <span>채팅 {chat}</span>
-      </SubList>
+    <Div>
+      <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer"> 
+
+        <Imagediv>
+          
+          <div>
+
+            <Image alt="상품 자세히 보기" src={imgsrc[0]} />
+          </div>
+              
+        </Imagediv>
+        <Section>
+          <H2>{title}</H2>
+          <PriceSpan>{price}원</PriceSpan>
+          <AddressSpan>{address}</AddressSpan>
+        </Section>
+        <SubList>
+          <span>조회 {check}</span>
+          <span>관심 {heart}</span>
+          <span>채팅 {chat}</span>
+        </SubList>
+      </Link>
     </Div>
   )
 }
