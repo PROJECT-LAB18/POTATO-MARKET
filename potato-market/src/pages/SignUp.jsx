@@ -84,11 +84,7 @@ function SignUp() {
     // location: "",
   });
 
-  // const phoneNumberInput = useRef(null);
-  // const emailInput = useRef(null);
-  // const passwordInput = useRef(null);
-  // const confirmPasswordInput = useRef(null);
-  // const nicknameInput = useRef(null);
+
   
   /**
    * disabled 조건
@@ -101,6 +97,9 @@ function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
+    const db = firebase.firestore();
+    // const currentUserUid = firebase.auth().currentUser.uid;
+    // const usersRef = firebase.db().collection("users");
     
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
@@ -111,29 +110,30 @@ function SignUp() {
       return
     }
     
-    
-    const firestore = firebase.firestore();
     //파이어스토어에서 user컨렉션에 nickname쿼리로 찾기 
-    const sameNickName = firestore.collection("users").where("nickname", "==", formState.nickname);
-    sameNickName.get().then((querySnapshot) => {
-      if (querySnapshot.size > 0) {
-        alert("이미 사용 중인 닉네임입니다.");
-        return
-      }
-        firebase.auth().createUserWithEmailAndPassword(formState.email, formState.password)
+    // usersRef.where("uid","==",currentUserUid).get().then((querySnapshot)=>{
+    //   querySnapshot.forEach((doc)=>{
+    //     const nickname =doc.data().nickname;
+    //     if(nickname ===formState.nickname){
+    //       alert("중복된 닉네임 입니다.")
+    //       return
+    //     }
+    //   })
+    // })
+
+   firebase.auth().createUserWithEmailAndPassword(formState.email, formState.password)
           .then((userCredential) => {
-            firestore.collection("users").doc(userCredential.user.uid).set({
+          db.collection("users").doc(userCredential.user.uid).set({
               email: formState.email,
               phoneNumber: formState.phoneNumber,
               nickname: formState.nickname,
-            });
+              
+          });
             navigate(-1);
           })
           .catch((error) => {
             setError(error.message);
           });
-      
-    });
   };
 
   const handleInputChange = (e) => {
@@ -142,24 +142,6 @@ function SignUp() {
       [e.target.name]: e.target.value,
     }));
   };
-
-
-  // const handleButtonClick = (e) => {
-  //   e.preventDefault();
-  //   if (!formState.phoneNumber) {
-  //     phoneNumberInput.current.focus();
-  //   } else if (!formState.email) {
-  //     emailInput.current.focus();
-  //   } else if (!formState.password) {
-  //     passwordInput.current.focus();
-  //   } else if (!formState.confirmPassword) {
-  //     confirmPasswordInput.current.focus();
-  //   } else if (!formState.nickname) {
-  //     nicknameInput.current.focus();
-  //   } else {
-  //     모든 조건 만족... 필요없나? 
-  //   }
-  // };
 
 
 
@@ -215,7 +197,7 @@ function SignUp() {
       if (currentUser) {
         const db = firebase.firestore();
         const userDocRef = db.collection("users").doc(currentUser.uid);
-        userDocRef.set({
+        userDocRef.add({
           Agree: "무료배송, 할인쿠폰 등 혜택/정보 수신 동의"
         }, { merge: true }) //문서를 합칠려면 merge 
         .catch((error) => {
