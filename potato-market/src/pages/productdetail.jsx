@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
-import {doc,collection,getDoc,updateDoc,increment,onSnapshot} from "firebase/firestore";
+import {doc, getDoc, updateDoc, increment, onSnapshot} from "firebase/firestore";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
@@ -12,20 +12,18 @@ import SwiperPhoto from "../components/swiper"
 
 import firebase from '@/firebase';
 
-let propsdata = { 
-  title : null,
-  side : null, 
-  date : null,
-  price : null,
-  content : null,
-  heart : null,
-  chat : null,
-  check : null,
-  imgsrc : null
-};
-
-
 function Detailarticle(){
+  const [propsdata, setPropsdata] = useState({
+    title : null,
+    side : null, 
+    date : null,
+    price : null,
+    content : null,
+    heart : null,
+    chat : null,
+    check : null,
+    imgsrc : null
+  })
   const db = firebase.firestore();
   const uid = useParams();
   const [render,Setrender] = useState(0);
@@ -36,12 +34,12 @@ function Detailarticle(){
     const newObj = {
       check : increment(1),
     };
-    
+
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
-      propsdata = res.data(); 
+      setPropsdata(res.data()); 
       Setrender(1);
     })});
-  },[])
+  }, [uid])
 
   return (
     <>
@@ -55,10 +53,11 @@ const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
 function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc}){
-  const [click,setClick] = useState(false);
-  const clickButton = () => {setClick(click?0:1)}
+  const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [heartArr, setHeart] = useState([]);
+
+  const clickButton = () => {setClick(click?0:1)}
   
   useEffect(()=>{
     onSnapshot(q,(snapshot)=>{
@@ -80,6 +79,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
         <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" type="button" onClick={clickButton}>
           <SwiperPhoto imgsrc={imgsrc} />       
         </button>
+
         {
           click ?
           <div className="module-swiper">
@@ -139,7 +139,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
 
         <div className="best-product">
         {render?heartArr.map(({content,title,price,side,imgsrc,id,heart,check},index)=>(
-          <Product id={id} check={check} key={index} heart={heart} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
+          <Product key={index} check={check}content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
         )):<LoadingSpinner className="loading"/>}
         </div>
       </Section>
@@ -174,7 +174,6 @@ const CustomButton = styled.button`
   border-radius: 4px;
   font-weight: 700;
   font-size: 16px;
-
   &:hover{
   border: 1px solid #FFFFFF;
   background: #D1D3D8;
@@ -189,6 +188,8 @@ const Main = styled.main`
   flex-flow:column;
   align-items: center;
   width:100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
 `
 const Section = styled.section`
   width:677px;
@@ -254,14 +255,16 @@ const Section = styled.section`
 
   & .best-product{
     display:inline-block;
+    margin-top: 10px;
   }
   & .best-product .product{
-    margin:20px 11px;
+    margin:30px 11px;
   }
   & .article{
     position:relative;
     padding: 36px 0;
     border-bottom: 1px solid #E9ECEF;
+    border-top: 1px solid #E9ECEF;
   }
   & .title{
     font-weight: 600;

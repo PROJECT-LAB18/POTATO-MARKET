@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import {onSnapshot} from "firebase/firestore"
 import styled from 'styled-components';
 
 import Filter from "./Filter";
@@ -7,7 +8,7 @@ import Filter from "./Filter";
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 import Product from "@/components/product";
-import {query , collection , onSnapshot , getDocs } from "firebase/firestore"
+
 import firebase  from '@/firebase';
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
@@ -39,12 +40,11 @@ function HotArticles(){
       }
       newArr.push(newObj);
       newArr.sort((b, a) => a.date - b.date);
-      Setrender(1);   
-  
-      console.log(newArr)
+      Setrender(1);
+      // console.log(newArr);
     })
   })
-},[])  
+},[])
   
   return(
     <main className="wrapper">
@@ -53,8 +53,8 @@ function HotArticles(){
       <Filter />
       <ProductList >
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
-        {render?newArr.map(({content,title,price,side,imgsrc,id,check},index)=>(
-          <Product id={id} check={check} key={index} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
+        {render?newArr.map(({content,title,price,side,imgsrc,id,check,heart},index)=>(
+          <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
         )):<LoadingSpinner className="loading"/>}
       </ProductList>
     </main>
@@ -62,7 +62,7 @@ function HotArticles(){
 }
 
 const ProductList = styled.section`
-  margin: 28px auto;
+  margin: 35px auto;
   display: grid;
   gap: 55px;
   grid-template-columns: repeat(4, 1fr);
@@ -72,11 +72,9 @@ const ProductList = styled.section`
     position: absolute;
   }
   @media (max-width: 767px){
-
     grid-template-columns: repeat(2, 1fr);
   }
   @media (min-width:768px) and (max-width: 1023px){
-
     grid-template-columns: repeat(3, 1fr);
   }
 `
