@@ -121,9 +121,10 @@ const SignIn = () => {
       </LoginForm>
       {showPopup &&
         <Popup
-          setShowPopup={setShowPopup}
-          showPopup={showPopup}
           text={"아이디, 비밀번호를 확인해주세요."}
+          onClose={() => {
+            setShowPopup(false);
+          }}
         />
       }
     </Section >

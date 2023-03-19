@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import FormInput, { FormInputLocation, FormInputImage } from '../components/FormInput';
 import FormTerms from '../components/FormTerms';
+import Popup from '../components/Popup';
 import Postcode from '../components/Postcode';
 import FormButton from '../styles/FormButton';
 
@@ -18,6 +19,8 @@ function SignUp() {
 
   // 회원가입 가능 상태 조절 예정
   const [confirmState, setConfirmState] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
 
   const [formState, setFormState] = useState({
     phoneNumber: "",
@@ -48,7 +51,7 @@ function SignUp() {
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
       });
-      navigate(-1);
+      setShowPopup(true);
     } catch (error) {
       setError(error.message);
     }
@@ -203,6 +206,15 @@ function SignUp() {
           >가입하기</FormButton>
         </fieldset>
       </SignUpForm>
+      {showPopup &&
+        <Popup
+          text={"회원가입에 성공했습니다! 어서오세요!"}
+          onClose={() => {
+            setShowPopup(false);
+            navigate(-1);
+          }}
+        />
+      }
     </Section >
   )
 };
