@@ -12,60 +12,6 @@ import FormButton from '../styles/FormButton';
 import { gray3, gray8 ,primaryColor} from '../styles/Global';
 
 import firebase from '@/firebase';
-const Section = styled.section`
-  padding: 80px 0 40px;
-  h2 {
-    line-height: 36px;
-    font-size: 32px;
-    font-weight: 500;
-    text-align: center;
-  }
-`;
-
-const SignUpForm = styled.form`
-  position: relative;
-  width: 640px;
-  margin: 44px auto;
-  .form-list {
-    display: block;
-    border-top: 2px solid black;
-  }
-  .form-item {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 84px;
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-  .term-list {
-    display: flex;
-    gap: 8px;
-    padding: 12px 0 20px;
-    margin-bottom: 40px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid ${gray8};
-  }
-  .term-title {
-    flex-shrink: 0;
-    width: 139px;
-    font-weight: 700;
-    line-height: 32px;
-  }
-  .term-check {
-    width: 100%;
-  }
-  @media screen and (max-width: 700px) {
-    width: calc(100% - 60px);
-    margin: 44px 30px;
-    .form-item {
-      flex-direction: column;
-    }
-    .term-list {
-      flex-direction: column;
-    }
-  }
-`;
 
 function SignUp() {
 
@@ -93,9 +39,7 @@ function SignUp() {
 
   const [error, setError] = useState("");
 
-
-
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     const db = firebase.firestore();
     // const currentUserUid = firebase.auth().currentUser.uid;
@@ -109,31 +53,20 @@ function SignUp() {
       alert("필수 이용 약관에 동의하셔야합니다.")
       return
     }
-    
-    //파이어스토어에서 user컨렉션에 nickname쿼리로 찾기 
-    // usersRef.where("uid","==",currentUserUid).get().then((querySnapshot)=>{
-    //   querySnapshot.forEach((doc)=>{
-    //     const nickname =doc.data().nickname;
-    //     if(nickname ===formState.nickname){
-    //       alert("중복된 닉네임 입니다.")
-    //       return
-    //     }
-    //   })
-    // })
-
-   firebase.auth().createUserWithEmailAndPassword(formState.email, formState.password)
-          .then((userCredential) => {
-          db.collection("users").doc(userCredential.user.uid).set({
-              email: formState.email,
-              phoneNumber: formState.phoneNumber,
-              nickname: formState.nickname,
-              
-          });
-            navigate(-1);
-          })
-          .catch((error) => {
-            setError(error.message);
-          });
+    try {
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(formState.email, formState.password);
+      const db = firebase.firestore();
+      await db.collection("users").doc(userCredential.user.uid).set({
+        email: formState.email,
+        phoneNumber: formState.phoneNumber,
+        nickname: formState.nickname,
+      });
+      navigate(-1);
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -142,7 +75,6 @@ function SignUp() {
       [e.target.name]: e.target.value,
     }));
   };
-
 
 
   // 전체 선택 상태  
@@ -323,5 +255,60 @@ function SignUp() {
     </Section >
   )
 };
+
+const Section = styled.section`
+  padding: 80px 0 40px;
+  h2 {
+    line-height: 36px;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+  }
+`;
+
+const SignUpForm = styled.form`
+  position: relative;
+  width: 640px;
+  margin: 44px auto;
+  .form-list {
+    display: block;
+    border-top: 2px solid black;
+  }
+  .form-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 84px;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .term-list {
+    display: flex;
+    gap: 8px;
+    padding: 12px 0 20px;
+    margin-bottom: 40px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid ${gray8};
+  }
+  .term-title {
+    flex-shrink: 0;
+    width: 139px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  .term-check {
+    width: 100%;
+  }
+  @media screen and (max-width: 700px) {
+    width: calc(100% - 60px);
+    margin: 44px 30px;
+    .form-item {
+      flex-direction: column;
+    }
+    .term-list {
+      flex-direction: column;
+    }
+  }
+`;
 
 export default SignUp;
