@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { usersRef } from '../firebase';
 
 import styled from 'styled-components';
 
@@ -27,6 +28,7 @@ function SignUp() {
 
   // 회원가입 가능 상태 조절 예정
   const [confirmState, setConfirmState] = useState(false);
+
 
   const [formState, setFormState] = useState({
     phoneNumber: "",
@@ -62,13 +64,19 @@ function SignUp() {
       alert("필수 이용 약관에 동의하셔야합니다.")
       return
     }
+
+    const nicknameSnapshot = await usersRef.where("nickname", "==", formState.nickname).get();
+    if (!nicknameSnapshot.empty) {
+      alert('중복된 닉네임 입니다.')
+      return;
+    }
+
+
     try {
       const userCredential = await firebase
         .auth()
         .createUserWithEmailAndPassword(formState.email, formState.password);
       const db = firebase.firestore();
-
-
       await db.collection("users").doc(userCredential.user.uid).set({
         email: formState.email,
         phoneNumber: formState.phoneNumber,
@@ -190,7 +198,7 @@ function SignUp() {
                 placeholder={"비밀번호를 입력해주세요"}
                 text={"비밀번호"}
                 type={"password"}
-                valid={"최소 8자 이상 입력"}
+                valid={formState.password.length < 8 ? "최소 8자 이상 입력" : ""}
                 value={formState.password}
                 onChange={handleInputChange}
 
@@ -203,9 +211,10 @@ function SignUp() {
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
                 type={"password"}
-                // valid={"동일한 비밀번호를 입력"}
+                valid={"동일한 비밀번호를 입력"}
                 value={formState.confirmPassword}
                 onChange={handleInputChange}
+
 
               />
             </li>
