@@ -14,8 +14,16 @@ import { gray3, gray8 ,primaryColor} from '../styles/Global';
 import firebase from '@/firebase';
 
 function SignUp() {
-
+  
   const navigate = useNavigate();
+  // 전체 선택 상태  
+  const [isCheckedAll, setIsCheckedAll] = useState(false);
+  
+  //약관 보기 개별 선택 상태
+  const [isCheckedOne, setIsCheckedOne] = useState(false);
+  const [isCheckedTwo, setIsCheckedTwo] = useState(false);
+  const [isCheckedThree, setIsCheckedThree] = useState(false);
+  const [isCheckedFour, setIsCheckedFour] = useState(false);
 
   // 회원가입 가능 상태 조절 예정
   const [confirmState, setConfirmState] = useState(false);
@@ -26,6 +34,8 @@ function SignUp() {
     password: "",
     confirmPassword: "",
     nickname: "",
+    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함":"",
+
     // profileImage: '',
     // location: "",
   });
@@ -41,7 +51,6 @@ function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const db = firebase.firestore();
     // const currentUserUid = firebase.auth().currentUser.uid;
     // const usersRef = firebase.db().collection("users");
     
@@ -58,10 +67,14 @@ function SignUp() {
         .auth()
         .createUserWithEmailAndPassword(formState.email, formState.password);
       const db = firebase.firestore();
+
+
       await db.collection("users").doc(userCredential.user.uid).set({
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
+        agree: isCheckedThree,
+
       });
       navigate(-1);
     } catch (error) {
@@ -77,14 +90,6 @@ function SignUp() {
   };
 
 
-  // 전체 선택 상태  
-  const [isCheckedAll, setIsCheckedAll] = useState(false);
-  
-  //약관 보기 개별 선택 상태
-  const [isCheckedOne, setIsCheckedOne] = useState(false);
-  const [isCheckedTwo, setIsCheckedTwo] = useState(false);
-  const [isCheckedThree, setIsCheckedThree] = useState(false);
-  const [isCheckedFour, setIsCheckedFour] = useState(false);
 
 
   const handleCheckboxChangeAll = (event) => {
@@ -122,22 +127,21 @@ function SignUp() {
     setIsCheckedThree(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
-    } else {
-  
-      const currentUser = firebase.auth().currentUser;
-  
-      if (currentUser) {
-        const db = firebase.firestore();
-        const userDocRef = db.collection("users").doc(currentUser.uid);
-        userDocRef.add({
-          Agree: "무료배송, 할인쿠폰 등 혜택/정보 수신 동의"
-        }, { merge: true }) //문서를 합칠려면 merge 
+    }
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+      const db = firebase.firestore();
+      const userDocRef = db.collection("users").doc(currentUser.uid);
+      userDocRef.update({
+        agree: event.target.checked
+      }, { merge: true })
         .catch((error) => {
-          console.error("Error", error);
+          setError(error.message);
         });
-      }
     }
   };
+  
+  
   const handleCheckboxChangeFour = (event) => {
     setIsCheckedFour(event.target.checked);
     if (!event.target.checked) {
@@ -234,7 +238,7 @@ function SignUp() {
               <FormTerms all checked={isCheckedAll} onChange={handleCheckboxChangeAll}/>            
               <FormTerms id={"term1"} text={"이용약관 동의 (필수)"}   checked={isCheckedOne} onChange={handleCheckboxChangeOne}/>
               <FormTerms id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"}   checked={isCheckedTwo} onChange={handleCheckboxChangeTwo}/>
-              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}  checked={isCheckedThree} onChange={handleCheckboxChangeThree}/>
+              <FormTerms id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}  value={formState.agree} checked={isCheckedThree} onChange={handleCheckboxChangeThree}/>
               <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  checked={isCheckedFour} onChange={handleCheckboxChangeFour}/>
             </div>
           </div>
