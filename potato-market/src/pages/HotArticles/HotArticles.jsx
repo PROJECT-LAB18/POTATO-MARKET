@@ -55,8 +55,7 @@ function HotArticles(){
         <h3 className="a11yHidden">중고거래 매물리스트</h3>
         {render?newArr.map(({content,title,price,side,imgsrc,id,check},index)=>(
           <Product id={id} check={check} key={index} content={content} imgsrc={imgsrc} price={price} side={side} title={title} />
-        )):<LoadingSpinner className="l
-        oading"/>}
+        )):<LoadingSpinner className="loading"/>}
       </ProductList>
     </main>
   )
