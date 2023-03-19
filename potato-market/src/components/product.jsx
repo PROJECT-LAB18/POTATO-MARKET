@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled from "styled-components";
 
+import moneyUnit from "@/utils/moneyUnit";
 
 const Div = styled.a`
 & .product{
@@ -13,10 +14,13 @@ const Div = styled.a`
 }
 `
 const Section = styled.div`
-   
+  margin-bottom: 7px;
   width:201px;
   display:flex;
   flex-flow: column;
+  & > *{
+  margin-bottom: 4px;
+  }
 `
 const Imagediv = styled.div`
 margin:0;
@@ -70,22 +74,17 @@ margin-top: 5px;
 `
 
 function Product({title,price,address,heart,chat,imgsrc,id,check}){
-
   return(
     <Div>
-      <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer"> 
-
+      <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer">
         <Imagediv>
-          
           <div>
-
             <Image alt="상품 자세히 보기" src={imgsrc[0]} />
-          </div>
-              
+          </div>              
         </Imagediv>
         <Section>
           <H2>{title}</H2>
-          <PriceSpan>{price}원</PriceSpan>
+          <PriceSpan>{moneyUnit(price)}원</PriceSpan>
           <AddressSpan>{address}</AddressSpan>
         </Section>
         <SubList>

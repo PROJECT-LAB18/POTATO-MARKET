@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 export const ContainerGlobalStyle = createGlobalStyle`
   .wrapper{
     width: 980px;
-    margin: 80px auto;
+    margin: 60px auto;
     @media (max-width: 767px){
       width: 480px
     }

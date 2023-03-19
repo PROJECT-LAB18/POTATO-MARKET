@@ -11,6 +11,7 @@ import Product from "../components/product"
 import SwiperPhoto from "../components/swiper"
 
 import firebase from '@/firebase';
+import moneyUnit from "@/utils/moneyUnit";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -116,7 +117,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
             <span>{date}일 전</span>
           </div>
           <p className="price">
-            {price}원
+            {moneyUnit(price)}원
           </p>
           <p className="content">
             {content}
