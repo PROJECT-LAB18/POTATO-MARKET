@@ -28,7 +28,6 @@ function SignUp() {
     password: "",
     confirmPassword: "",
     nickname: "",
-    // profileImage: '',
     // location: "",
   });
 
@@ -45,11 +44,19 @@ function SignUp() {
       const userCredential = await firebase
         .auth()
         .createUserWithEmailAndPassword(formState.email, formState.password);
+
       const db = firebase.firestore();
+      const storage = firebase.storage();
+      const file = document.querySelector('#profileImage').files[0];
+      const uploadRef = storage.ref().child('profileImages/' + file.name);
+      await uploadRef.put(file);
+      const profileImageUrl = await uploadRef.getDownloadURL();
+
       await db.collection("users").doc(userCredential.user.uid).set({
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
+        profileImage: profileImageUrl,
       });
       setShowPopup(true);
     } catch (error) {
