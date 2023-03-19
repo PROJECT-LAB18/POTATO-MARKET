@@ -12,62 +12,6 @@ import { gray8 } from '../styles/Global';
 
 import firebase from '@/firebase';
 
-
-const Section = styled.section`
-  padding: 80px 0 40px;
-  h2 {
-    line-height: 36px;
-    font-size: 32px;
-    font-weight: 500;
-    text-align: center;
-  }
-`;
-
-const SignUpForm = styled.form`
-  position: relative;
-  width: 640px;
-  margin: 44px auto;
-  .form-list {
-    display: block;
-    border-top: 2px solid black;
-  }
-  .form-item {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    min-height: 84px;
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-  .term-list {
-    display: flex;
-    gap: 8px;
-    padding: 12px 0 20px;
-    margin-bottom: 40px;
-    border-top: 1px solid black;
-    border-bottom: 1px solid ${gray8};
-  }
-  .term-title {
-    flex-shrink: 0;
-    width: 139px;
-    font-weight: 700;
-    line-height: 32px;
-  }
-  .term-check {
-    width: 100%;
-  }
-  @media screen and (max-width: 700px) {
-    width: calc(100% - 60px);
-    margin: 44px 30px;
-    .form-item {
-      flex-direction: column;
-    }
-    .term-list {
-      flex-direction: column;
-    }
-  }
-`;
-
 function SignUp() {
 
   const navigate = useNavigate();
@@ -87,34 +31,28 @@ function SignUp() {
 
   const [error, setError] = useState("");
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
     }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(formState.email, formState.password)
-      .then((userCredential) => {
-        const db = firebase.firestore();
-        db.collection("users").doc(userCredential.user.uid).set({
-          email: formState.email,
-          phoneNumber: formState.phoneNumber,
-          nickname: formState.nickname,
-          // profileImage: formState.profileImage,
-          // loaction: formState.loaction
-        });
-        navigate(-1);
-      })
-      .catch((error) => {
-        setError(error.message);
+
+    try {
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(formState.email, formState.password);
+      const db = firebase.firestore();
+      await db.collection("users").doc(userCredential.user.uid).set({
+        email: formState.email,
+        phoneNumber: formState.phoneNumber,
+        nickname: formState.nickname,
       });
+      navigate(-1);
+    } catch (error) {
+      setError(error.message);
+    }
   };
-
-
-
-
 
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
@@ -123,12 +61,11 @@ function SignUp() {
     }));
   };
 
-
   const data = [
-    {id: 1, title: '선택 1'},
-    {id: 2, title: '선택 2'},
-    {id: 3, title: '선택 3'},
-    {id: 4, title: '선택 4'}
+    { id: 1, title: '선택 1' },
+    { id: 2, title: '선택 2' },
+    { id: 3, title: '선택 3' },
+    { id: 4, title: '선택 4' }
   ];
 
   // 체크된 아이템을 담을 배열
@@ -147,7 +84,7 @@ function SignUp() {
 
   // 체크박스 전체 선택
   const handleAllCheck = (checked) => {
-    if(checked) {
+    if (checked) {
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
       const idArray = [];
       data.forEach((el) => idArray.push(el.id));
@@ -243,22 +180,21 @@ function SignUp() {
           <div className="term-list">
             <span className="term-title">이용약관동의</span>
             <div className="term-check">
-    <FormTerms
-      all
-      checked={checkItems.length === data.length}
-      onCheck={(checked) => handleAllCheck(checked)}
-    />
-    {data.map((item) => (
-      <FormTerms
-        key={item.id}
-        id={item.id}
-        text={item.title}
-        checked={checkItems.includes(item.id)}
-        onCheck={(checked) => handleSingleCheck(checked, item.id)}
-      />
-    ))}
-  </div>
-
+              <FormTerms
+                all
+                checked={checkItems.length === data.length}
+                onCheck={(checked) => handleAllCheck(checked)}
+              />
+              {data.map((item) => (
+                <FormTerms
+                  key={item.id}
+                  checked={checkItems.includes(item.id)}
+                  id={item.id}
+                  text={item.title}
+                  onCheck={(checked) => handleSingleCheck(checked, item.id)}
+                />
+              ))}
+            </div>
           </div>
           <FormButton
             primary
@@ -270,5 +206,60 @@ function SignUp() {
     </Section >
   )
 };
+
+const Section = styled.section`
+  padding: 80px 0 40px;
+  h2 {
+    line-height: 36px;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+  }
+`;
+
+const SignUpForm = styled.form`
+  position: relative;
+  width: 640px;
+  margin: 44px auto;
+  .form-list {
+    display: block;
+    border-top: 2px solid black;
+  }
+  .form-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 84px;
+    padding: 20px 0;
+    box-sizing: border-box;
+  }
+  .term-list {
+    display: flex;
+    gap: 8px;
+    padding: 12px 0 20px;
+    margin-bottom: 40px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid ${gray8};
+  }
+  .term-title {
+    flex-shrink: 0;
+    width: 139px;
+    font-weight: 700;
+    line-height: 32px;
+  }
+  .term-check {
+    width: 100%;
+  }
+  @media screen and (max-width: 700px) {
+    width: calc(100% - 60px);
+    margin: 44px 30px;
+    .form-item {
+      flex-direction: column;
+    }
+    .term-list {
+      flex-direction: column;
+    }
+  }
+`;
 
 export default SignUp;
