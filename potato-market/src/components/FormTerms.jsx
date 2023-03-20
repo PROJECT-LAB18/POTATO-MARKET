@@ -107,30 +107,46 @@ const DetailTermButton = styled.button`
   }
 `;
 
-const FormTerms = ({ id, text, all }) => {
+const FormTerms = ({ id, text, all, checked, onChange }) => {
+
   return (
     <>
-      {all
-        ?
-        <LabelAll htmlFor="termsAll">
-          <CheckBox id="termsAll" name="termsAll" type="checkbox" />
+      {all ? (
+        <LabelAll htmlFor={id}>
+          <CheckBox id={id} name={id}
+            type="checkbox"
+            checked={checked}
+            onChange={onChange} 
+          />
           <i></i>
-          <TextAll aria-labelledby="termsAll">전체 동의합니다.
-            <span>선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</span>
+          <TextAll aria-labelledby={id}>
+            전체 동의합니다.
+            <span>
+              선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할
+              수 있습니다.
+            </span>
           </TextAll>
         </LabelAll>
-        :
+      ) : (
         <Terms>
           <Label htmlFor={id}>
-            <CheckBox id={id} name={id} type="checkbox" />
+            <CheckBox
+              id={id}
+              name={id}
+              type="checkbox"
+              checked={checked}
+              onChange={onChange} 
+            />
             <i></i>
             <Text aria-labelledby={id}>{text}</Text>
           </Label>
           <DetailTermButton type="button">약관보기</DetailTermButton>
         </Terms>
-      }
+      )}
     </>
-  )
+  );
 };
 
 export default FormTerms;
+
+

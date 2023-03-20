@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import "firebase/compat/storage";
 
 // const {
 //   VITE_API_KEY,
@@ -29,5 +30,8 @@ const firebaseConfig = {
   measurementId: "G-G84D0KJ1XZ"
 };
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const usersRef = db.collection('users');
 
+export { firebase, db, usersRef };
 export default firebase;
