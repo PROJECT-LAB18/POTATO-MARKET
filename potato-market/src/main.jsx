@@ -12,6 +12,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
 import WriteArticle from './pages/WriteArticle';
+import { RecoilRoot } from "recoil";
 
 // import {
 //   RecoilRoot,
@@ -121,7 +122,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <>
+  <RecoilRoot>
     <RouterProvider router={router} />
-  </>,
+  </RecoilRoot>,
 )

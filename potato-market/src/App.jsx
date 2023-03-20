@@ -7,8 +7,12 @@ import LogoutButton from './components/LogoutButton';
 import firebase from './firebase';
 import GlobalStyle from './styles/Global';
 
-function App() {
+import { useRecoilState } from "recoil";
+import { userId } from "@/stores/userAuth.js"
 
+function App() {
+  const [test,setTest] = useRecoilState(userId);
+  
   // 로그인 상태 체크 (로그인/로그아웃/새로고침 시 실행)
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -19,25 +23,25 @@ function App() {
         //   console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
         // })
         let uid = user.uid;
-        console.log(`로그인상태\nUID : ${uid}`);
+        // console.log(`로그인상태\nUID : ${uid}`);
+        setTest(uid);
+        // console.log(test);
       } else {
         console.log('로그아웃상태');
       }
     });
-  }, []);
+  }, [test]);
 
   return (
-    <React.Fragment>
+    <>
       <GlobalStyle />
-
       <div className="App">
         <Header />
         <LogoutButton />
         <Outlet />
         <Footer />
       </div>
-
-    </React.Fragment>
+    </>
   );
 }
 export default App;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState,useCallback } from "react"
 import { useParams } from "react-router"
 
 import {doc, getDoc, updateDoc, increment, onSnapshot} from "firebase/firestore";
@@ -23,7 +23,8 @@ function Detailarticle(){
     heart : null,
     chat : null,
     check : null,
-    imgsrc : null
+    imgsrc : null,
+    userId : null,
   })
   const db = firebase.firestore();
   const uid = useParams();
@@ -31,16 +32,24 @@ function Detailarticle(){
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
 
+  const test = useCallback(()=>{
+      console.log(1234)
+  },[render])
+
   useEffect(()=>{
     const newObj = {
       check : increment(1),
     };
-
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
-      setPropsdata(res.data()); 
+      setPropsdata(res.data()) ;
       Setrender(1);
+      // const db = firebase.firestore();
+      // const userInfoRef = db.collection("users").doc(propsdata.userId);
+      // userInfoRef.get().then((doc) => {
+      //   console.log(`로그인상태\nUID : ${propsdata.userId} \n닉네임 : ${doc.data().nickname}`);
+      // })
     })});
-  }, [uid])
+  }, [])
 
   return (
     <>
