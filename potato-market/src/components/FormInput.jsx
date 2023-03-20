@@ -23,6 +23,7 @@ const InputBox = styled.div`
   input[type="text"],
   input[type="password"],
   input[type="tel"],
+  input[type="email"],
   input[type="file"]::file-selector-button {
     width: 340px;
     height: 44px;
@@ -53,6 +54,7 @@ const InputBox = styled.div`
     input[type="text"],
     input[type="password"],
     input[type="tel"],
+    input[type="email"],
     input[type="file"]::file-selector-button,
     button {
       width: 100%;
@@ -121,7 +123,7 @@ export const FormInputLocation = ({ process }) => {
   )
 };
 
-const FormInput = ({ id, type, placeholder, text, desc, valid, label, button }) => {
+const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, label, button }) => {
   return (
     <>
       {label
@@ -129,7 +131,7 @@ const FormInput = ({ id, type, placeholder, text, desc, valid, label, button }) 
         : <label className="a11yHidden" htmlFor={id}>{text}</label>
       }
       <InputBox>
-        <input required id={id} name={id} placeholder={placeholder} type={type} />
+        <input id={id} name={id} placeholder={placeholder} type={type} value={value} onChange={onChange} />
         {desc &&
           <DescText>{desc}</DescText>
         }
