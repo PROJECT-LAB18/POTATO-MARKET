@@ -1,15 +1,16 @@
-import { useEffect, useState,useCallback } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 
 import {doc, getDoc, updateDoc, increment, onSnapshot} from "firebase/firestore";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
-import test_img from "../assets/test/핑구 메모.jpg"
+
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
 import SwiperPhoto from "../components/swiper"
 
+import icon_temp4 from "@/assets/icon_temp4.svg"
 import firebase from '@/firebase';
 import moneyUnit from "@/utils/moneyUnit";
 
@@ -25,17 +26,14 @@ function Detailarticle(){
     check : null,
     imgsrc : null,
     userId : null,
+    nickname: null,
+    profileImage: null
   })
   const db = firebase.firestore();
   const uid = useParams();
   const [render,Setrender] = useState(0);
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
-
-  const test = useCallback(()=>{
-      console.log(1234)
-  },[render])
-
   useEffect(()=>{
     const newObj = {
       check : increment(1),
@@ -43,17 +41,12 @@ function Detailarticle(){
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
       setPropsdata(res.data()) ;
       Setrender(1);
-      // const db = firebase.firestore();
-      // const userInfoRef = db.collection("users").doc(propsdata.userId);
-      // userInfoRef.get().then((doc) => {
-      //   console.log(`로그인상태\nUID : ${propsdata.userId} \n닉네임 : ${doc.data().nickname}`);
-      // })
     })});
-  }, [])
+  }, [uid])
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} price={propsdata.price} side={propsdata.side} title={propsdata.title}  
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
@@ -62,7 +55,7 @@ function Detailarticle(){
 const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
-function Productdetail({title,side,nickname,address,temperature,date,price,content,heart,chat,check,imgsrc}){
+function Productdetail({title,side,nickname,profileImage,address,temperature,date,price,content,heart,chat,check,imgsrc}){
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [heartArr, setHeart] = useState([]);
@@ -87,7 +80,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
     <Main>
       <Section>
         <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" type="button" onClick={clickButton}>
-          <SwiperPhoto imgsrc={imgsrc} />       
+          <SwiperPhoto imgsrc={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
         </button>
 
         {
@@ -96,14 +89,14 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
             <button className="a11yhidden-button" type="button" onClick={clickButton}>
               <img alt="닫기 버튼" src={close_button} />
             </button>
-            <SwiperPhoto imgsrc={imgsrc}/>       
+            <SwiperPhoto imgsrc={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"}/>
           </div>
           : null
         }        
         
         <a className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
           <div className="left-profile">
-            <img alt="프로필 사진" className="profile-image" src={test_img} />
+            <img alt="프로필 사진" className="profile-image" src={profileImage} />
             <div>
               <span className="nickname">{nickname}</span>
               <span className="address">{address}</span>
@@ -114,7 +107,7 @@ function Productdetail({title,side,nickname,address,temperature,date,price,conte
               <span className="temperature">{temperature} ℃</span>
               <span className="thermometer"></span>
             </div>
-            <img alt="당근 온도 이모티콘" className="temperature-image" src={test_img} />
+            <img alt="당근 온도 이모티콘" className="temperature-image" src={icon_temp4} />
           </div>
         </a>
         <div className="article">

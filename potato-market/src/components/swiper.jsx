@@ -9,16 +9,19 @@ export default function SwiperPhoto({imgsrc}){
     <Swiper
       modules={[Pagination]}
       pagination={{ clickable: true }}
-      spaceBetween={50}
       slidesPerView={1} 
+      spaceBetween={50}
       onSlideChange={() => ('slide change')}
       onSwiper={(swiper) => (swiper)}
     >
-      {imgsrc.map((item)=>(
+      {imgsrc[0]!=='h'?imgsrc.map((item)=>(
         <SwiperSlide key={item}>
           <img alt="이미지 사진" src={item} />
         </SwiperSlide>
-      ))}
+      )):
+      <SwiperSlide>
+          <img alt="이미지 사진" src={imgsrc} />
+      </SwiperSlide>}
       
     </Swiper>
   );
