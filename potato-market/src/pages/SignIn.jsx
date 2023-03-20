@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import FormInput from '../components/FormInput';
+import Popup from '../components/Popup';
 import FormButton from '../styles/FormButton';
+
+import firebase from '@/firebase';
 
 const Section = styled.section`
   padding: 80px 0 70px;
@@ -43,18 +47,68 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  const [formState, setFormState] = useState({
+    // phoneNumber: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    try {
+      const userCredential = await auth.signInWithEmailAndPassword(formState.email, formState.password);
+      const usersRef = db.collection('users');
+      const q = usersRef.where('email', '==', formState.email);
+      const querySnapshot = await q.get();
+      if (querySnapshot.size > 0) {
+        navigate(-1);
+      }
+    } catch (error) {
+      setShowPopup(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   return (
     <Section>
       <h2>로그인</h2>
-      <LoginForm action="" id="loginForm" method="POST" target="">
+      <LoginForm id="loginForm" onSubmit={handleSignIn}>
         <fieldset>
           <legend>회원 로그인 폼</legend>
           <ul className="form-list">
+            {/* <li>
+              <FormInput id={"userPhoneNumber"} placeholder={"핸드폰 번호를 입력해주세요"} text={"핸드폰 번호"} type={"tel"} />
+            </li> */}
             <li>
-              <FormInput id={"userId"} placeholder={"아이디를 입력해주세요"} text={"아이디"} type={"text"} />
+              <FormInput
+                id={"email"}
+                placeholder={"이메일을 입력해주세요"}
+                text={"이메일"}
+                type={"email"}
+                value={formState.email}
+                onChange={handleInputChange}
+              />
             </li>
             <li>
-              <FormInput id={"userPW"} placeholder={"비밀번호를 입력해주세요"} text={"비밀번호"} type={"password"} />
+              <FormInput
+                id={"password"}
+                placeholder={"비밀번호를 입력해주세요"}
+                text={"비밀번호"}
+                type={"password"}
+                value={formState.password}
+                onChange={handleInputChange}
+              />
             </li>
           </ul>
           <ul className="account-find">
@@ -65,6 +119,13 @@ const SignIn = () => {
           <FormButton as={"a"} onClick={() => navigate("/signup")}>회원가입</FormButton>
         </fieldset>
       </LoginForm>
+      {showPopup &&
+        <Popup
+          setShowPopup={setShowPopup}
+          showPopup={showPopup}
+          text={"아이디, 비밀번호를 확인해주세요."}
+        />
+      }
     </Section >
   )
 };
