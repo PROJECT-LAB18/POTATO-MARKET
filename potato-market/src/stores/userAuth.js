@@ -2,7 +2,7 @@ import { atom } from "recoil"
 
 export const userId = atom({
   key: "userId",
-  default: "비로그인"
+  default: null
 })
 
 export const userInformation = atom({

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
@@ -13,8 +13,9 @@ import { userId, userInformation } from "@/stores/userAuth.js"
 
 function App() {
   const [userUid, setUserUid] = useRecoilState(userId);
-  const [, setUserInfo] = useRecoilState(userInformation);
-  
+  const [userInfo, setUserInfo] = useRecoilState(userInformation);
+  const [lender,setLender] = useState(0);
+
   // 로그인 상태 체크 (로그인/로그아웃/새로고침 시 실행)
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -34,8 +35,10 @@ function App() {
         })
         let uid = user.uid;
         console.log(`로그인상태\nUID : ${uid}`);
+        setLender(1);
       } else {
         console.log('로그아웃상태');
+        setLender(1)
       }
     });
   }, [userUid]);
@@ -46,7 +49,7 @@ function App() {
       <div className="App">
         <Header />
         <LogoutButton />
-        <Outlet />
+        {lender?<Outlet />:null}
         <Footer />
       </div>
     </>
