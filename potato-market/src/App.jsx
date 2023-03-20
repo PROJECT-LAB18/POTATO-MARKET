@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Footer from './components/Footer';
@@ -9,13 +9,17 @@ import GlobalStyle from './styles/Global';
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인상태 저장 예정
-
+  // 로그인 상태 체크 (로그인/로그아웃/새로고침 시 실행)
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        // const db = firebase.firestore();
+        // const userInfoRef = db.collection("users").doc(user.uid);
+        // userInfoRef.get().then((doc) => {
+        //   console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
+        // })
         let uid = user.uid;
-        console.log('로그인상태', uid);
+        console.log(`로그인상태\nUID : ${uid}`);
       } else {
         console.log('로그아웃상태');
       }

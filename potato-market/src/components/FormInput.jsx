@@ -2,6 +2,64 @@ import styled from 'styled-components';
 
 import { gray5, primaryColor } from '../styles/Global';
 
+export const FormInputImage = () => {
+  return (
+    <>
+      <LabelText htmlFor="profileImage">프로필 사진</LabelText>
+      <InputBox>
+        <input accept=".png, .jpg, .jpeg, .svg" id="profileImage" type="file" />
+      </InputBox>
+    </>
+  )
+};
+
+export const FormInputLocation = ({ process }) => {
+  return (
+    <>
+      <LabelText htmlFor="userLocation">주소</LabelText>
+      {process === "search" &&
+        <InputBox>
+          <Button type="button">주소 검색</Button>
+          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
+        </InputBox>
+      }
+      {process === "detail" &&
+        <InputBox>
+          <div className="loca">
+            <input readOnly id="userLocation" name="userLocation" type="text" value="경기도 용인시 기흥구 기흥1로" />
+            <Button type="button">재검색</Button>
+          </div>
+          <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" />
+          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
+        </InputBox>
+      }
+    </>
+  )
+};
+
+const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, label, button }) => {
+  return (
+    <>
+      {label
+        ? <LabelText htmlFor={id}>{text}</LabelText>
+        : <label className="a11yHidden" htmlFor={id}>{text}</label>
+      }
+      <InputBox>
+        <input id={id} name={id} placeholder={placeholder} type={type} value={value} onChange={onChange} />
+        {desc &&
+          <DescText>{desc}</DescText>
+        }
+        {valid &&
+          <VaildNotice>{valid}</VaildNotice>
+        }
+      </InputBox>
+      {button &&
+        <Button type="button">{button}</Button>
+      }
+    </>
+  )
+};
+
 const LabelText = styled.label`
   display: inline-block;
   flex-shrink: 0;
@@ -87,57 +145,5 @@ const Button = styled.button`
     max-width: none;
   }
 `;
-
-export const FormInputImage = () => {
-  return (
-    <>
-      <LabelText htmlFor="userProfileImage">프로필 사진</LabelText>
-      <InputBox>
-        <input accept=".png, .jpg, .jpeg, .svg" id="userProfileImage" type="file" />
-      </InputBox>
-    </>
-  )
-};
-
-export const FormInputLocation = ({ process }) => {
-  return (
-    <>
-      <LabelText htmlFor="userLocation">주소</LabelText>
-      {process === "search" &&
-        <InputBox>
-          <Button type="button">주소 검색</Button>
-          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
-        </InputBox>
-      }
-      {process === "detail" &&
-        <InputBox>
-          <div className="loca">
-            <input readOnly id="userLocation" name="userLocation" type="text" value="경기도 용인시 기흥구 기흥1로" />
-            <Button type="button">재검색</Button>
-          </div>
-          <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" />
-          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
-        </InputBox>
-      }
-    </>
-  )
-};
-
-const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, label, button }) => {
-  return (
-    <>
-      {label
-        ? <LabelText htmlFor={id}>{text}</LabelText>
-        : <label className="a11yHidden" htmlFor={id}>{text}</label>
-      }
-      <InputBox>
-        <input id={id} name={id} placeholder={placeholder} type={type} value={value} onChange={onChange} />
-        {desc && <DescText>{desc}</DescText>}
-        {valid &&<VaildNotice>{valid}</VaildNotice>}
-      </InputBox>
-      {button &&<Button type="button">{button}</Button>}
-    </>
-  )
-};
 
 export default FormInput;
