@@ -7,9 +7,10 @@ import Chat from './pages/Chat';
 import Home from './pages/Home';
 import HotArticles from './pages/HotArticles/HotArticles';
 import MyArticle from './pages/MyArticle';
-import Productdetail from './pages/productdetail';
+import Detailarticle from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+
 import WriteArticle from './pages/WriteArticle';
 
 // import {
@@ -91,8 +92,8 @@ const router = createBrowserRouter([
         element: <HotArticles />,
       },
       {
-        path: 'detailarticle',
-        element: <Productdetail />
+        path: 'detailarticle/:id',
+        element: <Detailarticle />
       },
       {
         path: 'writearticle',
@@ -114,12 +115,13 @@ const router = createBrowserRouter([
         path: 'chat',
         element: <Chat />,
       },
+     
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </>,
 )
