@@ -14,13 +14,11 @@ function App() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // const db = firebase.firestore();
-        // const userInfoRef = db.collection("users").doc(user.uid);
-        // userInfoRef.get().then((doc) => {
-        //   console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
-        // })
-        let uid = user.uid;
-        console.log(`로그인상태\nUID : ${uid}`);
+        const db = firebase.firestore();
+        const userInfoRef = db.collection("users").doc(user.uid);
+        userInfoRef.get().then((doc) => {
+          console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
+        })
       } else {
         console.log('로그아웃상태');
       }
