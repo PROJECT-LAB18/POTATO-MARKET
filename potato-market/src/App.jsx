@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -36,7 +37,6 @@ function App() {
         <Outlet />
         <Footer />
       </div>
-
     </React.Fragment>
   );
 }
