@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-
-// import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useRecoilState } from "recoil";
+
 import styled, { css } from 'styled-components';
 
 import AddPhoto from '@/components/AddPhoto';
@@ -83,9 +82,9 @@ function WriteForm(){
         <WriteInput name="title" placeholder="제목을 입력해주세요"  required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
-          <span>지역</span>
-          <span>동네</span>
-          <span>동</span>
+          <span>{userInfo.location.sido}</span>
+          <span>{userInfo.location.sigungu}</span>
+          <span>{userInfo.location.bname}</span>
         </RegionInformation>
 
         <ProductPriceBox>
