@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 
-import {doc, getDoc, updateDoc, increment, onSnapshot} from "firebase/firestore";
+import {doc, getDoc, updateDoc, increment, onSnapshot,deleteDoc} from "firebase/firestore";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
@@ -67,11 +67,13 @@ const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
 function Productdetail({state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
+  const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [heartArr, setHeart] = useState([]);
- const clickButton = () => {setClick(click?0:1)}
-  
+  const clickButton = () => {setClick(click?0:1)}
+  const uid = useParams();
+
   useEffect(()=>{
     onSnapshot(q,(snapshot)=>{
       const newArr = snapshot.docs.map(doc=>{
@@ -143,7 +145,11 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
             {state?
             <>
             <CustomButton>수정</CustomButton>
-            <CustomButton>삭제</CustomButton>
+            <CustomButton red onClick={()=>{
+    deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{
+      navigate("/HotArticles");
+      
+     } )}}>삭제</CustomButton>
             </>:                    
             <CustomButton>채팅하기</CustomButton>         
             }
@@ -188,14 +194,15 @@ const CustomButton = styled.button`
   cursor:pointer;
   width: 99px;
   height: 40px;
-  background: #FFFFFF;
+  color : ${props => props.red ? '#FFFFFF' : '#212124'};
+  background: ${props => props.red ? '#D91414' : '#FFFFFF'};
   border: 1px solid #D1D3D8;
   border-radius: 4px;
   font-weight: 700;
   font-size: 16px;
   &:hover{
   border: 1px solid #FFFFFF;
-  background: #D1D3D8;
+  background: ${props => props.red ? '#A90707' : '#D1D3D8'};
   }
 `
 
