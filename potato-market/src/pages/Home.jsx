@@ -30,7 +30,6 @@ export default function Home(){
       setCheckArr(newArr.slice(0, 8));
       setReadyToRender(1);
 
-      console.log(checkArr);
     })
   }, [checkArr])
 
@@ -64,20 +63,13 @@ export default function Home(){
 
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
-        <div>
-          <ProductList>
-          {
-            readyToRender ? checkArr.map(
-              ({ content, title, price, side, imgsrc, id, check, heart }, index)=>
-              (
-                <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
-                )
-                ) 
-                : 
-                <p>Render Failed</p>
-              }
-          </ProductList>
-        </div>
+        <ProductList className="Hot8">
+          { readyToRender ? checkArr.map(
+              ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />)) 
+            : <p>Render Failed</p> 
+          }
+        </ProductList>
         <UnderlineButton>
           인기매물 더보기
         </UnderlineButton>
@@ -114,6 +106,7 @@ const HomeGlobal = createGlobalStyle`
   h2 {
     font-weight: 700;
     font-size: 3rem;
+    margin: 0 auto;
   }
 `;
 
@@ -226,24 +219,27 @@ const MainReversed = styled.section`
 const HotArticles8 = styled.section`
   background-color: ${gray2};
   padding-top: 125px;
-  padding-bottom: 11.5rem;
+  padding-bottom: 5rem;
+  margin: 0 auto;
   
   h2 {
     font-size: 40px;
     text-align: center;
+    /* display: block; */
+    width: 300px;
   }
-
-  div {
-    width: 1024px;
-    height: 752px;
+  
+  .Hot8 {
+    margin-left: 0;
+    padding-left: 20rem;
+    padding-right: 30rem;
+    margin-bottom: 5rem;
     
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 3rem;
-  }
-
-  & Product{
-
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
+      text-align: left;
+    }
   }
 `;
 
