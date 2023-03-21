@@ -37,7 +37,6 @@ function App() {
           });
         })
         let uid = user.uid;
-        console.log(userInfo)
         setLender(1);
       } else {
         console.log('로그아웃상태');

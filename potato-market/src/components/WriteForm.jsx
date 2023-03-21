@@ -67,7 +67,8 @@ function WriteForm(){
             heart: 0,
             userId : userUid,
             nickname: userInfo.nickname,
-            profileImage: userInfo.profileImage
+            profileImage: userInfo.profileImage,
+            location : userInfo.location,
           })
           navigate("/HotArticles");
       })
