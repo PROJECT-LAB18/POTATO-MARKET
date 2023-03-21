@@ -36,8 +36,8 @@ function SignUp() {
     password: "",
     confirmPassword: "",
     nickname: "",
-    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함":"",
-    },
+    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
+  },
   );
 
   // 회원가입 폼 disabled 조건
@@ -65,21 +65,23 @@ function SignUp() {
     try {
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
       const file = document.querySelector('#profileImage').files[0];
-
       const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-      await uploadRef.put(file);
-      const profileImageUrl = await uploadRef.getDownloadURL();
-
-      await db.collection("users").doc(userCredential.user.uid).set({
+      const uploadTask = uploadRef.put(file);
+      const profileImageUrl = await uploadTask.then(
+        (snapshot) => snapshot.ref.getDownloadURL()
+      );
+      const userDoc = usersRef.doc(userCredential.user.uid);
+      const userBatch = db.batch();
+      userBatch.set(userDoc, {
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
         profileImage: profileImageUrl,
         agree: isCheckedThree,
-        location : {
-          sido : location.sido,
+        location: {
+          sido: location.sido,
           sigungu: location.sigungu,
-          bname : location.bname,
+          bname: location.bname,
         }
       });
       await userBatch.commit();
@@ -222,7 +224,7 @@ function SignUp() {
               <FormInputImage />
             </li>
             <li className="form-item">
-              <FormInputAddress 
+              <FormInputAddress
                 location={location}
                 setLocation={setLocation}
               />
