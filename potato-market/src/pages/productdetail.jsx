@@ -13,7 +13,7 @@ import SwiperPhoto from "../components/swiper"
 import { WriteInput } from "../components/WriteForm";
 
 import icon_temp4 from "@/assets/icon_temp4.svg"
-import {db, q} from '@/firebase';
+import {db, userWriteRef} from '@/firebase';
 
 import { userInformation } from "@/stores/userAuth.js"
 import moneyUnit from "@/utils/moneyUnit";
@@ -93,7 +93,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
   }
 
   useEffect(()=>{
-    onSnapshot(q,(snapshot)=>{
+    onSnapshot(userWriteRef,(snapshot)=>{
       const newArr = snapshot.docs.map(doc=>{
         return {
           id : doc.id,

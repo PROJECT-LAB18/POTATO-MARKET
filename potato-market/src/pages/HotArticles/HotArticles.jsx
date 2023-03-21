@@ -9,7 +9,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 import Product from "@/components/product";
 
-import {q}  from '@/firebase';
+import {userWriteRef}  from '@/firebase';
 
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
@@ -21,7 +21,7 @@ function HotArticles(){
   useEffect(()=>{
     window.scrollTo(0, 0);
     newArr = [];
-    onSnapshot(q,(snapshot)=>{
+    onSnapshot(userWriteRef,(snapshot)=>{
       snapshot.docs.map((doc)=>{
         const newObj = {
           id : doc.id,

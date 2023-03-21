@@ -37,6 +37,6 @@ export const db = firebase.firestore();
 export const storage = firebase.storage();
 
 export const usersRef = db.collection('users'); // 유저 정보 컬렉션
-export const q = db.collection("UserWrite");
+export const userWriteRef = db.collection("UserWrite");
 
 export default firebase;
