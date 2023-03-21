@@ -8,8 +8,6 @@ import FormInputAddress from '../components/FormInputAddress';
 import FormTerms from '../components/FormTerms';
 import Popup from '../components/Popup';
 
-import Postcode from '../components/Postcode';
-import { usersRef } from '../firebase';
 import FormButton from '../styles/FormButton';
 
 import { gray3, gray8, primaryColor } from '../styles/Global';
