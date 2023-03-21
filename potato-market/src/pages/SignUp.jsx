@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-
 import styled from 'styled-components';
 
 import FormInput, { FormInputImage } from '../components/FormInput';
@@ -15,13 +14,12 @@ import FormButton from '../styles/FormButton';
 
 import { gray3, gray8, primaryColor } from '../styles/Global';
 
-
-import firebase from '@/firebase';
+import { auth, db, storage, usersRef } from '@/firebase';
 
 function SignUp() {
 
   const navigate = useNavigate();
-  // 전체 선택 상태  
+  // 전체 선택 상태
   const [isCheckedAll, setIsCheckedAll] = useState(false);
 
   // 약관 보기 개별 선택 상태
@@ -51,8 +49,6 @@ function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    // const currentUserUid = firebase.auth().currentUser.uid;
-    // const usersRef = firebase.db().collection("users");
 
     if (formState.password !== formState.confirmPassword) {
       setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
@@ -60,7 +56,7 @@ function SignUp() {
     }
     if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
       alert("필수 이용 약관에 동의하셔야합니다.")
-      return
+      return;
     }
     const nicknameSnapshot = await usersRef.where("nickname", "==", formState.nickname).get();
     if (!nicknameSnapshot.empty) {
@@ -69,13 +65,9 @@ function SignUp() {
     }
 
     try {
-      const userCredential = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(formState.email, formState.password);
-
-      const db = firebase.firestore();
-      const storage = firebase.storage();
+      const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
       const file = document.querySelector('#profileImage').files[0];
+
       const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
       await uploadRef.put(file);
       const profileImageUrl = await uploadRef.getDownloadURL();
@@ -92,6 +84,7 @@ function SignUp() {
           bname : location.bname,
         }
       });
+      await userBatch.commit();
       setShowPopup(true);
     } catch (error) {
       setError(error.message);
@@ -138,10 +131,9 @@ function SignUp() {
     if (!event.target.checked) {
       setIsCheckedAll(false);
     }
-    const currentUser = firebase.auth().currentUser;
+    const currentUser = auth.currentUser;
     if (currentUser) {
-      const db = firebase.firestore();
-      const userDocRef = db.collection("users").doc(currentUser.uid);
+      const userDocRef = usersRef.doc(currentUser.uid);
       userDocRef.update({
         agree: event.target.checked
       }, { merge: true })
