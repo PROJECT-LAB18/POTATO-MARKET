@@ -10,27 +10,23 @@ import { userId } from '@/stores/userAuth';
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 import ProductList from '@/styles/ProductList';
 
-let newArr = [];
-
 function MyArticle() {
-  const [render, setRender] = useState(0);
+  const [render, setRender] = useState(false);
   const [userUid] = useRecoilState(userId);
+  const [newArr, setNewArr] = useState([]);
 
   useEffect(() => {
-    newArr = [];
     const query = userWriteRef.where('userId', '==', userUid); // 현재 사용자의 uid와 일치하는 문서 가져오기
     query.onSnapshot((snapshot) => {
-      snapshot.docs.map((doc) => { // 각 문서 객체화
-        const newObj = {
-          id: doc.id, // 객체의 아이디 값 지정
-          ...doc.data() // 기존 데이터들을 객체 형태로 받아옴
-        }
-        newArr.push(newObj);
-        newArr.sort((b, a) => a.date - b.date);
-        setRender(1);
-      });
+      const docs = snapshot.docs.map((doc) => ({ // 각 문서 객체화
+        id: doc.id, // 객체의 아이디 값 지정
+        ...doc.data() // 기존 데이터들을 객체 형태로 받아옴
+      }));
+      docs.sort((b, a) => a.date - b.date);
+      setNewArr(docs);
+      setRender(true);
     });
-  }, [userUid])
+  }, [userUid]);
 
   return (
     <main className="wrapper">
