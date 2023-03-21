@@ -28,6 +28,7 @@ function App() {
 
           setUserUid(uid);
           setUserInfo({
+            location : doc.data().location,
             agree: doc.data().agree,
             email: doc.data().email,
             nickname: doc.data().nickname,
@@ -36,6 +37,7 @@ function App() {
           });
         })
         let uid = user.uid;
+        console.log(userInfo)
         setLender(1);
       } else {
         console.log('로그아웃상태');
