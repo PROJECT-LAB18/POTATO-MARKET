@@ -49,21 +49,20 @@ function SignUp() {
   
   const [nicknameValid, setNicknameValid] = useState("");
   
-  // disabled 조건
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
-  
   //팝업창
   const [showPopup, setShowPopup] = useState(false);
+  
+  // disabled 조건
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
   
   
   const handleSignUp = async (e) => {
     e.preventDefault();
     // const currentUserUid = firebase.auth().currentUser.uid;
     // const usersRef = firebase.db().collection("users");
-    
 
-    if( !isCheckedOne || !isCheckedTwo || !isCheckedFour){
-      setShowPopup(true)
+    if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
+      setShowPopup("필수 이용 약관에 동의하셔야합니다.");
       return;
     }
 
@@ -75,8 +74,8 @@ function SignUp() {
     }else { 
       setNicknameValid("")
     }
-    
-    
+
+
     try {
       const userCredential = await firebase
       .auth()
@@ -91,10 +90,45 @@ function SignUp() {
       });
       navigate(-1);
     } catch (error) {
-      setError(error.message);
+      const errorMessage = getErrorMessage(
+        error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled
+      )
+      setShowPopup(errorMessage);
     }
-  };
+    
+    
+    
 
+  };
+  
+  //파이어베이스 에러메세지 
+  const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)=> {
+    if (disabled) {
+      return "모든 필수 항목을 입력해주세요.";
+    }
+    if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
+      return "필수 이용 약관에 동의하셔야합니다.";
+    }
+    switch (error.code) {
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        return "이메일 혹은 비밀번호가 일치하지 않습니다.";
+      case "auth/email-already-in-use":
+        return "이미 사용 중인 이메일입니다.";
+      case "auth/weak-password":
+        return "비밀번호는 6글자 이상이어야 합니다.";
+      case "auth/network-request-failed":
+        return "네트워크 연결에 실패 하였습니다.";
+      case "auth/invalid-email":
+        return "잘못된 이메일 형식입니다.";
+      case "auth/internal-error":
+        return "잘못된 요청입니다.";
+
+      default:
+        return "회원가입에 실패 하였습니다.";
+    }
+  }
+  
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
       ...prevState,
@@ -134,7 +168,6 @@ function SignUp() {
   /**
    * 약관 보기 마케팅 수신 동의 (선택)이벤트,
    * firestore user컬렉션 안의 인증 유저uid문서 필드 저장 
-   *  
    */
   const handleCheckboxChangeThree = (event) => {
     setIsCheckedThree(event.target.checked);
@@ -161,6 +194,9 @@ function SignUp() {
       setIsCheckedAll(false);
     }
   };
+
+
+
   return (
     <Section>
       <h2>회원가입</h2>
@@ -168,8 +204,8 @@ function SignUp() {
         <fieldset>
           <legend>신규 회원가입 폼</legend>
 
-          {/* 에러메세지 확인용 */}
-          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>}
+          {/* 에러메세지 확인용
+          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>} */}
 
           <ul className="form-list">
             <li className="form-item">
@@ -251,7 +287,10 @@ function SignUp() {
               <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  checked={isCheckedFour} onChange={handleCheckboxChangeFour}/>
             </div>
           </div>
-          <div>
+          {showPopup && 
+          <Popup text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} 
+          setShowPopup={setShowPopup}
+          showPopup={showPopup}/>}
           <FormButton
             primary
             disabled={disabled}
@@ -262,13 +301,7 @@ function SignUp() {
             }}
             onClick={handleSignUp}
             >가입하기</FormButton>
-          </div>
-              
         </fieldset>
-            {showPopup && 
-            <Popup text={"필수 약관동의는 체크해야 합니다."} 
-            setShowPopup={setShowPopup}
-            showPopup={showPopup}/>}
       </SignUpForm>
     </Section >
   )
