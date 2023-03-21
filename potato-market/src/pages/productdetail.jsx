@@ -27,7 +27,8 @@ function Detailarticle(){
     imgsrc : null,
     userId : null,
     nickname: null,
-    profileImage: null
+    profileImage: null,
+    location: null,
   })
   const db = firebase.firestore();
   const uid = useParams();
@@ -46,7 +47,7 @@ function Detailarticle(){
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} title={propsdata.title}  
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} location={propsdata.location} side={propsdata.side} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
@@ -55,7 +56,7 @@ function Detailarticle(){
 const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
-function Productdetail({title,side,nickname,profileImage,address,temperature,date,price,content,heart,chat,check,imgsrc}){
+function Productdetail({title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [heartArr, setHeart] = useState([]);
@@ -92,14 +93,14 @@ function Productdetail({title,side,nickname,profileImage,address,temperature,dat
             <SwiperPhoto imgsrc={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"}/>
           </div>
           : null
-        }        
+        }
         
         <a className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={profileImage} />
             <div>
               <span className="nickname">{nickname}</span>
-              <span className="address">{address}</span>
+              <span className="address">{location.sido} {location.sigungu} {location.bname}</span>
             </div>
           </div>
           <div className="right-profile">
@@ -141,8 +142,8 @@ function Productdetail({title,side,nickname,profileImage,address,temperature,dat
         </div>
 
         <div className="best-product">
-        {render?heartArr.map(({content,title,price,side,imgsrc,id,heart,check},index)=>(
-          <Product key={index} check={check}content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
+        {render?heartArr.map(({content,title,price, side,imgsrc,location,id,heart,check},index)=>(
+          <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} side={side} title={title} />
         )):<LoadingSpinner className="loading"/>}
         </div>
       </Section>
