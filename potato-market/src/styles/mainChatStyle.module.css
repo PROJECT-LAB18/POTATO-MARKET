@@ -1,0 +1,43 @@
+
+
+.main{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+width: 850px;
+min-width: 450px;
+height: 100vh;
+}
+
+.chatRecord { 
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: calc(100vh  - 40vh);
+  overflow-y: auto;
+}
+.chatRecord::-webkit-scrollbar {
+  width: 12px;
+}
+.chatRecord::-webkit-scrollbar-thumb {
+  background-color: #ADB5BD;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.chatRecord::-webkit-scrollbar-track {
+  border-radius: 10px;
+  height: 50px;
+}
+
+.addMessageBox{
+  display: flex;
+  justify-content: end;
+  width: fit-content;
+  padding: 10px 14px;
+      margin-top: 10px;
+      font-size: 14px;
+      border-radius: 20px;
+      background-color: #CFA36E;
+      color: white;
+} 

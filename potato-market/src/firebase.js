@@ -20,6 +20,7 @@ import "firebase/compat/storage";
 //   messagingSenderId: VITE_MESSAGE_SENDER_ID,
 //   appId: VITE_APP_ID,
 // };
+
 const firebaseConfig = {
   apiKey: "AIzaSyBzWObRx_ukdrL00YXlSxG18r3nIKVZKJA",
   authDomain: "patato-market.firebaseapp.com",
@@ -30,8 +31,11 @@ const firebaseConfig = {
   measurementId: "G-G84D0KJ1XZ"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const usersRef = db.collection('users');
 
-export { firebase, db, usersRef };
+export const auth = firebase.auth();
+export const db = firebase.firestore();
+export const storage = firebase.storage();
+
+export const usersRef = db.collection('users'); // 유저 정보 컬렉션
+
 export default firebase;

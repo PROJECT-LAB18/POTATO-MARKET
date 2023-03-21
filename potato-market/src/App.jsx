@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Outlet } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
@@ -24,6 +25,7 @@ function App() {
         const userInfoRef = db.collection("users").doc(user.uid);
         userInfoRef.get().then((doc) => {
           console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
+
           setUserUid(uid);
           setUserInfo({
             agree: doc.data().agree,
@@ -34,7 +36,6 @@ function App() {
           });
         })
         let uid = user.uid;
-        console.log(`로그인상태\nUID : ${uid}`);
         setLender(1);
       } else {
         console.log('로그아웃상태');
