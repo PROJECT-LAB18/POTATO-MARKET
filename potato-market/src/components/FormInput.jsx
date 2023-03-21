@@ -1,38 +1,61 @@
+import { useState } from 'react';
+
 import styled from 'styled-components';
 
 import { gray5, primaryColor } from '../styles/Global';
 
 export const FormInputImage = () => {
+
+  const [previewImage, setPreviewImage] = useState("../src/assets/default_profile.png");
+
+  const handleFileInputChange = (e) => {
+    const uploadedImage = e.target.files[0];
+    if (uploadedImage) {
+      const imageUrl = URL.createObjectURL(uploadedImage);
+      setPreviewImage(imageUrl);
+    }
+  };
+
   return (
     <>
       <LabelText htmlFor="profileImage">프로필 사진</LabelText>
       <InputBox>
-        <input accept=".png, .jpg, .jpeg, .svg" id="profileImage" type="file" />
+        <img
+          alt="프로필 이미지사진 미리보기"
+          className="profile-image-preview"
+          src={previewImage}
+        />
+        <input
+          accept=".png, .jpg, .jpeg, .svg"
+          id="profileImage"
+          type="file"
+          onChange={handleFileInputChange}
+        />
       </InputBox>
     </>
   )
 };
 
-export const FormInputLocation = ({ process }) => {
+export const FormInputLocation = ({setOpenPostcode, fullAddress}) => {
+
+  const clickButton = () => {
+    setOpenPostcode(current => !current);
+  };
+
   return (
     <>
       <LabelText htmlFor="userLocation">주소</LabelText>
-      {process === "search" &&
-        <InputBox>
-          <Button type="button">주소 검색</Button>
-          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
-        </InputBox>
-      }
-      {process === "detail" &&
-        <InputBox>
-          <div className="loca">
-            <input readOnly id="userLocation" name="userLocation" type="text" value="경기도 용인시 기흥구 기흥1로" />
-            <Button type="button">재검색</Button>
+        <InputBox >
+          <div className="loca" >
+            <input readOnly id="userLocation" name="userLocation" type="text" 
+            value={fullAddress==='undefined undefined undefined' ? '' : fullAddress} 
+            onClick={clickButton}
+            />
+            <Button type="button" onClick={clickButton}>검색</Button>
           </div>
-          <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" />
+          {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}
           <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
         </InputBox>
-      }
     </>
   )
 };
@@ -91,13 +114,25 @@ const InputBox = styled.div`
     border-radius: 4px;
     box-sizing: border-box;
   }
-  input[type="file"]::file-selector-button {
-    border: 1px solid ${primaryColor};
-    color: ${primaryColor};
-    font-weight: 600;
+  input[type="file"] {
+    width: 340px;
+    &::file-selector-button {
+      border: 1px solid ${primaryColor};
+      color: ${primaryColor};
+      font-weight: 600;
+      cursor: pointer;
+    }
   }
   button {
     width: 340px;
+  }
+  .profile-image-preview {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid ${gray5};
   }
   .loca {
     display: flex;
@@ -113,6 +148,7 @@ const InputBox = styled.div`
     input[type="password"],
     input[type="tel"],
     input[type="email"],
+    input[type="file"],
     input[type="file"]::file-selector-button,
     button {
       width: 100%;
