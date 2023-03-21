@@ -14,7 +14,9 @@ import icon_temp4 from "@/assets/icon_temp4.svg"
 import firebase from '@/firebase';
 import moneyUnit from "@/utils/moneyUnit";
 import { useRecoilState } from "recoil";
-import { connectStorageEmulator } from "firebase/storage";
+
+import { WriteInput } from "../components/WriteForm";
+import { Link } from "react-router-dom";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -70,10 +72,27 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
+  const [clickModified,setClickModified] = useState(0);
+  const [clickDelete,setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
   const clickButton = () => {setClick(click?0:1)}
   const uid = useParams();
-
+  const db = firebase.firestore();
+  const userRef = doc(db, "UserWrite", uid.id);
+  const userSnap = getDoc(userRef);
+  const [modifiedContent, setModifiedContent] = useState({
+    modifiedTitle: title,
+    modifiedPrice: price,
+    modifiedContent: content
+  });
+  const onChangeHandler = (e) => {
+    setModifiedContent((prev)=>{
+      return {
+        ...prev,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
   useEffect(()=>{
     onSnapshot(q,(snapshot)=>{
       const newArr = snapshot.docs.map(doc=>{
@@ -106,7 +125,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
           : null
         }
         
-        <a className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
+        <Link to={`/HotArticles`} className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={profileImage} />
             <div>
@@ -121,7 +140,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
             </div>
             <img alt="당근 온도 이모티콘" className="temperature-image" src={icon_temp4} />
           </div>
-        </a>
+        </Link>
         <div className="article">
           <h2 className="title">
             {title}
@@ -144,12 +163,8 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
           <div className="button-list">
             {state?
             <>
-            <CustomButton>수정</CustomButton>
-            <CustomButton red onClick={()=>{
-    deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{
-      navigate("/HotArticles");
-      
-     } )}}>삭제</CustomButton>
+            <CustomButton onClick={()=>{setClickModified(1)}}>수정</CustomButton>
+            <CustomButton red onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
             </>:                    
             <CustomButton>채팅하기</CustomButton>         
             }
@@ -159,7 +174,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       <Section>
         <div className="best-product-group">
           <h2>당근마켓 인기중고</h2>
-          <a href="naver.com" rel="noopener noreferrer" target="_blank">더 구경하기</a>
+          <Link to={`/HotArticles`} rel="noopener noreferrer">더 구경하기</Link>
         </div>
 
         <div className="best-product">
@@ -168,6 +183,47 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
         )):<LoadingSpinner className="loading"/>}
         </div>
       </Section>
+      {clickDelete?
+      <DeleteDiv>
+        <form>
+        <h2>정말로 삭제하시겠습니까?</h2>
+        <div className="button-wrapper">
+          <CustomButton red onClick={(e)=>{
+            e.preventDefault();  
+            deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{navigate("/HotArticles");})
+          }}>삭제</CustomButton>
+          <CustomButton onClick={()=>{setClickDelete(0)}}>취소</CustomButton>
+        </div>
+        </form>
+      </DeleteDiv>:
+      null      
+      }
+
+      {clickModified?
+      <ModifiedDiv>
+        <form>
+          <h2>게시글 수정</h2>
+          <div className="input-wrapper">
+          <WriteInput className="title-input" type="text" name="modifiedTitle" value={modifiedContent.modifiedTitle} onChange={onChangeHandler}/>
+          <WriteInput className="price-input" type="number" name="modifiedPrice" value={modifiedContent.modifiedPrice} onChange={onChangeHandler}/>
+          </div>
+          <WriteInput content className="content-input" type="text" name="modifiedContent" value={modifiedContent.modifiedContent} onChange={onChangeHandler}/>
+          <div className="button-wrapper">
+            <CustomButton onClick={()=>{setClickModified(0)}}>취소</CustomButton>
+            <CustomButton className="modifie-button" onClick={()=>{ 
+              const newObj = {
+                content: modifiedContent.modifiedContent,
+                price: modifiedContent.modifiedPrice,
+                title: modifiedContent.modifiedTitle,
+              };
+              updateDoc(userRef,newObj).then(()=>{ userSnap.then(()=>{
+                location.reload();
+              })})
+            }}>수정</CustomButton>
+          </div>
+        </form>
+      </ModifiedDiv>:null  
+    } 
     </Main>
   )
 }
@@ -190,19 +246,104 @@ Productdetail.defaultProps={
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"]
 }
 
+const DeleteDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.54);
+  position: fixed;
+  z-index:100;
+  & .button-wrapper{
+    display:flex;
+    gap:20px;
+  }
+  & h2{
+    font-weight: 900;
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+  & form{
+    border-radius: 20px;
+    background-color: white;
+    width: 503px;
+    height: 100px;
+    padding: 40px 0px;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+  }
+`
+const ModifiedDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.54);
+  position: fixed;
+  z-index:100;
+  & .input-wrapper{
+    display:flex;
+    width:100%;
+    justify-content: center;
+    gap:20px;
+  }
+  & .title-input{
+    width: 507px;
+    height: 38px;
+  }
+  & .price-input{
+    width: 150px;
+  }
+  & .content-input{
+    width: 673.5px;
+    height: 288px;
+    margin-bottom: 40px;
+  }
+  & .button-wrapper{
+    display:flex;
+    gap:20px;
+  }
+  & .modifie-button{
+    background: #CFA36E;
+    color:white;
+  }
+  & .modifie-button:hover{
+    background: #a58258;
+  }
+  & form{
+    border-radius: 20px;
+    background-color: white;
+    width: 803px;
+    height: 500px;
+    padding: 40px 0px;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+  }
+  & h2{
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+`
 const CustomButton = styled.button`
   cursor:pointer;
   width: 99px;
   height: 40px;
   color : ${props => props.red ? '#FFFFFF' : '#212124'};
-  background: ${props => props.red ? '#D91414' : '#FFFFFF'};
+  background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
   border: 1px solid #D1D3D8;
   border-radius: 4px;
   font-weight: 700;
   font-size: 16px;
   &:hover{
   border: 1px solid #FFFFFF;
-  background: ${props => props.red ? '#A90707' : '#D1D3D8'};
+  background: ${props => props.red ? '#a7845b' : '#D1D3D8'};
   }
 `
 

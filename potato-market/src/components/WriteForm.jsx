@@ -103,12 +103,12 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
+export function WriteInput({className,placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
   return <label>
     {
       content ?
-      <Textarea ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
+      <Textarea className={className} ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+      <Input className={className} ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
     }
   </label>
 }
@@ -159,7 +159,7 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 290px;
   padding: 12px;
-  resize: vertical;
+  resize: none;
 `
 
 const ProductPriceBox = styled.div`
