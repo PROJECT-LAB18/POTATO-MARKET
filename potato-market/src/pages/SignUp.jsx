@@ -4,14 +4,17 @@ import { useNavigate } from 'react-router';
 
 import styled from 'styled-components';
 
-import FormInput, { FormInputLocation, FormInputImage } from '../components/FormInput';
+import FormInput, { FormInputImage } from '../components/FormInput';
+import FormInputAddress from '../components/FormInputAddress';
 import FormTerms from '../components/FormTerms';
 import Popup from '../components/Popup';
+
 import Postcode from '../components/Postcode';
 import { usersRef } from '../firebase';
 import FormButton from '../styles/FormButton';
 
 import { gray3, gray8, primaryColor } from '../styles/Global';
+
 
 import firebase from '@/firebase';
 
@@ -29,15 +32,17 @@ function SignUp() {
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const [location, setLocation] = useState({});
+
   const [formState, setFormState] = useState({
     phoneNumber: "",
     email: "",
     password: "",
     confirmPassword: "",
     nickname: "",
-    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
-    // location: "",
-  });
+    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함":"",
+    },
+  );
 
   // 회원가입 폼 disabled 조건
   const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
@@ -81,6 +86,11 @@ function SignUp() {
         nickname: formState.nickname,
         profileImage: profileImageUrl,
         agree: isCheckedThree,
+        location : {
+          sido : location.sido,
+          sigungu: location.sigungu,
+          bname : location.bname,
+        }
       });
       setShowPopup(true);
     } catch (error) {
@@ -222,11 +232,10 @@ function SignUp() {
               <FormInputImage />
             </li>
             <li className="form-item">
-              {/* <FormInputLocation process={"search"} /> */}
-              <Postcode />
-            </li>
-            <li className="form-item">
-              <FormInputLocation process={"detail"} />
+              <FormInputAddress 
+                location={location}
+                setLocation={setLocation}
+              />
             </li>
           </ul>
           <div className="term-list">

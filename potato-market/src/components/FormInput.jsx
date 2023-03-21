@@ -36,26 +36,26 @@ export const FormInputImage = () => {
   )
 };
 
-export const FormInputLocation = ({ process }) => {
+export const FormInputLocation = ({setOpenPostcode, fullAddress}) => {
+
+  const clickButton = () => {
+    setOpenPostcode(current => !current);
+  };
+
   return (
     <>
       <LabelText htmlFor="userLocation">주소</LabelText>
-      {process === "search" &&
-        <InputBox>
-          <Button type="button">주소 검색</Button>
-          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
-        </InputBox>
-      }
-      {process === "detail" &&
-        <InputBox>
-          <div className="loca">
-            <input readOnly id="userLocation" name="userLocation" type="text" value="경기도 용인시 기흥구 기흥1로" />
-            <Button type="button">재검색</Button>
+        <InputBox >
+          <div className="loca" >
+            <input readOnly id="userLocation" name="userLocation" type="text" 
+            value={fullAddress==='undefined undefined undefined' ? '' : fullAddress} 
+            onClick={clickButton}
+            />
+            <Button type="button" onClick={clickButton}>검색</Button>
           </div>
-          <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" />
+          {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}
           <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
         </InputBox>
-      }
     </>
   )
 };
