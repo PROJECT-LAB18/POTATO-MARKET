@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
+import { Link } from "react-router-dom";
 
-import {doc, getDoc, updateDoc, increment, onSnapshot,deleteDoc} from "firebase/firestore";
+import {doc, getDoc, updateDoc, increment, onSnapshot, deleteDoc } from "firebase/firestore";
+import { useRecoilState } from "recoil";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
-import { userInformation } from "@/stores/userAuth.js"
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
 import SwiperPhoto from "../components/swiper"
+import { WriteInput } from "../components/WriteForm";
 
 import icon_temp4 from "@/assets/icon_temp4.svg"
-import firebase from '@/firebase';
-import moneyUnit from "@/utils/moneyUnit";
-import { useRecoilState } from "recoil";
+import {db, q} from '@/firebase';
 
-import { WriteInput } from "../components/WriteForm";
-import { Link } from "react-router-dom";
+import { userInformation } from "@/stores/userAuth.js"
+import moneyUnit from "@/utils/moneyUnit";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -34,24 +34,24 @@ function Detailarticle(){
     profileImage: null,
     location: null,
   })
-  const db = firebase.firestore();
+  
   const uid = useParams();
-  const [render,Setrender] = useState(0);
-  let [myBoard,setMyBoard] = useState(0);
+  const [render, Setrender] = useState(0);
+  let [myBoard] = useState(0);
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
-  const [userId,setUserId] = useRecoilState(userInformation);
+  const [userId] = useRecoilState(userInformation);
 
   if(userId.uid == propsdata.userId){
     myBoard = 1;
   }
   useEffect(()=>{
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     const newObj = {
       check : increment(1),
     };
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
-      setPropsdata(res.data()) ;
+      setPropsdata(res.data());
       Setrender(1);
     })})
     ;
@@ -59,25 +59,22 @@ function Detailarticle(){
 
   return (
     <>
-      {render?<Productdetail state={myBoard} chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} location={propsdata.location} side={propsdata.side} title={propsdata.title}  
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
 }
 
-const db = firebase.firestore();
-const q = db.collection("UserWrite");
-
 function Productdetail({state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
-  const [clickModified,setClickModified] = useState(0);
-  const [clickDelete,setClickDelete] = useState(0);
+  const [clickModified, setClickModified] = useState(0);
+  const [clickDelete, setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
   const clickButton = () => {setClick(click?0:1)}
   const uid = useParams();
-  const db = firebase.firestore();
+
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
   const [modifiedContent, setModifiedContent] = useState({
@@ -107,6 +104,15 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
     })
   },[])
 
+  const modifyBorderContent = ()=>{
+    setClickModified(1);
+    updateDoc(userRef, {
+      title: title,
+      price: price,
+      content: content,
+    })
+  }
+
   return (
     <Main>
       <Section>
@@ -125,7 +131,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
           : null
         }
         
-        <Link to={`/HotArticles`} className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" >
+        <Link className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" to={`/HotArticles`} >
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={profileImage} />
             <div>
@@ -163,7 +169,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
           <div className="button-list">
             {state?
             <>
-            <CustomButton onClick={()=>{setClickModified(1)}}>수정</CustomButton>
+            <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
             <CustomButton red onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
             </>:                    
             <CustomButton>채팅하기</CustomButton>         
@@ -174,7 +180,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       <Section>
         <div className="best-product-group">
           <h2>당근마켓 인기중고</h2>
-          <Link to={`/HotArticles`} rel="noopener noreferrer">더 구경하기</Link>
+          <Link rel="noopener noreferrer" to={`/HotArticles`} >더 구경하기</Link>
         </div>
 
         <div className="best-product">
@@ -186,14 +192,14 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       {clickDelete?
       <DeleteDiv>
         <form>
-        <h2>정말로 삭제하시겠습니까?</h2>
-        <div className="button-wrapper">
-          <CustomButton red onClick={(e)=>{
-            e.preventDefault();  
-            deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{navigate("/HotArticles");})
-          }}>삭제</CustomButton>
-          <CustomButton onClick={()=>{setClickDelete(0)}}>취소</CustomButton>
-        </div>
+          <h2>정말로 삭제하시겠습니까?</h2>
+          <div className="button-wrapper">
+            <CustomButton red onClick={(e)=>{
+              e.preventDefault();  
+              deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{navigate("/HotArticles");})
+            }}>삭제</CustomButton>
+            <CustomButton onClick={()=>{setClickDelete(0)}}>취소</CustomButton>
+          </div>
         </form>
       </DeleteDiv>:
       null      
@@ -204,10 +210,10 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
         <form>
           <h2>게시글 수정</h2>
           <div className="input-wrapper">
-          <WriteInput className="title-input" type="text" name="modifiedTitle" value={modifiedContent.modifiedTitle} onChange={onChangeHandler}/>
-          <WriteInput className="price-input" type="number" name="modifiedPrice" value={modifiedContent.modifiedPrice} onChange={onChangeHandler}/>
+          <WriteInput className="title-input" name="modifiedTitle" type="text" value={modifiedContent.modifiedTitle} onChange={onChangeHandler}/>
+          <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler}/>
           </div>
-          <WriteInput content className="content-input" type="text" name="modifiedContent" value={modifiedContent.modifiedContent} onChange={onChangeHandler}/>
+          <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler}/>
           <div className="button-wrapper">
             <CustomButton onClick={()=>{setClickModified(0)}}>취소</CustomButton>
             <CustomButton className="modifie-button" onClick={()=>{ 
@@ -259,6 +265,9 @@ const DeleteDiv = styled.div`
   & .button-wrapper{
     display:flex;
     gap:20px;
+  }
+  button:first-child{
+    border: none;
   }
   & h2{
     font-weight: 900;
@@ -332,6 +341,9 @@ const ModifiedDiv = styled.div`
   }
 `
 const CustomButton = styled.button`
+  & .BoardDeleteButton{
+    border: 1px solid #FFFFFF;
+  }
   cursor:pointer;
   width: 99px;
   height: 40px;
@@ -380,7 +392,7 @@ const Section = styled.section`
   & .profile span{
     display:inline-block;
   }
-  & .left-profile,& .right-profile{
+  & .left-profile, & .right-profile{
     display:flex;
     align-items: center;     
     flex-flow:row;
@@ -401,6 +413,7 @@ const Section = styled.section`
   .nickname{
     font-weight: 600;
     font-size: 15px;
+    margin-bottom: 5px;
   }
   .address{
     font-weight: 400;
@@ -414,9 +427,15 @@ const Section = styled.section`
     font-weight: 700;
     color: #319E45;
   }
-  & .profile-image,& .temperature-image{
-    width: 24px;
-    height: 24px;
+  & .profile-image{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 3px;
+  }
+  & .temperature-image{
+    width: 30px;
+    height: 30px;
     border-radius: 20px;
   }
 
@@ -497,7 +516,10 @@ const Section = styled.section`
     bottom:27px;
   }
   & .button-list button{
-    margin-left:18px;
+    margin-left:18px;    
+  }
+  & .button-list button:nth-child(2){
+    border: none;
   }
   & .module-swiper{
     top:0;
