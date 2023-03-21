@@ -63,10 +63,11 @@ function SignUp() {
     
 
     if( !isCheckedOne || !isCheckedTwo || !isCheckedFour){
-      setShowPopup("필수 이용 약관에 동의하셔야합니다.")
-    }else {
-      setShowPopup(true);
+      setShowPopup(true)
+      return;
     }
+
+    //닉네임 중복검사
     const nicknameSnapshot = await usersRef.where("nickname", "==", formState.nickname).get();
     if (!nicknameSnapshot.empty) {
       setNicknameValid("중복된 닉네임입니다.");
@@ -251,7 +252,6 @@ function SignUp() {
             </div>
           </div>
           <div>
-            {showPopup && <Popup/>}
           <FormButton
             primary
             disabled={disabled}
@@ -265,6 +265,10 @@ function SignUp() {
           </div>
               
         </fieldset>
+            {showPopup && 
+            <Popup text={"필수 약관동의는 체크해야 합니다."} 
+            setShowPopup={setShowPopup}
+            showPopup={showPopup}/>}
       </SignUpForm>
     </Section >
   )
