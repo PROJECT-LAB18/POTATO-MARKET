@@ -5,7 +5,7 @@ import {doc, getDoc, updateDoc, increment, onSnapshot} from "firebase/firestore"
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
-
+import { userInformation } from "@/stores/userAuth.js"
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
 import SwiperPhoto from "../components/swiper"
@@ -13,6 +13,8 @@ import SwiperPhoto from "../components/swiper"
 import icon_temp4 from "@/assets/icon_temp4.svg"
 import firebase from '@/firebase';
 import moneyUnit from "@/utils/moneyUnit";
+import { useRecoilState } from "recoil";
+import { connectStorageEmulator } from "firebase/storage";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -33,21 +35,29 @@ function Detailarticle(){
   const db = firebase.firestore();
   const uid = useParams();
   const [render,Setrender] = useState(0);
+  let [myBoard,setMyBoard] = useState(0);
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
+  const [userId,setUserId] = useRecoilState(userInformation);
+
+  if(userId.uid == propsdata.userId){
+    myBoard = 1;
+  }
   useEffect(()=>{
+    window.scrollTo(0,0);
     const newObj = {
       check : increment(1),
     };
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
       setPropsdata(res.data()) ;
       Setrender(1);
-    })});
+    })})
+    ;
   }, [uid])
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} location={propsdata.location} side={propsdata.side} title={propsdata.title}  
+      {render?<Productdetail state={myBoard} chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} location={propsdata.location} side={propsdata.side} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
@@ -56,12 +66,11 @@ function Detailarticle(){
 const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
-function Productdetail({title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
+function Productdetail({state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [heartArr, setHeart] = useState([]);
-
-  const clickButton = () => {setClick(click?0:1)}
+ const clickButton = () => {setClick(click?0:1)}
   
   useEffect(()=>{
     onSnapshot(q,(snapshot)=>{
@@ -131,7 +140,13 @@ function Productdetail({title,side,nickname,profileImage,location,temperature,da
             <span>조회 {check} </span>
           </div>
           <div className="button-list">
-            <CustomButton>채팅하기</CustomButton>
+            {state?
+            <>
+            <CustomButton>수정</CustomButton>
+            <CustomButton>삭제</CustomButton>
+            </>:                    
+            <CustomButton>채팅하기</CustomButton>         
+            }
           </div>
         </div>
       </Section>

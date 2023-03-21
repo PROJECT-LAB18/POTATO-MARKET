@@ -11,7 +11,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import Product from "@/components/product";
 
 import firebase  from '@/firebase';
-import { userInformation } from "@/stores/userAuth.js"
+
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 
 
