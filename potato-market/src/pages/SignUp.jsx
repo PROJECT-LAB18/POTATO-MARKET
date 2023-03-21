@@ -264,7 +264,7 @@ function SignUp() {
           text={"회원가입에 성공했습니다! 어서오세요!"}
           onClose={() => {
             setShowPopup(false);
-            navigate(-1);
+            navigate("/");
           }}
         />
       }
