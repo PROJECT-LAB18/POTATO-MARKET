@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
+import 'firebase/compat/database'
 // const {
 //   VITE_API_KEY,
 //   VITE_AUTH_DOMAIN,
@@ -30,7 +30,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const usersRef = db.collection('users');
+const realDB=firebase.database(); //리얼 데이터 베이스
+const usersRef = db.collection('users'); 
 
-export { firebase, db, usersRef };
+export { firebase, db, usersRef,realDB };
 export default firebase;

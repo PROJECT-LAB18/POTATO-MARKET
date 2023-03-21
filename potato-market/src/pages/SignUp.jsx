@@ -13,6 +13,7 @@ import FormButton from '../styles/FormButton';
 import { gray3, gray8 ,primaryColor} from '../styles/Global';
 
 import firebase from '@/firebase';
+import Popup from '../components/Popup';
 
 function SignUp() {
   
@@ -44,45 +45,48 @@ function SignUp() {
 
 
   
-  /**
-   * disabled 조건
-   */
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
-
   const [error, setError] = useState("");
-
+  
+  const [nicknameValid, setNicknameValid] = useState("");
+  
+  // disabled 조건
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
+  
+  //팝업창
+  const [showPopup, setShowPopup] = useState(false);
+  
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
     // const currentUserUid = firebase.auth().currentUser.uid;
     // const usersRef = firebase.db().collection("users");
     
-    if (formState.password !== formState.confirmPassword) {
-      setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-      return;
-    }
-    if( !isCheckedOne || !isCheckedTwo || !isCheckedFour){
-      alert("필수 이용 약관에 동의하셔야합니다.")
-      return
-    }
 
+    if( !isCheckedOne || !isCheckedTwo || !isCheckedFour){
+      setShowPopup("필수 이용 약관에 동의하셔야합니다.")
+    }else {
+      setShowPopup(true);
+    }
     const nicknameSnapshot = await usersRef.where("nickname", "==", formState.nickname).get();
     if (!nicknameSnapshot.empty) {
-      alert('중복된 닉네임 입니다.')
+      setNicknameValid("중복된 닉네임입니다.");
       return;
+    }else { 
+      setNicknameValid("")
     }
-
-
+    
+    
     try {
       const userCredential = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(formState.email, formState.password);
+      .auth()
+      .createUserWithEmailAndPassword(formState.email, formState.password);
       const db = firebase.firestore();
       await db.collection("users").doc(userCredential.user.uid).set({
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
         agree: isCheckedThree,
-
+        
       });
       navigate(-1);
     } catch (error) {
@@ -198,10 +202,8 @@ function SignUp() {
                 placeholder={"비밀번호를 입력해주세요"}
                 text={"비밀번호"}
                 type={"password"}
-                valid={formState.password.length < 8 ? "최소 8자 이상 입력" : ""}
-                value={formState.password}
+                valid ={formState.password && (formState.password.length < 6 || formState.password.length > 8) ? "최소 6자 이상 8자 이하로 입력해주세요." : ""} 
                 onChange={handleInputChange}
-
               />
             </li>
             <li className="form-item">
@@ -210,12 +212,9 @@ function SignUp() {
                 id={"confirmPassword"}
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
+                valid={formState.confirmPassword && (formState.password !== formState.confirmPassword) ? "비밀번호가 일치 하지 않습니다." : ""}
                 type={"password"}
-                valid={"동일한 비밀번호를 입력"}
-                value={formState.confirmPassword}
                 onChange={handleInputChange}
-
-
               />
             </li>
             <li className="form-item">
@@ -225,10 +224,10 @@ function SignUp() {
                 placeholder={"닉네임을 입력해주세요"}
                 text={"닉네임"}
                 type={"text"}
+                valid={nicknameValid}
                 value={formState.nickname}
                 onChange={handleInputChange}
-
-              />
+                />
             </li>
             <li className="form-item">
               <FormInputImage />
@@ -251,7 +250,8 @@ function SignUp() {
               <FormTerms id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"}  checked={isCheckedFour} onChange={handleCheckboxChangeFour}/>
             </div>
           </div>
-
+          <div>
+            {showPopup && <Popup/>}
           <FormButton
             primary
             disabled={disabled}
@@ -262,6 +262,7 @@ function SignUp() {
             }}
             onClick={handleSignUp}
             >가입하기</FormButton>
+          </div>
               
         </fieldset>
       </SignUpForm>

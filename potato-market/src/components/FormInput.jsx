@@ -135,7 +135,7 @@ const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, 
         {desc && <DescText>{desc}</DescText>}
         {valid &&<VaildNotice>{valid}</VaildNotice>}
       </InputBox>
-      {button &&<Button type="button">{button}</Button>}
+      {button &&  <Button type="button" >{button}</Button>}
     </>
   )
 };
