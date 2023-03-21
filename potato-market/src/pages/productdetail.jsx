@@ -48,7 +48,7 @@ function Detailarticle(){
   useEffect(()=>{
     window.scrollTo(0, 0);
     const newObj = {
-      check : increment(1),
+      check : increment(1)
     };
     updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
       setPropsdata(res.data());
@@ -73,8 +73,8 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
   const [clickDelete, setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
   const clickButton = () => {setClick(click?0:1)}
+  
   const uid = useParams();
-
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
   const [modifiedContent, setModifiedContent] = useState({
@@ -82,6 +82,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
     modifiedPrice: price,
     modifiedContent: content
   });
+
   const onChangeHandler = (e) => {
     setModifiedContent((prev)=>{
       return {
@@ -90,6 +91,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       }
     })
   }
+
   useEffect(()=>{
     onSnapshot(q,(snapshot)=>{
       const newArr = snapshot.docs.map(doc=>{
@@ -169,8 +171,8 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
           <div className="button-list">
             {state?
             <>
-            <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
-            <CustomButton red onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
+              <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
+              <CustomButton red onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
             </>:                    
             <CustomButton>채팅하기</CustomButton>         
             }
@@ -192,7 +194,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       {clickDelete?
       <DeleteDiv>
         <form>
-          <h2>정말로 삭제하시겠습니까?</h2>
+          <h3>정말로 삭제하시겠습니까?</h3>
           <div className="button-wrapper">
             <CustomButton red onClick={(e)=>{
               e.preventDefault();  
@@ -269,9 +271,9 @@ const DeleteDiv = styled.div`
   button:first-child{
     border: none;
   }
-  & h2{
+  & h3{
     font-weight: 900;
-    font-size: 32px;
+    font-size: 20px;
     margin-bottom: 24px;
   }
   & form{
@@ -345,17 +347,17 @@ const CustomButton = styled.button`
     border: 1px solid #FFFFFF;
   }
   cursor:pointer;
-  width: 99px;
-  height: 40px;
-  color : ${props => props.red ? '#FFFFFF' : '#212124'};
-  background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
-  border: 1px solid #D1D3D8;
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 16px;
-  &:hover{
-  border: 1px solid #FFFFFF;
-  background: ${props => props.red ? '#a7845b' : '#D1D3D8'};
+    width: 99px;
+    height: 40px;
+    color : ${props => props.red ? '#FFFFFF' : '#212124'};
+    background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
+    border: 1px solid #D1D3D8;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 16px;
+    &:hover{
+    background: ${props => props.red ? '#a7845b' : '#D1D3D8'};
+    transition: .5s;
   }
 `
 
@@ -475,7 +477,7 @@ const Section = styled.section`
   & .content{
     font-weight: 400;
     font-size: 17px;
-    margin-bottom:22px;
+    margin-bottom: 50px;
   }
   & .counting-group{
     color: #868E96;

@@ -56,7 +56,7 @@ function WriteForm(){
         db.collection("UserWrite")
           .add({
             title: formState.title,
-            side: "물품 종류",
+            side: "중고 거래 ",
             price: formState.price,
             content: formState.content,
             date: new Date(),
@@ -107,8 +107,8 @@ export function WriteInput({className,placeholder, disabled, type, content, valu
   return <label>
     {
       content ?
-      <Textarea className={className} ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input className={className} ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
+      <Textarea ref={myinputRef} className={className} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+      <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
     }
   </label>
 }

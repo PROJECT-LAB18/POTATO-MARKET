@@ -57,11 +57,11 @@ const Image = styled.img`
   height:100%;
   
 `
-const H2 = styled.h2`
+const H3 = styled.h3`
   margin-top : 12px;
   font-weight: 400;
   font-size: 16px;
-  height: 16px;
+  height: 20px;
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
@@ -87,7 +87,7 @@ function Product({title,price,heart,chat,imgsrc,id,check,location}){
           </div>              
         </Imagediv>
         <Section>
-          <H2>{title}</H2>
+          <H3>{title}</H3>
           <PriceSpan>{moneyUnit(price)}원</PriceSpan>
           <AddressSpan>{location.sido} {location.sigungu} {location.bname}</AddressSpan>
         </Section>
