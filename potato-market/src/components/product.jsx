@@ -79,7 +79,7 @@ function Product({title,price,address,heart,chat,imgsrc,id,check}){
       <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer">
         <Imagediv>
           <div>
-            <Image alt="상품 자세히 보기" src={imgsrc[0]} />
+            <Image alt="상품 자세히 보기" src={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
           </div>              
         </Imagediv>
         <Section>

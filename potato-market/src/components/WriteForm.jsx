@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+
+// import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { useRecoilState } from "recoil";
 import styled, { css } from 'styled-components';
 
 import AddPhoto from '@/components/AddPhoto';
 import firebase from '@/firebase';
-
+import { userId, userInformation } from "@/stores/userAuth.js"
 import { gray4, gray6, primaryColor } from "@/styles/global";
 
 const db = firebase.firestore();
@@ -16,11 +19,15 @@ function WriteForm(){
   const inputRef = useRef();
   const navigate = useNavigate();
   const [click,setClick] = useState(0)
+  const [userUid,] = useRecoilState(userId);
+  const [userInfo, ] = useRecoilState(userInformation);
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
     price : ' - ',
     content: '',
+    nickname: '',
+    profileImage: '',
   });
   
   const handleChange = (e) => {
@@ -58,12 +65,14 @@ function WriteForm(){
             chat: 0,
             check: 0,
             heart: 0,
+            userId : userUid,
+            nickname: userInfo.nickname,
+            profileImage: userInfo.profileImage
           })
           navigate("/HotArticles");
       })
     })
   }
-  
   return <section>    
     <AddPhoto myinputRef={inputRef} />
     <h3 className="a11yHidden">게시글 작성란</h3>
