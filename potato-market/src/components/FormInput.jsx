@@ -24,7 +24,10 @@ export const FormInputLocation = ({setOpenPostcode, fullAddress}) => {
       <LabelText htmlFor="userLocation">주소</LabelText>
         <InputBox >
           <div className="loca" >
-            <input readOnly id="userLocation" name="userLocation" type="text" value={fullAddress} onClick={clickButton}/>
+            <input readOnly id="userLocation" name="userLocation" type="text" 
+            value={fullAddress==='undefined undefined undefined' ? '' : fullAddress} 
+            onClick={clickButton}
+            />
             <Button type="button" onClick={clickButton}>검색</Button>
           </div>
           {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}

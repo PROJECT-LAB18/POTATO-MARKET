@@ -19,13 +19,10 @@ const FormInputAddress = ({location, setLocation}) => {
       }
     ))
     
-    // 확인코드 (동작 x)
-    console.log(location);
-
     // 주소 창 다시 닫기
     setOpenPostcode(false);
-    }
-  
+  }
+
   return(
     <>
       <FormInputLocation 
