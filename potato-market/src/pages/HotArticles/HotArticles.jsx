@@ -49,7 +49,7 @@ function HotArticles(){
   )
 }
 
-const ProductList = styled.section`
+export const ProductList = styled.section`
   margin: 35px auto;
   display: grid;
   gap: 55px;
