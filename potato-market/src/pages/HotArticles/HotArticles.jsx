@@ -8,12 +8,10 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 import Product from "@/components/product";
 
-import firebase from '@/firebase';
-import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
-import ProductList from '@/styles/ProductList';
+import { userWriteRef } from '@/firebase';
 
-const db = firebase.firestore();
-const q = db.collection("UserWrite");
+import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
+import ProductList from '@/styles/ProductList'
 
 let newArr = [];
 
@@ -21,18 +19,10 @@ let newArr = [];
 function HotArticles() {
   const [render, Setrender] = useState(0);
   useEffect(() => {
+    window.scrollTo(0, 0);
     newArr = [];
-    //   db.collection('UserWrite').get().then((item)=>{
-    //     item.forEach((item)=>{ 
-    //     serverdata[i] = item.data();
-    //     i++;
-    //     Setrender(1);      
-    //     serverdata.sort((b, a) => a.date - b.date)
-    //     // console.log(serverdata)
-    //     // console.log(orderedDate)
-    // }
-    // )})
-    onSnapshot(q, (snapshot) => {
+
+    onSnapshot(userWriteRef, (snapshot) => {
       snapshot.docs.map((doc) => {
         const newObj = {
           id: doc.id,

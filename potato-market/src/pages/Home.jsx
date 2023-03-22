@@ -1,8 +1,38 @@
+import { useEffect, useState } from "react";
+
+import {onSnapshot} from "firebase/firestore"
 import styled, { createGlobalStyle } from "styled-components";
 
+import { ProductList } from "./HotArticles/HotArticles";
+import Product from "../components/product";
 import { gray1, gray2 } from "../styles/Global";
 
+import firebase from '@/firebase';
+
+const db = firebase.firestore();
+const q = db.collection("UserWrite");
+
 export default function Home(){
+  
+  const [ readyToRender, setReadyToRender] = useState(0);
+  const [checkArr, setCheckArr] = useState([]);
+  
+  useEffect(()=>{
+    onSnapshot(q, (snapshot)=>{
+      const newArr = snapshot.docs.map(doc => {
+        return {
+          id : doc.id,
+          ...doc.data()
+        }
+      })
+
+      newArr.sort((b, a) => a.check - b.check);
+      setCheckArr(newArr.slice(0, 8));
+      setReadyToRender(1);
+
+    })
+  }, [checkArr])
+
   return (
     <>
       <HomeGlobal/>
@@ -33,8 +63,13 @@ export default function Home(){
 
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
-        {/* 상품목록 8개 컴포넌트 */}
-        <div>상품목록 8개 공간</div>
+        <ProductList className="Hot8">
+          { readyToRender ? checkArr.map(
+              ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />)) 
+            : <p>Render Failed</p> 
+          }
+        </ProductList>
         <UnderlineButton>
           인기매물 더보기
         </UnderlineButton>
@@ -59,6 +94,7 @@ export default function Home(){
   ) 
 }
 
+// Styled Components
 
 const HomeGlobal = createGlobalStyle`
   body {
@@ -70,8 +106,9 @@ const HomeGlobal = createGlobalStyle`
   h2 {
     font-weight: 700;
     font-size: 3rem;
+    margin: 0 auto;
   }
-`
+`;
 
 const MainTop = styled.section`
   background-color: #FBF7F2;
@@ -91,6 +128,7 @@ const MainTop = styled.section`
       top: 40%;
       left: 15rem;
       line-height: 1.3; 
+      width: 50rem;
     }
     
     & p {
@@ -181,24 +219,31 @@ const MainReversed = styled.section`
 const HotArticles8 = styled.section`
   background-color: ${gray2};
   padding-top: 125px;
-  padding-bottom: 11.5rem;
+  padding-bottom: 5rem;
+  margin: 0 auto;
   
   h2 {
     font-size: 40px;
     text-align: center;
+    /* display: block; */
+    width: 300px;
   }
-
-  div {
-    width: 1024px;
-    height: 752px;
-    background-color: aqua;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 85px;
+  
+  .Hot8 {
+    margin-left: 0;
+    padding-left: 20rem;
+    padding-right: 30rem;
+    margin-bottom: 5rem;
+    
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
+      text-align: left;
+    }
   }
-  `;
+`;
 
-  const UnderlineButton = styled.button`
+const UnderlineButton = styled.button`
     margin-left: auto;
     margin-right: auto;
     background-color: transparent;

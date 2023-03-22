@@ -1,11 +1,11 @@
+import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
 import WriteForm from '@/components/WriteForm';
-import { useRecoilState } from "recoil";
 import { userId } from "@/stores/userAuth.js"
 import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
 function WriteArticle(){
-  const [login, setLogin] = useRecoilState(userId);
+  const [login] = useRecoilState(userId);
   
   return (
     <Main className="wrapper">
