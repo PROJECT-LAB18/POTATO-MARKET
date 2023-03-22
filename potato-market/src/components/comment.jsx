@@ -170,7 +170,7 @@ const Div = styled.div`
   }  
 
   & ul{
-    width: 410px;
+    width: 405px;
     margin:5px 0;
     padding: 10px;
     overflow: auto;
