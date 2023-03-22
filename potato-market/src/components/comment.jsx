@@ -9,13 +9,22 @@ function Comment(){
   const inputValue = useRef();
   const [lender,setLender] = useState(0);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
-  const [chatData,setChatData] = useState({chat : [{id : "hi",coment: "hi"},]});
+  let [chatData,setChatData] = useState({chat : [{id : "hi",coment: "hi"},]});
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
-  userSnap.then((item)=>{setChatData(item.data());
-  setLender(1)})
+  const commentRef = db.collection('comment');
 
- 
+  // onSnapshot(commentRef, (snapshot) => {setLender(0)})
+  if(!lender){
+      console.log(1)
+      userSnap.then((item)=>{setChatData(item.data())});
+      setLender(1);
+  }
+  useEffect(()=>{
+
+  },[])
+
+
   return(
     <>
     <Div>
@@ -27,14 +36,22 @@ function Comment(){
       </ul>
       <div className="comment-div">
       <input ref={inputValue} type="text" /><button type="button" onClick={()=>{  
-        chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value});
-        inputValue.current.value = "";
         const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
         const userSnap = getDoc(userRef);
-        updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{ setLender(1)
-        })})
-        
+        userSnap.then((item)=>{chatData=item.data();
+          chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value});
+          console.log(chatData)
+          inputValue.current.value = "";
+          updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
+          })})        
+        });
       }}>전송</button>
+      <button type="button" onClick={()=>{
+        const newData = {chat:[]};
+        updateDoc(userRef,newData).then(()=>{ userSnap.then(()=>{  setLender(0) 
+        })})
+      }
+      }>초기화</button>
       </div>
     </Div>
     </>
@@ -57,6 +74,10 @@ const Div = styled.div`
   }
   & .comment-div input{
     width:81%
+  }
+  & .comment-div button{
+    width:65px;
+    font-size: 12px;
   }
   & h2{
     border-bottom: 1px solid black;
