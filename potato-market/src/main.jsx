@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 
 import WriteArticle from './pages/WriteArticle';
 import { RecoilRoot } from "recoil";
+import ChatPage from './pages/ChatPage';
 
 // import {
 //   RecoilRoot,
@@ -114,7 +115,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'chat',
-        element: <Chat />,
+        element: <ChatPage />,
       },
      
     ],
