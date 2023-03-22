@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import Toggle from "./Toggle";
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
@@ -7,7 +8,6 @@ import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 function Header () {
   return (
     <HeaderWrap>
-      
       <MainTitle className="a11yHidden">감자마켓</MainTitle>
       <img alt="" src={mainLogo} />
       <MenuButton className="primary">중고거래</MenuButton>
@@ -18,6 +18,7 @@ function Header () {
       </SearchForm>
       <ChatButton>채팅하기</ChatButton>
       <MypageIcon aria-label="마이페이지"/>
+      <Toggle/>
     </HeaderWrap>
   )
 }
@@ -30,6 +31,7 @@ const HeaderWrap = styled.header`
   margin-right: auto;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 
   .a11yHidden {
     display: inline-block;
@@ -57,6 +59,7 @@ const HeaderWrap = styled.header`
   .primary:hover {
     color: ${primaryColor};
   }
+
 `;
 
 const MainTitle = styled.h1`
@@ -106,7 +109,6 @@ const ChatButton = styled.button`
   font-size: 16px;
   background-color: #FFF;
   display: inline-block;
-  /* border: 0; */
   border: 1px solid #D1D3D8;
   border-radius: 4px;
   cursor: pointer;
