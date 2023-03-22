@@ -1,58 +1,57 @@
 import { useEffect, useState } from "react";
 
-import {onSnapshot} from "firebase/firestore"
+import { onSnapshot } from "firebase/firestore"
 import styled, { createGlobalStyle } from "styled-components";
 
-import { ProductList } from "./HotArticles/HotArticles";
-import Product from "../components/product";
 import { gray1, gray2 } from "../styles/Global";
 
+import Product from "@/components/product";
+
 import firebase from '@/firebase';
+import ProductList from '@/styles/ProductList';
 
 const db = firebase.firestore();
 const q = db.collection("UserWrite");
 
-export default function Home(){
-  
-  const [ readyToRender, setReadyToRender] = useState(0);
+export default function Home() {
+
+  const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
-  
-  useEffect(()=>{
-    onSnapshot(q, (snapshot)=>{
+
+  useEffect(() => {
+    onSnapshot(q, (snapshot) => {
       const newArr = snapshot.docs.map(doc => {
         return {
-          id : doc.id,
+          id: doc.id,
           ...doc.data()
         }
       })
-
       newArr.sort((b, a) => a.check - b.check);
       setCheckArr(newArr.slice(0, 8));
       setReadyToRender(1);
-
     })
   }, [checkArr])
 
   return (
     <>
-      <HomeGlobal/>
+      <HomeGlobal />
       <MainTop imgheight="50.25rem" imgwidth="42.813rem">
         <div className="home-main-description">
-          <h2>당신 근처의<br/>감자마켓</h2>
-          <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br/>
-          가깝고 따뜻한 당신의 근처를 만들어요.</p>
+          <h2>당신 근처의<br />감자마켓</h2>
+          <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br />
+            가깝고 따뜻한 당신의 근처를 만들어요.</p>
         </div>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png"/>
+          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
         </div>
       </MainTop>
 
       <MainReversed imgheight="" imgwidth="">
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png"/>
+          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
         </div>
         <div className="home-main-description">
-          <h2>우리 동네<br/> 중고 직거래 마켓</h2>
+          <h2>우리 동네<br /> 중고 직거래 마켓</h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="button-wrap">
             <button type="button">인기매물 보기</button>
@@ -64,10 +63,10 @@ export default function Home(){
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
-          { readyToRender ? checkArr.map(
-              ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
-              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />)) 
-            : <p>Render Failed</p> 
+          {readyToRender ? checkArr.map(
+            ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />))
+            : <p>Render Failed</p>
           }
         </ProductList>
         <UnderlineButton>
@@ -91,7 +90,7 @@ export default function Home(){
         </ul>
       </HomeKeywords>
     </>
-  ) 
+  )
 }
 
 // Styled Components
