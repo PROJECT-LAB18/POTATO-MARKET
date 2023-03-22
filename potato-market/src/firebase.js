@@ -33,11 +33,11 @@ const firebaseConfig = {
   measurementId: "G-G84D0KJ1XZ"
 };
 firebase.initializeApp(firebaseConfig);
-export const realDB=firebase.database(); //리얼 데이터 베이스
-export const usersRef = db.collection('users'); 
+export const realDB = firebase.database(); //리얼 데이터 베이스
 export const auth = firebase.auth();
 export const db = firebase.firestore();
 export const storage = firebase.storage();
 
+export const usersRef = db.collection('users');
 
 export default firebase;

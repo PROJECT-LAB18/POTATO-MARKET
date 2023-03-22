@@ -12,11 +12,7 @@ import FormButton from '../styles/FormButton';
 
 import { gray3, gray8, primaryColor } from '../styles/Global';
 
-import firebase from '@/firebase';
-import Popup from '../components/Popup';
-
 import { auth, db, storage, usersRef } from '@/firebase';
-
 
 function SignUp() {
 
@@ -30,8 +26,6 @@ function SignUp() {
   const [isCheckedThree, setIsCheckedThree] = useState(false);
   const [isCheckedFour, setIsCheckedFour] = useState(false);
 
-  const [showPopup, setShowPopup] = useState(false);
-
   const [location, setLocation] = useState({});
 
   const [formState, setFormState] = useState({
@@ -43,7 +37,6 @@ function SignUp() {
     Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
   },
   );
-
 
   const [error, setError] = useState("");
   
