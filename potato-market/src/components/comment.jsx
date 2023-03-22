@@ -62,8 +62,8 @@ function Comment(){
           {lender?chatData.chat.map((item,index)=>(
           <li key={index}><img alt={item.img} src={item.img}></img>
           <div className="chat-line">
-             <p>{item.id}:</p><p>{item.coment}</p>
-            <p className="time-class">{item.time.slice(7,23)}</p>
+             <p>{item.coment}</p>
+            <p className="time-class">{item.time.slice(7,23)}•{item.id}</p>
           </div>
           </li>
             // console.log(item.id,item.coment)
@@ -104,8 +104,8 @@ function Comment(){
 const Div = styled.div`
   z-index:9999;
   border-radius: 30px;
-  background-color: #FBF7F2;
-  background-image: ${chat_bg};
+  background: #FBF7F2 url(${chat_bg}) no-repeat ;
+  background-position:0% 100%;
   position: fixed;
   right: 0;
   top:25%;
@@ -171,7 +171,7 @@ const Div = styled.div`
     border-radius: 50%;
     width:16px;
     height: 16px;
-    top:5px;
+    top:3px;
     right:5px;
   }
   & .send-button img{
@@ -204,6 +204,7 @@ const Div = styled.div`
     margin:5px 0;
     padding: 10px;
     overflow: scroll;
+    overflow-x: hidden;
     text-overflow:ellipsis;
     height: 220px;
   }
