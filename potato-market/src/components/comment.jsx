@@ -111,6 +111,12 @@ const Div = styled.div`
   width: 432.9px;
   height: 400px;
 
+  button:focus{
+    outline-offset: -7px;
+    outline-width: medium;
+    outline-color: #AFDBAF;
+  }
+
   & .header-div{
     width: 100%;
     position: relative;
@@ -167,7 +173,7 @@ const Div = styled.div`
     width: 410px;
     margin:5px 0;
     padding: 10px;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
     text-overflow:ellipsis;
     height: 270px;
