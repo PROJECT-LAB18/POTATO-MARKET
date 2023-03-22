@@ -9,20 +9,26 @@ function Comment(){
   const inputValue = useRef();
   const [lender,setLender] = useState(0);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
-  let [chatData,setChatData] = useState({chat : [{id : "hi",coment: "hi"},]});
+  let [chatData,setChatData] = useState({chat : [{},]});
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
   const commentRef = db.collection('comment');
-
-  // onSnapshot(commentRef, (snapshot) => {setLender(0)})
+  
   if(!lender){
-      console.log(1)
-      userSnap.then((item)=>{setChatData(item.data())});
-      setLender(1);
+    userSnap.then((item)=>{setChatData(item.data())});
+    setLender(1);
   }
-  useEffect(()=>{
 
-  },[])
+  useEffect(() => {
+    console.log('hi')
+    const fetchUser = async () => {
+      onSnapshot(commentRef, () => {
+        setLender(0);
+        
+      });
+    };
+    return fetchUser()
+  }, [onSnapshot]);
 
 
   return(
@@ -40,7 +46,6 @@ function Comment(){
         const userSnap = getDoc(userRef);
         userSnap.then((item)=>{chatData=item.data();
           chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value});
-          console.log(chatData)
           inputValue.current.value = "";
           updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
           })})        
