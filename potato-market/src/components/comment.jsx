@@ -37,7 +37,7 @@ function Comment(){
   return(
     <>
     <Div>
-      <h2>채팅</h2>
+      <h2 className='chat-h2'>채팅</h2>
       <div ref={scrollRef} className="div-warpper">
         <ul>
           <li className='notice'><p>관리자:</p><p>초기화를 누를 경우, 모든 유저의 채팅이 증발합니다.
@@ -105,7 +105,8 @@ const Div = styled.div`
     border-radius: 10px;
     font-size: 12px;
   }
-  & h2{
+  & .chat-h2{
+    font-size:18px;
     font-weight: 700;
     text-align: center;
   }
