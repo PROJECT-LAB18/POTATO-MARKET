@@ -12,10 +12,8 @@ function Comment(){
   const [chatData,setChatData] = useState({chat : [{id : "hi",coment: "hi"},]});
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
-  useEffect(()=>{
-    userSnap.then((item)=>{setChatData(item.data());
-    setLender(1)})
-  },[])
+  userSnap.then((item)=>{setChatData(item.data());
+  setLender(1)})
 
  
   return(
@@ -31,7 +29,9 @@ function Comment(){
       <input ref={inputValue} type="text" /><button type="button" onClick={()=>{  
         chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value});
         inputValue.current.value = "";
-        updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{
+        const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
+        const userSnap = getDoc(userRef);
+        updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{ setLender(1)
         })})
         
       }}>전송</button>
