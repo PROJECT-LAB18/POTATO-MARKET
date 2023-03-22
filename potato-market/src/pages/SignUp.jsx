@@ -41,12 +41,14 @@ function SignUp() {
 
   const [nicknameValid, setNicknameValid] = useState("");
 
-  //팝업창
+  // 프로필 이미지
+  const [profileUrl, setProfileUrl] = useState("");
+
+  // 팝업창
   const [showPopup, setShowPopup] = useState(false);
 
   // disabled 조건
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
-
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname;
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -72,10 +74,9 @@ function SignUp() {
 
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
       let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"; // 기본 이미지
-      const file = document.querySelector('#profileImage').files[0];
-      if (file) {
+      if (profileUrl) {
         const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-        const uploadTask = uploadRef.put(file);
+        const uploadTask = uploadRef.put(profileUrl);
         profileImageUrl = await uploadTask.then(
           (snapshot) => snapshot.ref.getDownloadURL()
         );
@@ -105,10 +106,6 @@ function SignUp() {
       )
       setShowPopup(errorMessage);
     }
-
-
-
-
   };
 
   //파이어베이스 에러메세지 
@@ -264,12 +261,10 @@ function SignUp() {
                 valid={nicknameValid}
                 value={formState.nickname}
                 onChange={handleInputChange}
-
               />
-
             </li>
             <li className="form-item">
-              <FormInputImage />
+              <FormInputImage profileUrl={profileUrl} setProfileUrl={setProfileUrl} />
             </li>
             <li className="form-item">
               <FormInputAddress
