@@ -30,7 +30,7 @@ export default function Home() {
       setCheckArr(newArr.slice(0, 8));
       setReadyToRender(1);
     })
-  }, [checkArr])
+  }, [])
 
   return (
     <>
