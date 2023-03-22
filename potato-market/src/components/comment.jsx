@@ -9,7 +9,7 @@ function Comment(){
   const inputValue = useRef();
   const [lender,setLender] = useState(0);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
-  let [chatData,setChatData] = useState({chat : [{},]});
+  let [chatData,setChatData] = useState({chat : []});
   const scrollRef = useRef();
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
@@ -44,7 +44,8 @@ function Comment(){
           <br></br>마지막 업데이트 <br></br> &nbsp;2023-03-22 20:00
           </p>
             </li>
-          {lender?chatData.chat.map((item,index)=>(<li key={index}><p>{item.id}:</p><p>{item.coment}</p></li>
+          {lender?chatData.chat.map((item,index)=>(<li key={index}><p>{item.id}:</p><p>{item.coment}</p>
+          <p>{item.time.slice(7,23)}</p></li>
             // console.log(item.id,item.coment)
           )):<p>렌더링중</p>}
         </ul>      
@@ -54,7 +55,7 @@ function Comment(){
         const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
         const userSnap = getDoc(userRef);
         userSnap.then((item)=>{chatData=item.data();
-          chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value});
+          chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date()});
           inputValue.current.value = "";
           updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
           })})        
