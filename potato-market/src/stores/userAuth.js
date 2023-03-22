@@ -8,6 +8,8 @@ export const userId = atom({
 export const userInformation = atom({
   key: "userInformation",
   default: {
+    uid: "",
+    location :"",
     agree: "",
     email: "",
     nickname: "",

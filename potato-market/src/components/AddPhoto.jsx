@@ -39,7 +39,7 @@ function AddPhoto({myinputRef}){
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg" multiple={true} myinputRef={myinputRef} type="file"        
+      <WriteInput accept=".png, .jpeg, .jpg, .gif" multiple={true} myinputRef={myinputRef} type="file"        
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {

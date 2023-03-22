@@ -1,28 +1,57 @@
+import { useEffect, useState } from "react";
+
+import { onSnapshot } from "firebase/firestore"
 import styled, { createGlobalStyle } from "styled-components";
 
 import { gray1, gray2 } from "../styles/Global";
 
-export default function Home(){
+import Product from "@/components/product";
+
+import firebase from '@/firebase';
+import ProductList from '@/styles/ProductList';
+
+const db = firebase.firestore();
+const q = db.collection("UserWrite");
+
+export default function Home() {
+
+  const [readyToRender, setReadyToRender] = useState(0);
+  const [checkArr, setCheckArr] = useState([]);
+
+  useEffect(() => {
+    onSnapshot(q, (snapshot) => {
+      const newArr = snapshot.docs.map(doc => {
+        return {
+          id: doc.id,
+          ...doc.data()
+        }
+      })
+      newArr.sort((b, a) => a.check - b.check);
+      setCheckArr(newArr.slice(0, 8));
+      setReadyToRender(1);
+    })
+  }, [])
+
   return (
     <>
-      <HomeGlobal/>
+      <HomeGlobal />
       <MainTop imgheight="50.25rem" imgwidth="42.813rem">
         <div className="home-main-description">
-          <h2>당신 근처의<br/>감자마켓</h2>
-          <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br/>
-          가깝고 따뜻한 당신의 근처를 만들어요.</p>
+          <h2>당신 근처의<br />감자마켓</h2>
+          <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br />
+            가깝고 따뜻한 당신의 근처를 만들어요.</p>
         </div>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png"/>
+          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
         </div>
       </MainTop>
 
       <MainReversed imgheight="" imgwidth="">
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png"/>
+          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
         </div>
         <div className="home-main-description">
-          <h2>우리 동네<br/> 중고 직거래 마켓</h2>
+          <h2>우리 동네<br /> 중고 직거래 마켓</h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="button-wrap">
             <button type="button">인기매물 보기</button>
@@ -33,8 +62,13 @@ export default function Home(){
 
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
-        {/* 상품목록 8개 컴포넌트 */}
-        <div>상품목록 8개 공간</div>
+        <ProductList className="Hot8">
+          {readyToRender ? checkArr.map(
+            ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />))
+            : <p>Render Failed</p>
+          }
+        </ProductList>
         <UnderlineButton>
           인기매물 더보기
         </UnderlineButton>
@@ -56,9 +90,10 @@ export default function Home(){
         </ul>
       </HomeKeywords>
     </>
-  ) 
+  )
 }
 
+// Styled Components
 
 const HomeGlobal = createGlobalStyle`
   body {
@@ -70,8 +105,9 @@ const HomeGlobal = createGlobalStyle`
   h2 {
     font-weight: 700;
     font-size: 3rem;
+    margin: 0 auto;
   }
-`
+`;
 
 const MainTop = styled.section`
   background-color: #FBF7F2;
@@ -91,6 +127,7 @@ const MainTop = styled.section`
       top: 40%;
       left: 15rem;
       line-height: 1.3; 
+      width: 50rem;
     }
     
     & p {
@@ -181,24 +218,31 @@ const MainReversed = styled.section`
 const HotArticles8 = styled.section`
   background-color: ${gray2};
   padding-top: 125px;
-  padding-bottom: 11.5rem;
+  padding-bottom: 5rem;
+  margin: 0 auto;
   
   h2 {
     font-size: 40px;
     text-align: center;
+    /* display: block; */
+    width: 300px;
   }
-
-  div {
-    width: 1024px;
-    height: 752px;
-    background-color: aqua;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 85px;
+  
+  .Hot8 {
+    margin-left: 0;
+    padding-left: 20rem;
+    padding-right: 30rem;
+    margin-bottom: 5rem;
+    
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
+      text-align: left;
+    }
   }
-  `;
+`;
 
-  const UnderlineButton = styled.button`
+const UnderlineButton = styled.button`
     margin-left: auto;
     margin-right: auto;
     background-color: transparent;

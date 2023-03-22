@@ -28,15 +28,18 @@ function App() {
 
           setUserUid(uid);
           setUserInfo({
+            uid : user.uid,
+            location : doc.data().location,
             agree: doc.data().agree,
             email: doc.data().email,
             nickname: doc.data().nickname,
             phoneNumber: doc.data().phoneNumber,
             profileImage: doc.data().profileImage,
           });
+          setLender(1);
+
         })
         let uid = user.uid;
-        setLender(1);
       } else {
         console.log('로그아웃상태');
         setLender(1)
