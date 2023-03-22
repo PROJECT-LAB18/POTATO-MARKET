@@ -31,7 +31,7 @@ export default function Home(){
       setReadyToRender(1);
 
     })
-  }, [checkArr])
+  }, [])
 
   return (
     <>

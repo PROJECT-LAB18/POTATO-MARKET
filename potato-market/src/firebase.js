@@ -24,13 +24,12 @@ import "firebase/compat/storage";
 // };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBzWObRx_ukdrL00YXlSxG18r3nIKVZKJA",
-  authDomain: "patato-market.firebaseapp.com",
-  projectId: "patato-market",
-  storageBucket: "patato-market.appspot.com",
-  messagingSenderId: "524849815138",
-  appId: "1:524849815138:web:780ed5bb193ff53a51fb3b",
-  measurementId: "G-G84D0KJ1XZ"
+  apiKey: "AIzaSyAOumwOGF_a3j3v5RqF_OzMEzNrlASGRyE",
+  authDomain: "potato-market-lab18.firebaseapp.com",
+  projectId: "potato-market-lab18",
+  storageBucket: "potato-market-lab18.appspot.com",
+  messagingSenderId: "862520392764",
+  appId: "1:862520392764:web:fa40b5561ca057dcfa5739"
 };
 firebase.initializeApp(firebaseConfig);
 export const realDB = firebase.database(); //리얼 데이터 베이스
