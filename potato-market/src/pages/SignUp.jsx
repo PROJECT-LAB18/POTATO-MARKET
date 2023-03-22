@@ -35,8 +35,7 @@ function SignUp() {
     confirmPassword: "",
     nickname: "",
     Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
-  },
-  );
+  });
 
   const [error, setError] = useState("");
   
@@ -68,13 +67,21 @@ function SignUp() {
     }
 
     try {
+      // Firebase Authentication : 신규 계정 생성
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
+
+      // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
+      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/default_profile.png?alt=media&token=1c915d92-e3d7-4b06-9d99-03340d7bd805"; // 기본 이미지
       const file = document.querySelector('#profileImage').files[0];
-      const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-      const uploadTask = uploadRef.put(file);
-      const profileImageUrl = await uploadTask.then(
-        (snapshot) => snapshot.ref.getDownloadURL()
-      );
+      if (file) {
+        const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
+        const uploadTask = uploadRef.put(file);
+        profileImageUrl = await uploadTask.then(
+          (snapshot) => snapshot.ref.getDownloadURL()
+        );
+      }
+
+      // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
       userBatch.set(userDoc, {
@@ -303,7 +310,7 @@ function SignUp() {
           text={"회원가입에 성공했습니다! 어서오세요!"}
           onClose={() => {
             setShowPopup(false);
-            navigate(-1);
+            navigate("/");
           }}
         />
       }
