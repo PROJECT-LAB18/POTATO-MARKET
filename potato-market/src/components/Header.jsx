@@ -1,10 +1,14 @@
+
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
+import { onChat } from "../stores/onChat";
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
+  const [chat,setChat] = useRecoilState(onChat);
   return (
     <HeaderWrap>
       
@@ -16,7 +20,7 @@ function Header () {
       <SearchForm>
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
-      <ChatButton>채팅하기</ChatButton>
+      <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
       <MypageIcon aria-label="마이페이지"/>
     </HeaderWrap>
   )
