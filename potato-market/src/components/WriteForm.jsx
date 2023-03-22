@@ -20,6 +20,10 @@ function WriteForm(){
   const [click,setClick] = useState(0);
   const [userUid,] = useRecoilState(userId);
   const [userInfo, ] = useRecoilState(userInformation);
+
+  const [postImg, setPostImg] = useState([]);
+  const [previewImg, setPreviewImg] = useState([]);
+
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
@@ -27,6 +31,7 @@ function WriteForm(){
     content: '',
     nickname: '',
     profileImage: '',
+    imgsrc: '',
   });
   
   const handleChange = (e) => {
@@ -75,12 +80,12 @@ function WriteForm(){
     })
   }
   return <section>    
-    <AddPhoto myinputRef={inputRef} />
     <h3 className="a11yHidden">게시글 작성란</h3>
     <Form>
       <fieldset>
+        <AddPhoto myinputRef={inputRef} name="imgsrc" postImg={postImg} previewImg={previewImg} required={true} setPostImg={setPostImg} setPreviewImg={setPreviewImg} />
         <legend>게시글 등록 폼</legend>      
-        <WriteInput name="title" placeholder="제목을 입력해주세요"  required={true} type="text" value={formState.title} onChange={handleChange} />
+        <WriteInput name="title" placeholder="제목을 입력해주세요" required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
           <span>{userInfo.location.sido}</span>
@@ -97,14 +102,14 @@ function WriteForm(){
         
         <WriteButtonBox>
           <Button onClick={()=>{navigate("/HotArticles");}}>취소</Button>
-          <Button disabled={click||!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
+          <Button disabled={click||!previewImg[0]||!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
         </WriteButtonBox>
       </fieldset>
     </Form>
   </section>
 }
 
-export function WriteInput({className,placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
+export function WriteInput({className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
   return <label>
     {
       content ?

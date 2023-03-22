@@ -1,14 +1,10 @@
-import {useState} from 'react'
-
 import styled from 'styled-components';
 
 import { WriteInput } from "./WriteForm";
 
 import { gray4, primaryColor } from "@/styles/global";
 
-function AddPhoto({myinputRef}){
-  const [postImg, setPostImg] = useState([]);
-  const [previewImg, setPreviewImg] = useState([]);
+function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
 
   const uploadFile = (event) => {
     let fileArr = event.target.files;
@@ -39,7 +35,7 @@ function AddPhoto({myinputRef}){
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg, .gif" multiple={true} myinputRef={myinputRef} type="file"        
+      <WriteInput accept=".png, .jpeg, .jpg, .gif, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"        
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
