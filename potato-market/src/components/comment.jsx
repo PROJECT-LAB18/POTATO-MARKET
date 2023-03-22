@@ -1,12 +1,11 @@
 import {db, userWriteRef} from '@/firebase';
 import {doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { userInformation } from "@/stores/userAuth.js"
 import styled from "styled-components";
 import { onChat } from '../stores/onChat';
 import { gray2 } from '../styles/Global';
-import close_button from "@/assets/closebutton.svg"
 import chat_bg from "@/assets/chat/chat-bg.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_close_button from "@/assets/chat/chat-close-button.svg"
@@ -23,9 +22,7 @@ function Comment(){
   const commentRef = db.collection('comment');
   
   if(!lender){
-    userSnap.then((item)=>{setChatData(item.data())});
-    console.log(scrollRef.current)
-    
+    userSnap.then((item)=>{setChatData(item.data())});    
     setLender(1);
   }
 
@@ -39,6 +36,13 @@ function Comment(){
     return fetchUser()
   }, [onSnapshot]);
 
+  useMemo(()=>{
+    console.log(1);
+    setTimeout(() => {
+      scrollRef.current.scrollTop=scrollRef.current.scrollHeight
+    }, 150);
+
+  },[lender])
 
   return(
 
@@ -53,8 +57,8 @@ function Comment(){
         </button>
 
       </div>
-      <div ref={scrollRef} className="div-warpper">
-        <ul>
+      <div className="div-warpper">
+        <ul ref={scrollRef}>
           {/* <li className='notice'><p>관리자:</p><p>초기화를 누를 경우, 모든 유저의 채팅이 증발합니다.
           <br></br>마지막 업데이트 <br></br> &nbsp;2023-03-22 20:00
           </p>
@@ -66,7 +70,6 @@ function Comment(){
             <p className="time-class">{item.time.slice(7,23)}•{item.id}</p>
           </div>
           </li>
-            // console.log(item.id,item.coment)
           )):<p>렌더링중</p>}
         </ul>      
       </div>
@@ -224,6 +227,10 @@ const Div = styled.div`
     display: flex;
     align-items: center;
     background: #FFFFFF;
+    max-width: 335px;
+  }
+  & .chat-line p{
+    max-width: 335px;
   }
   & li img{
     margin-left:10px;
