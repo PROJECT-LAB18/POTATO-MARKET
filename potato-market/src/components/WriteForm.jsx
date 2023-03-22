@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-
-// import { onAuthStateChanged } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useRecoilState } from "recoil";
+
 import styled, { css } from 'styled-components';
 
 import AddPhoto from '@/components/AddPhoto';
@@ -57,7 +56,7 @@ function WriteForm(){
         db.collection("UserWrite")
           .add({
             title: formState.title,
-            side: "물품 종류",
+            side: "중고 거래 ",
             price: formState.price,
             content: formState.content,
             date: new Date(),
@@ -67,7 +66,8 @@ function WriteForm(){
             heart: 0,
             userId : userUid,
             nickname: userInfo.nickname,
-            profileImage: userInfo.profileImage
+            profileImage: userInfo.profileImage,
+            location : userInfo.location,
           })
           navigate("/HotArticles");
       })
@@ -82,9 +82,9 @@ function WriteForm(){
         <WriteInput name="title" placeholder="제목을 입력해주세요"  required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
-          <span>지역</span>
-          <span>동네</span>
-          <span>동</span>
+          <span>{userInfo.location.sido}</span>
+          <span>{userInfo.location.sigungu}</span>
+          <span>{userInfo.location.bname}</span>
         </RegionInformation>
 
         <ProductPriceBox>
@@ -103,12 +103,12 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef}){
+export function WriteInput({className,placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
   return <label>
     {
       content ?
-      <Textarea ref={myinputRef} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input ref={myinputRef} accept={accept} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
+      <Textarea ref={myinputRef} className={className} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+      <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick} />
     }
   </label>
 }
@@ -159,7 +159,7 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 290px;
   padding: 12px;
-  resize: vertical;
+  resize: none;
 `
 
 const ProductPriceBox = styled.div`

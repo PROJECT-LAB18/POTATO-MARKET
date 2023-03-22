@@ -5,6 +5,9 @@ import { reset } from 'styled-reset'
 const GlobalStyle = createGlobalStyle`
   ${reset}
   ${normalize}
+  html{
+    scroll-behavior: smooth;
+  }
   body {
     font-family: 'Roboto', sans-serif;
   }
