@@ -7,43 +7,11 @@ import FormInput from '../components/FormInput';
 import Popup from '../components/Popup';
 import FormButton from '../styles/FormButton';
 
-import firebase from '@/firebase';
+import { auth, usersRef } from '@/firebase';
 
-const Section = styled.section`
-  padding: 80px 0 70px;
-  h2 {
-    line-height: 36px;
-    font-size: 32px;
-    font-weight: 500;
-    text-align: center;
-  }
-`;
 
-const LoginForm = styled.form`
-  width: 340px;
-  margin: 32px auto 10px;
-  .form-list li {
-    margin-top: 12px;
-  }
-  .account-find {
-    display: flex;
-    justify-content: flex-end;
-    margin: 12px 0 28px;
-    line-height: 19px;
-    font-size: 14px;
-    li:nth-child(2)::before {
-      content: "|";
-      display: inline-block;
-      padding: 0 4px;
-    }
-    a {
-      color: black;
-      text-decoration: none;
-    }
-  }
-`;
 
-const SignIn = () => {
+function SignIn() {
 
   const navigate = useNavigate();
 
@@ -57,14 +25,10 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const auth = firebase.auth();
-    const db = firebase.firestore();
 
     try {
-      const userCredential = await auth.signInWithEmailAndPassword(formState.email, formState.password);
-      const usersRef = db.collection('users');
-      const q = usersRef.where('email', '==', formState.email);
-      const querySnapshot = await q.get();
+      await auth.signInWithEmailAndPassword(formState.email, formState.password);
+      const querySnapshot = await usersRef.where('email', '==', formState.email).get();
       if (querySnapshot.size > 0) {
         navigate(-1);
       }
@@ -111,23 +75,58 @@ const SignIn = () => {
               />
             </li>
           </ul>
-          <ul className="account-find">
+          {/* <ul className="account-find">
             <li><Link to={"#"}>아이디 찾기</Link></li>
             <li><Link to={"#"}>비밀번호 찾기</Link></li>
-          </ul>
+          </ul> */}
           <FormButton primary type="submit">로그인</FormButton>
           <FormButton as={"a"} onClick={() => navigate("/signup")}>회원가입</FormButton>
         </fieldset>
       </LoginForm>
       {showPopup &&
         <Popup
-          setShowPopup={setShowPopup}
-          showPopup={showPopup}
           text={"아이디, 비밀번호를 확인해주세요."}
+          onClose={() => {
+            setShowPopup(false);
+          }}
         />
       }
     </Section >
   )
 };
+
+const Section = styled.section`
+  padding: 80px 0 70px;
+  h2 {
+    line-height: 36px;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+  }
+`;
+
+const LoginForm = styled.form`
+  width: 340px;
+  margin: 32px auto 10px;
+  .form-list li {
+    margin-top: 12px;
+  }
+  /* .account-find {
+    display: flex;
+    justify-content: flex-end;
+    margin: 12px 0 28px;
+    line-height: 19px;
+    font-size: 14px;
+    li:nth-child(2)::before {
+      content: "|";
+      display: inline-block;
+      padding: 0 4px;
+    }
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  } */
+`;
 
 export default SignIn;

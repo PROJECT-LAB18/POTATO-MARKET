@@ -1,7 +1,10 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+
 import 'firebase/compat/database'
+import "firebase/compat/storage";
+
 // const {
 //   VITE_API_KEY,
 //   VITE_AUTH_DOMAIN,
@@ -19,6 +22,7 @@ import 'firebase/compat/database'
 //   messagingSenderId: VITE_MESSAGE_SENDER_ID,
 //   appId: VITE_APP_ID,
 // };
+
 const firebaseConfig = {
   apiKey: "AIzaSyBzWObRx_ukdrL00YXlSxG18r3nIKVZKJA",
   authDomain: "patato-market.firebaseapp.com",
@@ -29,9 +33,11 @@ const firebaseConfig = {
   measurementId: "G-G84D0KJ1XZ"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const realDB=firebase.database(); //리얼 데이터 베이스
-const usersRef = db.collection('users'); 
+export const realDB=firebase.database(); //리얼 데이터 베이스
+export const usersRef = db.collection('users'); 
+export const auth = firebase.auth();
+export const db = firebase.firestore();
+export const storage = firebase.storage();
+export const usersRef = db.collection('users'); // 유저 정보 컬렉션
 
-export { firebase, db, usersRef,realDB };
 export default firebase;

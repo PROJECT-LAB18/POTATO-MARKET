@@ -7,11 +7,12 @@ import Chat from './pages/Chat';
 import Home from './pages/Home';
 import HotArticles from './pages/HotArticles/HotArticles';
 import MyArticle from './pages/MyArticle';
-import Productdetail from './pages/productdetail';
+import Detailarticle from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
 import WriteArticle from './pages/WriteArticle';
+import { RecoilRoot } from "recoil";
 
 // import {
 //   RecoilRoot,
@@ -92,8 +93,8 @@ const router = createBrowserRouter([
         element: <HotArticles />,
       },
       {
-        path: 'detailarticle',
-        element: <Productdetail />
+        path: 'detailarticle/:id',
+        element: <Detailarticle />
       },
       {
         path: 'writearticle',
@@ -121,7 +122,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <RecoilRoot>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </RecoilRoot>,
 )

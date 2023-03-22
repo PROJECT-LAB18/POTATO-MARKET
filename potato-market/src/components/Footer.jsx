@@ -82,7 +82,6 @@ const Footer = () => {
 };
 
 const FooterGlobal = styled.footer`
-  width: 64rem;
   border-top: 1px solid ${gray1};
   margin-top: 1rem;
   padding-top: 1rem;
@@ -94,18 +93,20 @@ const FooterGlobal = styled.footer`
 const Footertop = styled.section` 
   display: flex;
   flex-direction: row;
-  width : 48rem;
+  width : 64rem;
   height : 16.123rem;
   align-items: flex-start;
   position: relative;
   margin: 0 auto;
   padding-top: 3rem;
-  /* justify-content: center; */
+  /* justify-content: space-between; */
 
   ul {
     display: inline-block;
     font-size: 0.875rem;
     margin: 0 2rem;
+    position: relative;
+    right: 2rem;
 
     li {
       margin-bottom: 2rem;
@@ -155,18 +156,20 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  width : 48rem;
+  width : 64rem;
   height : 5rem;
   align-items: flex-start;
   position: relative;
   margin: 1rem auto;
-  justify-content: center;
+  justify-content: space-between;
   padding-top: 1rem;
 
   .information {
     color: #868B94;
     font-size: 0.813rem;
     line-height: 1.25rem;
+    /* position: absolute; */
+    /* left: 0%; */
   }
 
   .snsgroup {
@@ -181,16 +184,20 @@ const FooterMiddle = styled.div`
 `;
 
 const FooterBottom = styled.div`
-  width : 48rem;
-  margin-left: auto;
-  margin-right: auto;
-  
+  width : 64rem;
+  margin: 3rem auto;
+  /* align-items:; */
+
   .inquirygroup {
     margin-left: 0.5rem;
     margin-bottom: 1rem;
+    position: relative;
+    right: 1.5rem;
   }
   .terms {
     margin-left: 0.5rem;
+    position: relative;
+    right: 1.5rem;
 
   }
   a {

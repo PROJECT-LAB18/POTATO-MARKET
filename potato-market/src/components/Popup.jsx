@@ -4,10 +4,7 @@ import { gray2 } from '../styles/Global';
 
 import { primaryColor } from '@/styles/global';
 
-function Popup({ text, showPopup, setShowPopup }) {
-  const onClose = () => {
-    setShowPopup(!showPopup);
-  }
+function Popup({ text, onClose }) {
   return (
     <PopWrapper>
       <div className="pop">
