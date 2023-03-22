@@ -8,7 +8,6 @@ import App from './App'
 import Chat from './pages/Chat';
 import Home from './pages/Home';
 import HotArticles from './pages/HotArticles/HotArticles';
-import MyArticle from './pages/MyArticle';
 import MyPage from './pages/MyPage';
 import Detailarticle from './pages/productdetail';
 import SignIn from './pages/SignIn';
@@ -100,10 +99,6 @@ const router = createBrowserRouter([
       {
         path: 'writearticle',
         element: <WriteArticle />,
-      },
-      {
-        path: 'myarticle',
-        element: <MyArticle />,
       },
       {
         path: 'mypage',
