@@ -26,8 +26,6 @@ function SignUp() {
   const [isCheckedThree, setIsCheckedThree] = useState(false);
   const [isCheckedFour, setIsCheckedFour] = useState(false);
 
-  const [showPopup, setShowPopup] = useState(false);
-
   const [location, setLocation] = useState({});
 
   const [formState, setFormState] = useState({
@@ -36,59 +34,104 @@ function SignUp() {
     password: "",
     confirmPassword: "",
     nickname: "",
-    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함":"",
-    },
+    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
+  },
   );
 
-  // 회원가입 폼 disabled 조건
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
-
   const [error, setError] = useState("");
-
+  
+  const [nicknameValid, setNicknameValid] = useState("");
+  
+  //팝업창
+  const [showPopup, setShowPopup] = useState(false);
+  
+  // disabled 조건
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
+  
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
+    // const currentUserUid = firebase.auth().currentUser.uid;
+    // const usersRef = firebase.db().collection("users");
 
-    if (formState.password !== formState.confirmPassword) {
-      setError("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-      return;
-    }
     if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
-      alert("필수 이용 약관에 동의하셔야합니다.")
+      setShowPopup("필수 이용 약관에 동의하셔야합니다.");
       return;
     }
+
     const nicknameSnapshot = await usersRef.where("nickname", "==", formState.nickname).get();
     if (!nicknameSnapshot.empty) {
-      alert('중복된 닉네임 입니다.')
+      setNicknameValid("중복된 닉네임입니다.");
       return;
+    }else { 
+      setNicknameValid("")
     }
 
     try {
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
       const file = document.querySelector('#profileImage').files[0];
-
       const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-      await uploadRef.put(file);
-      const profileImageUrl = await uploadRef.getDownloadURL();
-
-      await db.collection("users").doc(userCredential.user.uid).set({
+      const uploadTask = uploadRef.put(file);
+      const profileImageUrl = await uploadTask.then(
+        (snapshot) => snapshot.ref.getDownloadURL()
+      );
+      const userDoc = usersRef.doc(userCredential.user.uid);
+      const userBatch = db.batch();
+      userBatch.set(userDoc, {
         email: formState.email,
         phoneNumber: formState.phoneNumber,
         nickname: formState.nickname,
         profileImage: profileImageUrl,
         agree: isCheckedThree,
-        location : {
-          sido : location.sido,
+        location: {
+          sido: location.sido,
           sigungu: location.sigungu,
-          bname : location.bname,
+          bname: location.bname,
         }
+
       });
       await userBatch.commit();
       setShowPopup(true);
     } catch (error) {
-      setError(error.message);
+      const errorMessage = getErrorMessage(
+        error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled
+      )
+      setShowPopup(errorMessage);
     }
-  };
+    
+    
+    
 
+  };
+  
+  //파이어베이스 에러메세지 
+  const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)=> {
+    if (disabled) {
+      return "모든 필수 항목을 입력해주세요.";
+    }
+    if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
+      return "필수 이용 약관에 동의하셔야합니다.";
+    }
+    switch (error.code) {
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        return "이메일 혹은 비밀번호가 일치하지 않습니다.";
+      case "auth/email-already-in-use":
+        return "이미 사용 중인 이메일입니다.";
+      case "auth/weak-password":
+        return "비밀번호는 6글자 이상이어야 합니다.";
+      case "auth/network-request-failed":
+        return "네트워크 연결에 실패 하였습니다.";
+      case "auth/invalid-email":
+        return "잘못된 이메일 형식입니다.";
+      case "auth/internal-error":
+        return "잘못된 요청입니다.";
+
+      default:
+        return "회원가입에 실패 하였습니다.";
+    }
+  }
+  
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
       ...prevState,
@@ -147,7 +190,6 @@ function SignUp() {
       setIsCheckedAll(false);
     }
   };
-
   return (
     <Section>
       <h2>회원가입</h2>
@@ -155,8 +197,8 @@ function SignUp() {
         <fieldset>
           <legend>신규 회원가입 폼</legend>
 
-          {/* 에러메세지 확인용 */}
-          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>}
+          {/* 에러메세지 확인용
+          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>} */}
 
           <ul className="form-list">
             <li className="form-item">
@@ -190,8 +232,7 @@ function SignUp() {
                 placeholder={"비밀번호를 입력해주세요"}
                 text={"비밀번호"}
                 type={"password"}
-                valid={formState.password.length < 8 ? "최소 8자 이상 입력" : ""}
-                value={formState.password}
+                valid ={formState.password && (formState.password.length < 6 || formState.password.length > 8) ? "최소 6자 이상 8자 이하로 입력해주세요." : ""} 
                 onChange={handleInputChange}
               />
             </li>
@@ -201,9 +242,8 @@ function SignUp() {
                 id={"confirmPassword"}
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
+                valid={formState.confirmPassword && (formState.password !== formState.confirmPassword) ? "비밀번호가 일치 하지 않습니다." : ""}
                 type={"password"}
-                valid={"동일한 비밀번호를 입력"}
-                value={formState.confirmPassword}
                 onChange={handleInputChange}
               />
             </li>
@@ -214,15 +254,18 @@ function SignUp() {
                 placeholder={"닉네임을 입력해주세요"}
                 text={"닉네임"}
                 type={"text"}
+                valid={nicknameValid}
                 value={formState.nickname}
                 onChange={handleInputChange}
+
               />
+
             </li>
             <li className="form-item">
               <FormInputImage />
             </li>
             <li className="form-item">
-              <FormInputAddress 
+              <FormInputAddress
                 location={location}
                 setLocation={setLocation}
               />
@@ -238,6 +281,11 @@ function SignUp() {
               <FormTerms checked={isCheckedFour} id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} onChange={handleCheckboxChangeFour} />
             </div>
           </div>
+          {showPopup && 
+          <Popup text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} 
+          setShowPopup={setShowPopup}
+          showPopup={showPopup}/>}
+
           <FormButton
             primary
             disabled={disabled}
@@ -247,7 +295,7 @@ function SignUp() {
               pointerEvents: disabled ? "none" : "auto",
             }}
             onClick={handleSignUp}
-          >가입하기</FormButton>
+            >가입하기</FormButton>
         </fieldset>
       </SignUpForm>
       {showPopup &&
