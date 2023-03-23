@@ -55,6 +55,7 @@ function App() {
         <Header />
         <Comment/>
         <LogoutButton />
+
         {lender?<Outlet />:null}
         <Footer />
       </div>
