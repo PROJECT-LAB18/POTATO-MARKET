@@ -38,16 +38,18 @@ function SignUp() {
   });
 
   const [error, setError] = useState("");
-  
+
   const [nicknameValid, setNicknameValid] = useState("");
-  
-  //팝업창
+
+  // 프로필 이미지
+  const [profileUrl, setProfileUrl] = useState("");
+
+  // 팝업창
   const [showPopup, setShowPopup] = useState(false);
-  
+
   // disabled 조건
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname
-  
-  
+  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname;
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     // const currentUserUid = firebase.auth().currentUser.uid;
@@ -62,7 +64,7 @@ function SignUp() {
     if (!nicknameSnapshot.empty) {
       setNicknameValid("중복된 닉네임입니다.");
       return;
-    }else { 
+    } else {
       setNicknameValid("")
     }
 
@@ -71,11 +73,10 @@ function SignUp() {
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
 
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
-      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/default_profile.png?alt=media&token=1c915d92-e3d7-4b06-9d99-03340d7bd805"; // 기본 이미지
-      const file = document.querySelector('#profileImage').files[0];
-      if (file) {
+      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"; // 기본 이미지
+      if (profileUrl) {
         const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-        const uploadTask = uploadRef.put(file);
+        const uploadTask = uploadRef.put(profileUrl);
         profileImageUrl = await uploadTask.then(
           (snapshot) => snapshot.ref.getDownloadURL()
         );
@@ -105,14 +106,10 @@ function SignUp() {
       )
       setShowPopup(errorMessage);
     }
-    
-    
-    
-
   };
-  
+
   //파이어베이스 에러메세지 
-  const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)=> {
+  const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled) => {
     if (disabled) {
       return "모든 필수 항목을 입력해주세요.";
     }
@@ -138,7 +135,7 @@ function SignUp() {
         return "회원가입에 실패 하였습니다.";
     }
   }
-  
+
   const handleInputChange = (e) => {
     setFormState((prevState) => ({
       ...prevState,
@@ -239,7 +236,7 @@ function SignUp() {
                 placeholder={"비밀번호를 입력해주세요"}
                 text={"비밀번호"}
                 type={"password"}
-                valid ={formState.password && (formState.password.length < 6 || formState.password.length > 8) ? "최소 6자 이상 8자 이하로 입력해주세요." : ""} 
+                valid={formState.password && (formState.password.length < 6 || formState.password.length > 8) ? "최소 6자 이상 8자 이하로 입력해주세요." : ""}
                 onChange={handleInputChange}
               />
             </li>
@@ -249,8 +246,8 @@ function SignUp() {
                 id={"confirmPassword"}
                 placeholder={"비밀번호를 한번 더 입력해주세요"}
                 text={"비밀번호 확인"}
-                valid={formState.confirmPassword && (formState.password !== formState.confirmPassword) ? "비밀번호가 일치 하지 않습니다." : ""}
                 type={"password"}
+                valid={formState.confirmPassword && (formState.password !== formState.confirmPassword) ? "비밀번호가 일치 하지 않습니다." : ""}
                 onChange={handleInputChange}
               />
             </li>
@@ -264,12 +261,10 @@ function SignUp() {
                 valid={nicknameValid}
                 value={formState.nickname}
                 onChange={handleInputChange}
-
               />
-
             </li>
             <li className="form-item">
-              <FormInputImage />
+              <FormInputImage profileUrl={profileUrl} setProfileUrl={setProfileUrl} />
             </li>
             <li className="form-item">
               <FormInputAddress
@@ -288,10 +283,10 @@ function SignUp() {
               <FormTerms checked={isCheckedFour} id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} onChange={handleCheckboxChangeFour} />
             </div>
           </div>
-          {showPopup && 
-          <Popup text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} 
-          setShowPopup={setShowPopup}
-          showPopup={showPopup}/>}
+          {showPopup &&
+            <Popup setShowPopup={setShowPopup}
+              showPopup={showPopup}
+              text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} />}
 
           <FormButton
             primary
@@ -302,7 +297,7 @@ function SignUp() {
               pointerEvents: disabled ? "none" : "auto",
             }}
             onClick={handleSignUp}
-            >가입하기</FormButton>
+          >가입하기</FormButton>
         </fieldset>
       </SignUpForm>
       {showPopup &&
