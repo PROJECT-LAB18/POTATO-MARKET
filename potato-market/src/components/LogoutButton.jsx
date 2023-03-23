@@ -1,8 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+
+import { useRecoilState } from "recoil";
 import styled from 'styled-components';
+
+import { toggle } from '../stores/toggle';
+import { userId } from '../stores/userAuth';
 
 import firebase from '@/firebase';
 
 const auth = firebase.auth();
+const navigate = useNavigate;
 
 const Button = styled.button`
   background-color: transparent;
@@ -15,16 +22,22 @@ const Button = styled.button`
 `
 
 function LogoutButton() {
- 
-  const handleLogout = () => {
+
+  // const [showToggle, setShowToggle] = useRecoilState(toggle);
+  // const [login, setLogin] = useRecoilState(userId);
+
+  const handleLogout = async () => {
 		try {
-			auth.signOut();
-			console.log('clicked');
+			await auth.signOut();
+			// ('clicked');
+      // setShowToggle(false);
+		  // navigate('/');
+      // setLogin(null);
 		} catch (error) {
 			console.error(error);
 		}
 	}
-  
+
   return (
    <Button onClick={handleLogout}>로그아웃</Button>
   )

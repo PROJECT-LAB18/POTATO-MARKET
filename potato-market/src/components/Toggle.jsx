@@ -10,16 +10,15 @@ import { userId } from '../stores/userAuth';
 import toggleBox from "@/assets/header_toggle.svg";
 import LogoutButton from '@/components/LogoutButton';
 
-const navigate = useNavigate;
+
 
 function Toggle(){
 
 	const [login, setLogin] = useRecoilState(userId);
-	const [toggle, setToggle] = useRecoilState(toggle);
+	const [showToggle, setShowToggle] = useRecoilState(toggle);
   
 	const handleLogout = () => {
-		setToggle(true);
-		navigate('/');
+		console.log('in the Toggle.jsx');
 	}
 
 	return (
