@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 
 import { onSnapshot } from "firebase/firestore"
 import styled, { createGlobalStyle } from "styled-components";
@@ -15,6 +16,7 @@ const q = db.collection("UserWrite");
 
 export default function Home() {
 
+  const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
 
@@ -33,9 +35,9 @@ export default function Home() {
   }, [])
 
   return (
-    <>
+    <main>
       <HomeGlobal />
-      <MainTop imgheight="50.25rem" imgwidth="42.813rem">
+      <MainTop>
         <div className="home-main-description">
           <h2>당신 근처의<br />감자마켓</h2>
           <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br />
@@ -45,21 +47,19 @@ export default function Home() {
           <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
         </div>
       </MainTop>
-
-      <MainReversed imgheight="" imgwidth="">
+      <MainReversed>
         <div className="home-main-image">
           <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
         </div>
         <div className="home-main-description">
           <h2>우리 동네<br /> 중고 직거래 마켓</h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
-          <div className="button-wrap">
-            <button type="button">인기매물 보기</button>
-            <button type="button">믿을 수 있는 중고거래</button>
+          <div className="link-wrap">
+            <Link to="/hotarticles">인기매물 보기</Link>
+            <Link to="/hotarticles">믿을 수 있는 중고거래</Link>
           </div>
         </div>
       </MainReversed>
-
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
@@ -69,9 +69,7 @@ export default function Home() {
             : <p>Render Failed</p>
           }
         </ProductList>
-        <UnderlineButton>
-          인기매물 더보기
-        </UnderlineButton>
+        <UnderlineButton as={"a"} onClick={() => navigate(`/hotArticles`)}>인기매물 더보기</UnderlineButton>
       </HotArticles8>
 
       <HomeKeywords>
@@ -89,129 +87,134 @@ export default function Home() {
           <li><a href="/">책상</a></li>
         </ul>
       </HomeKeywords>
-    </>
+    </main>
   )
 }
 
 // Styled Components
-
+const black = "#212529";
 const HomeGlobal = createGlobalStyle`
   body {
-  color: #212529; 
-  background-color: #FFF;
-  min-height: 100%;
+    color: ${black};
+    background-color: #FFF;
+    min-height: 100vh;
   }
-
   h2 {
     font-weight: 700;
     font-size: 3rem;
-    margin: 0 auto;
+    text-align: center;
+  }
+  @media (min-width: 768px) and (max-width: 1200px){
+    h2 {
+      font-size: 2.5rem;
+    }
+  }
+  @media (max-width: 768px){
+    h2 {
+      font-size: 1.5rem;
+    }
   }
 `;
 
 const MainTop = styled.section`
   background-color: #FBF7F2;
   display: flex;
-  width: 100%;
-  height: 47.5rem;
   justify-content: center;
-
+  max-height: 47.5rem;
+  padding: 30px 200px;
   .home-main-description {
     display: flex;
     flex-direction: column;
-    position: relative;
-    width: 37.953rem;
-
-    & h2 {
-      position: absolute;
-      top: 40%;
-      left: 15rem;
-      line-height: 1.3; 
-      width: 50rem;
+    justify-content: center;
+    h2 {
+      line-height: 1.3;
+      text-align: left;
+      margin-bottom: 30px;
     }
-    
-    & p {
-      position: absolute;
-      top: 60%;
-      left: 15rem;
+    p {
       font-size: 1rem;
-      line-height: 1.5rem;
+      line-height: 1.5;
     }
   }
-
   .home-main-image {
-    position: relative;
+    width: 60%;
+    margin: auto 0;
+    img {
+      padding: 50px 0 0 50px;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+    }
   }
-
-  img {
-    width: 50.25rem;
-    height: 42.813rem;
-    position: relative;
-    bottom: -10%;
+  @media (max-width: 1200px){
+    .home-main-description h2 {
+      margin-bottom: 10px;
+    }
+    .home-main-image img {
+      padding: 20px 0 0 20px;
+    }
+  }
+  @media (min-width:768px) and (max-width: 1200px){
+    padding: 30px 100px;
+  }
+  @media (max-width: 768px){
+    padding: 50px;
+    .home-main-description {
+      padding-left: 0;
+    }
   }
 `;
 
-const MainReversed = styled.section`
-  display: flex;
-  height: 49rem;
-  justify-content: center;
-
-  .home-main-description {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 37.953rem;
-
-    & h2 {
-      position: absolute;
-      top: 40%;
-      left: 5.25rem;
-      line-height: 3.875rem;
-    }
-    
-    & p {
-      position: absolute;
-      top: 60%;
-      left: 5.25rem;
-      font-size: 1rem;
-      line-height: 1.5rem;
-    }
-
-    .button-wrap {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      position: absolute;
-      top: 70%;
-      left: 5.25rem;
-
-      button {
-        font-size: 1.125rem;
-        font-weight: 700;
-        background-color: ${gray1};
-        text-decoration: none;
-        padding: 1rem 1.5rem;
-        border: 0;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-      
-      & :nth-child(1) {
-        margin-right: 1.174rem;
-      }
-     
-    }
-  }
-
+const MainReversed = styled(MainTop)`
+  background-color: #FFF;
   .home-main-image {
-    position: relative;
+    width: 40%;
+    img {
+      padding: 0;
+    }
   }
-
-  img {
-    width: 33.25rem;
-    height: 42.75rem;
-    position: relative;
-    bottom: -13%;
+  .home-main-description {
+    width: 60%;
+    margin-left: 100px;
+  }
+  .link-wrap {
+    display: flex;
+    width: 100%;
+    gap: 1.174rem;
+    margin-top: 30px;
+    a {
+      color: ${black};
+      font-size: 1.125rem;
+      font-weight: 700;
+      background-color: ${gray1};
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+  }
+  @media (max-width: 1200px){
+    .link-wrap {
+      margin-top: 10px;
+    }
+  }
+  @media (min-width:768px) and (max-width: 1200px){
+    .home-main-description {
+      margin-left: 50px;
+    }
+  }
+  @media (max-width: 768px){
+    .home-main-description {
+      margin-left: 20px;
+    }
+    .link-wrap {
+      flex-direction: column;
+      width: fit-content;
+      a {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+    }
   }
 `;
 
@@ -220,60 +223,62 @@ const HotArticles8 = styled.section`
   padding-top: 125px;
   padding-bottom: 5rem;
   margin: 0 auto;
-  
   h2 {
     font-size: 40px;
-    text-align: center;
-    /* display: block; */
-    width: 300px;
   }
-  
   .Hot8 {
-    margin-left: 0;
-    padding-left: 20rem;
-    padding-right: 30rem;
-    margin-bottom: 5rem;
-    
-    h2 {
-      font-size: 16px;
-      font-weight: 400;
-      text-align: left;
+    width: 980px;
+    margin: 60px auto 5rem;
+  }
+  @media (min-width: 768px) and (max-width: 1023px){
+    .Hot8 {
+      width: 760px;
+    }
+  }
+  @media (max-width: 768px){
+    .Hot8 {
+      width: 480px;
     }
   }
 `;
 
 const UnderlineButton = styled.button`
-    margin-left: auto;
-    margin-right: auto;
-    background-color: transparent;
-    border: 0;
-    font-weight: 700;
-    text-decoration: underline;
-    cursor: pointer;
-    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+  border: 0;
+  font-weight: 700;
+  text-decoration: underline;
+  display: block;
+  text-align: center;
+  cursor: pointer;
 `;
 
 const HomeKeywords = styled.section`
-  
   width: 64rem;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1.438rem;
+  margin: 1.438rem auto 0;
   padding-bottom: 1rem;
-
   ul {
+    display: flex;
+    justify-content: center;
+    column-gap: 3.2rem;
+    flex-wrap: wrap;
     margin-top: 1rem;
-    padding-left: 3rem;
   }
-
   ul li {
     display: inline-block;
     vertical-align: center;
-    margin-right: 3.2rem;
-    
     a {
       color: #212325;
       text-decoration: none;
+      line-height: 30px;
+      white-space: nowrap;
     }
+  }
+  @media (min-width: 768px) and (max-width: 1023px){
+    width: 760px;
+  }
+  @media (max-width: 768px){
+    width: 480px;
   }
 `;
