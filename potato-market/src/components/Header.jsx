@@ -1,5 +1,7 @@
-
 import { useRecoilState } from "recoil";
+
+import { Link, useNavigate } from 'react-router-dom';
+
 import styled from "styled-components";
 
 import defaultProfile from "../assets/defaultProfile.svg";
@@ -9,18 +11,21 @@ import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
   const [chat,setChat] = useRecoilState(onChat);
+  const navigate = useNavigate();
+
   return (
     <HeaderWrap>
-      
       <MainTitle className="a11yHidden">감자마켓</MainTitle>
-      <img alt="" src={mainLogo} />
-      <MenuButton className="primary">중고거래</MenuButton>
-      <MenuButton>매물 등록하기</MenuButton>
-      <MenuButton>나의 매물 조회</MenuButton>
+      <Link to="/"><img alt="" src={mainLogo} /></Link>
+      <MenuButton as={"a"} className="primary" onClick={()=>navigate(`/hotArticles`)}>중고거래</MenuButton>
+      <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
+      <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton>
       <SearchForm>
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
+
       <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
+
       <MypageIcon aria-label="마이페이지"/>
     </HeaderWrap>
   )
@@ -93,6 +98,8 @@ const MenuButton = styled.button`
   font-weight: 700;
   font-size: 18px;
   margin-right: 35px;
+  display: block;
+  line-height: 64px;
   cursor: pointer;
   &:hover {
     color: ${gray3};
