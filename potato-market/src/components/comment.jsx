@@ -259,7 +259,7 @@ const Div = styled.div`
     outline: none;
   }  
   & .comment-div input{
-    padding:0 15px;
+    padding:0 37px 0 15px;
     margin:0 auto;
     width: 250px;
     height: 30px;
