@@ -110,6 +110,7 @@ const Div = styled.div`
   margin-right: 35px;
   width: 432.9px;
   height: 400px;
+  box-shadow: 0 3px 7px 3px rgb(0 0 0 / 7%);
 
   button:focus{
     outline-offset: -7px;
