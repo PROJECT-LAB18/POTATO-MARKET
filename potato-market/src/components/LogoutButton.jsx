@@ -23,12 +23,15 @@ const Button = styled.button`
 
 function LogoutButton() {
 
-  // const [showToggle, setShowToggle] = useRecoilState(toggle);
-  // const [login, setLogin] = useRecoilState(userId);
+  const [showToggle, setShowToggle] = useRecoilState(toggle);
+  const [login, setLogin] = useRecoilState(userId);
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
+      setLogin(null);
+      setShowToggle(false);
+
     } catch (error) {
       console.error(error);
     }
