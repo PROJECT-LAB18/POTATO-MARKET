@@ -14,13 +14,12 @@ import LogoutButton from '@/components/LogoutButton';
 
 function Toggle(){
 
+  // 로그인 상태 확인
 	const [login, setLogin] = useRecoilState(userId);
+
+	// 토글 오픈 여부 
 	const [showToggle, setShowToggle] = useRecoilState(toggle);
   
-	const handleLogout = () => {
-		console.log('in the Toggle.jsx');
-	}
-
 	return (
 		<Div>
 			{ login === null ? 
@@ -33,7 +32,7 @@ function Toggle(){
 				:
 				(
 					<ul>
-						<li><LogoutButton onClick={handleLogout}/></li>
+						<li><LogoutButton/></li>
 						<li><Link className="textLink" to={"/myPage"}>마이페이지</Link></li>
 					</ul>
 				)

@@ -27,16 +27,12 @@ function LogoutButton() {
   // const [login, setLogin] = useRecoilState(userId);
 
   const handleLogout = async () => {
-		try {
-			await auth.signOut();
-			// ('clicked');
-      // setShowToggle(false);
-		  // navigate('/');
-      // setLogin(null);
-		} catch (error) {
-			console.error(error);
-		}
-	}
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
    <Button onClick={handleLogout}>로그아웃</Button>
