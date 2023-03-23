@@ -1,6 +1,11 @@
 import styled from "styled-components";
+
+
 import { useRecoilState } from 'recoil';
-import { searchKeywordState } from '@/state';
+
+
+
+import { searchKeywordState } from '@/stores/state';
 
 
 import defaultProfile from "../assets/defaultProfile.svg";
@@ -10,7 +15,7 @@ import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 function Header () {
 
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-  
+
   return (
     <HeaderWrap>
       

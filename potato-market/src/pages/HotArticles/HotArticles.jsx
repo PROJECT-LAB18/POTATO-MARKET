@@ -11,7 +11,7 @@ import { userWriteRef } from '@/firebase';
 
 import { useRecoilValue } from 'recoil';
 
-import { searchKeywordState } from '@/state';
+import { searchKeywordState } from '@/stores/state';
 
 
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
