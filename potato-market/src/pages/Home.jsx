@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 
 import { onSnapshot } from "firebase/firestore"
+import { useRecoilState } from "recoil";
 import styled, { createGlobalStyle } from "styled-components";
+
+import { onChat } from "../stores/onChat";
 
 import { gray1, gray2 } from "../styles/Global";
 
@@ -19,6 +22,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
+  const [chat, setChat] = useRecoilState(onChat);
 
   useEffect(() => {
     onSnapshot(q, (snapshot) => {
@@ -56,7 +60,7 @@ export default function Home() {
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
             <Link to="/hotarticles">인기매물 보기</Link>
-            <Link to="/hotarticles">믿을 수 있는 중고거래</Link>
+            <button onClick={() => { setChat(true) }}>주민들과 소통하기</button>
           </div>
         </div>
       </MainReversed>
@@ -182,13 +186,15 @@ const MainReversed = styled(MainTop)`
     width: 100%;
     gap: 1.174rem;
     margin-top: 30px;
-    a {
+    a, 
+    button {
       color: ${black};
       font-size: 1.125rem;
       font-weight: 700;
       background-color: ${gray1};
       text-decoration: none;
       padding: 1rem 1.5rem;
+      border: 0;
       border-radius: 6px;
       white-space: nowrap;
     }
@@ -210,7 +216,8 @@ const MainReversed = styled(MainTop)`
     .link-wrap {
       flex-direction: column;
       width: fit-content;
-      a {
+      a, 
+      button {
         padding: 0.5rem 1rem;
         font-size: 1rem;
       }
