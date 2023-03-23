@@ -17,7 +17,7 @@ const storage = getStorage();
 function WriteForm(){  
   const inputRef = useRef();
   const navigate = useNavigate();
-  const [click,setClick] = useState(0)
+  const [click,setClick] = useState(0);
   const [userUid,] = useRecoilState(userId);
   const [userInfo, ] = useRecoilState(userInformation);
   const [formState, setFormState] = useState({
@@ -68,8 +68,9 @@ function WriteForm(){
             nickname: userInfo.nickname,
             profileImage: userInfo.profileImage,
             location : userInfo.location,
+          }).then(()=>{
+            navigate("/HotArticles");
           })
-          navigate("/HotArticles");
       })
     })
   }

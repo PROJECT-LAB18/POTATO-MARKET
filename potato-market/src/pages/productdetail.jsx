@@ -342,19 +342,19 @@ const ModifiedDiv = styled.div`
     margin-bottom: 24px;
   }
 `
-const CustomButton = styled.button`
+export const CustomButton = styled.button`
   & .BoardDeleteButton{
     border: 1px solid #FFFFFF;
   }
   cursor:pointer;
-    width: 99px;
-    height: 40px;
-    color : ${props => props.red ? '#FFFFFF' : '#212124'};
-    background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
-    border: 1px solid #D1D3D8;
-    border-radius: 4px;
-    font-weight: 700;
-    font-size: 16px;
+  width: 99px;
+  height: 40px;
+  color : ${props => props.red ? '#FFFFFF' : '#212124'};
+  background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
+  border: 1px solid ${props => props.red ? '' : '#D1D3D8'};
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 16px;
     &:hover{
     background: ${props => props.red ? '#a7845b' : '#D1D3D8'};
     transition: .5s;
