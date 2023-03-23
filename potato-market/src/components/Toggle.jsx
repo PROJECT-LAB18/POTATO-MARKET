@@ -1,18 +1,34 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link } from 'react-router-dom';
 
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+
+import { userId } from '../stores/userAuth';
 
 import toggleBox from "@/assets/header_toggle.svg";
 
 function Toggle(){
+
+	const [login] = useRecoilState(userId);
+
   return (
 		<Div>
-			<ul>
-				{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-				<li><Link className="textLink" to={"/SignIn"}>로그인</Link></li>
-				{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-				<li><Link className="textLink" to={"/SignUp"}>회원가입</Link></li>
-			</ul>
+			{ login === null ? 
+				(
+					<ul>
+						<li><Link className="textLink" to={"/SignIn"}>로그인</Link></li>
+						<li><Link className="textLink" to={"/SignUp"}>회원가입</Link></li>
+					</ul>
+				) 
+				:
+				(
+					<ul>
+						<li><Link className="textLink" to={"/SignIn"}>로그아웃</Link></li>
+						<li><Link className="textLink" to={"/myPage"}>마이페이지</Link></li>
+					</ul>
+				)
+			}
 		</Div>
 	)
 };
@@ -24,8 +40,8 @@ const Div = styled.div`
 	background-size: cover;
 	width: 213px;
 	height: 135px;
-	position: absolute;
-	right: 555px;
+	position: fixed;
+	right: 438px;
 	top: 53px;
 	padding : 32px 40px;
 	box-sizing: border-box;
