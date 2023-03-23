@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
@@ -9,14 +7,17 @@ import styled from "styled-components";
 import Toggle from "./Toggle";
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
+
 import { onChat } from "../stores/onChat";
+import { toggle } from "../stores/toggle";
+
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
 
-  const [showToggle, setShowToggle] = useState(false);
+  const [showToggle, setShowToggle] = useRecoilState(toggle);
   const handleToggle = () => {
-    setShowToggle(current => !current);
+    setShowToggle(!showToggle);
   }
   const [chat, setChat] = useRecoilState(onChat);
   const navigate = useNavigate();
@@ -28,13 +29,13 @@ function Header () {
       <Link to="/"><img alt="" src={mainLogo} /></Link>
       <MenuButton as={"a"} className="primary" onClick={()=>navigate(`/hotArticles`)}>중고거래</MenuButton>
       <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
-      <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton>
+      {/* <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton> */}
       <SearchForm>
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
+      <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
       <MypageIcon aria-label="마이페이지" onClick={handleToggle}/>
       {showToggle && <Toggle/>}
-      <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
     </HeaderWrap>
   )
 }
@@ -83,7 +84,8 @@ const MainTitle = styled.h1`
   `;
 
 const SearchForm = styled.form`
-  margin-right: 12px;
+  margin-left: 5rem;
+  margin-right: 3rem;
   margin-top: 12px;
   & input {
     color: ${gray7};

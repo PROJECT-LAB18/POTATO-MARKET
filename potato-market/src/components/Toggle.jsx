@@ -1,18 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
+import { toggle } from '../stores/toggle';
 import { userId } from '../stores/userAuth';
 
 import toggleBox from "@/assets/header_toggle.svg";
+import LogoutButton from '@/components/LogoutButton';
+
+const navigate = useNavigate;
 
 function Toggle(){
 
-	const [login] = useRecoilState(userId);
+	const [login, setLogin] = useRecoilState(userId);
+	const [toggle, setToggle] = useRecoilState(toggle);
+  
+	const handleLogout = () => {
+		setToggle(true);
+		navigate('/');
+	}
 
-  return (
+	return (
 		<Div>
 			{ login === null ? 
 				(
@@ -24,7 +34,7 @@ function Toggle(){
 				:
 				(
 					<ul>
-						<li><Link className="textLink" to={"/SignIn"}>로그아웃</Link></li>
+						<li><LogoutButton onClick={handleLogout}/></li>
 						<li><Link className="textLink" to={"/myPage"}>마이페이지</Link></li>
 					</ul>
 				)
@@ -40,8 +50,8 @@ const Div = styled.div`
 	background-size: cover;
 	width: 213px;
 	height: 135px;
-	position: fixed;
-	right: 438px;
+	position: absolute;
+	right: 468px;
 	top: 53px;
 	padding : 32px 40px;
 	box-sizing: border-box;
@@ -61,6 +71,7 @@ const Div = styled.div`
 				text-decoration: none;
 			}
 	}
+	
 `;
 
 export default Toggle;
