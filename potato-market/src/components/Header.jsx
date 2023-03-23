@@ -1,10 +1,15 @@
 import styled from "styled-components";
+import { useRecoilState } from 'recoil';
+import { searchKeywordState } from '@/state';
+
 
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
+
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   return (
     <HeaderWrap>
       
@@ -14,7 +19,12 @@ function Header () {
       <MenuButton>매물 등록하기</MenuButton>
       <MenuButton>나의 매물 조회</MenuButton>
       <SearchForm>
-        <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
+      <input
+          placeholder="물품이나 동네를 검색해보세요"
+          type="text"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+        />
       </SearchForm>
       <ChatButton>채팅하기</ChatButton>
       <MypageIcon aria-label="마이페이지"/>

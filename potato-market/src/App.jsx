@@ -11,6 +11,7 @@ import firebase from './firebase';
 import GlobalStyle from './styles/Global';
 
 import { userId, userInformation } from "@/stores/userAuth.js"
+import { RecoilRoot } from 'recoil';
 
 function App() {
   const [userUid, setUserUid] = useRecoilState(userId);
@@ -48,7 +49,7 @@ function App() {
   }, [userUid]);
 
   return (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
       <div className="App">
         <Header />
@@ -56,7 +57,7 @@ function App() {
         {lender?<Outlet />:null}
         <Footer />
       </div>
-    </>
+    </RecoilRoot>
   );
 }
 export default App;
