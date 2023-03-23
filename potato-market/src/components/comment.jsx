@@ -61,6 +61,12 @@ function Comment(){
     }
   }
 
+  const escClose = (e) => {
+    if(e.keyCode === 27){
+      setChat(false);
+    }
+  }
+
   return(
 
     <>
@@ -96,7 +102,7 @@ function Comment(){
         </div>
         <div className="comment-div">          
           <div className="comment-wrapper-div">
-            <input ref={inputValue} type="text" onKeyPress={handleOnKeyPress} />
+            <input ref={inputValue} type="text" onKeyDown={escClose} onKeyPress={handleOnKeyPress} />
             <button className="send-button" type="button" onClick={sendMessage}></button>
           </div>          
         </div>
