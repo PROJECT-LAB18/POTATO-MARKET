@@ -125,13 +125,6 @@ const Div = styled.div`
   width: 432.9px;
   height: 400px;
   box-shadow: 0 3px 7px 3px rgb(0 0 0 / 7%);
-
-  button:focus{
-    outline-offset: -7px;
-    outline-width: medium;
-    outline-color: #AFDBAF;
-  }
-
   & .header-div{
     width: 100%;
     position: relative;
@@ -159,19 +152,21 @@ const Div = styled.div`
     position:absolute;
     border-radius: 50%;
     border:none;
-    width: 35px;
-    height: 35px;
+    width: 18px;
+    height: 18px;
     background-color: pink;
   }
   & .chat-false-button{
     background: url(${chat_close_button}) no-repeat, 100%;
     background-position: center;
     right:10px;
+    background-size: contain;    
   }
   & .reset-button{
-    right: 30px;
+    right: 32px;
     background: url(${chat_reset}) no-repeat, 100%;
     background-position: center;
+    background-size: contain;    
   }
 
   & .time-class{
@@ -210,7 +205,6 @@ const Div = styled.div`
     display:flex;
     align-items: center;
     margin-bottom:8px;
-    
   }
   & li img{
     margin: 10px 10px 0 10px;
@@ -274,12 +268,13 @@ const Div = styled.div`
     position: absolute;
     border: none;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    background: url(${send_img}) no-repeat, 100%;
+    width: 20px;
+    height: 20px;
+    background: url(${send_img}) no-repeat;
     background-position: center;
-    right: 5px;
-    top: -3px;
+    background-size: contain;  
+    right: 10px;
+    top: 5px;
   }
   & .send-button img{
     width: 100%;
