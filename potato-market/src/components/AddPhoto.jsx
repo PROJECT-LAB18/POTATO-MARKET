@@ -13,7 +13,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
     const files = event.target.files;
     const uploadedImages = [];
     const options = {
-      maxSizeMB: 0.1, // 이미지 최대 용량
+      maxSizeMB: 0.5, // 이미지 최대 용량
       maxWidthOrHeight: 1920, // 최대 넓이/높이
       useWebWorker: true,
     };
@@ -27,37 +27,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
         console.log(error);
       }
     }
-
     setPostImg(uploadedImages);
-    // let fileArr = event.target.files;
-    // setPostImg(Array.from(fileArr));
-
-    // const options = { // 이미지 최적화 옵션
-    //   maxSizeMB: 5, // 이미지 최대 용량
-    //   maxWidthOrHeight: 1920, // 최대 넓이/높이
-    //   useWebWorker: true,
-    // };
-
-    // const compressedFile = await imageCompression(fileArr, options);
-    // setPostImg(compressedFile);
-
-    // const promise = imageCompression.getDataUrlFromFile(compressedFile);
-    // promise.then((result) => {
-    //   setPreviewImg(result);
-    // });
-
-    // let fileURLs = [];
-    // let filesLength = compressedFile.length > 5 ? 5 : compressedFile.length;
-
-    // for (let i = 0; i < filesLength; i++) {
-    //   let file = compressedFile[i];
-    //   let reader = new FileReader();
-    //   reader.onload = () => {
-    //     compressedFile[i] = reader.result;
-    //     setPreviewImg([...fileURLs]);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
   };
   useEffect(() => {
     const postImageUrl = postImg.map((file) => imageCompression.getDataUrlFromFile(file));

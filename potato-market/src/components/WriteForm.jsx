@@ -44,7 +44,8 @@ function WriteForm(){
   const handleSubmit = (e) => {
     setClick(1);
     e.preventDefault();
-    const file = inputRef.current.files;
+    // const file = inputRef.current.files;
+    const file = postImg;
     const uploadPromises = [];
     for (let i = 0; i < file.length; i++) {
       const mountainRef = ref(storage, "writeimages/" + file[i].name);
