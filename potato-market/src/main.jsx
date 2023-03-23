@@ -5,8 +5,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from "recoil";
 
 import App from './App'
-import Chat from './pages/Chat';
+
 import Home from './pages/Home';
+import ChatPage from './pages/ChatPage';
 import HotArticles from './pages/HotArticles/HotArticles';
 import MyPage from './pages/MyPage';
 import Detailarticle from './pages/productdetail';
@@ -114,7 +115,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'chat',
-        element: <Chat />,
+        element: <ChatPage />,
       },
 
     ],
