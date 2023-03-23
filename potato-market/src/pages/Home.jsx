@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 
-import { onSnapshot } from "firebase/firestore"
 import { useRecoilState } from "recoil";
 import styled, { createGlobalStyle } from "styled-components";
 
-import { onChat } from "../stores/onChat";
-
-import { gray1, gray2 } from "../styles/Global";
-
 import Product from "@/components/product";
 
-import firebase from '@/firebase';
-import ProductList from '@/styles/ProductList';
+import { userWriteRef } from '@/firebase';
+import { onChat } from '@/stores/onChat';
 
-const db = firebase.firestore();
-const q = db.collection("UserWrite");
+import { gray1, gray2 } from '@/styles/Global';
+import ProductList from '@/styles/ProductList';
 
 export default function Home() {
 
@@ -25,7 +20,7 @@ export default function Home() {
   const [chat, setChat] = useRecoilState(onChat);
 
   useEffect(() => {
-    onSnapshot(q, (snapshot) => {
+    userWriteRef.onSnapshot((snapshot) => {
       const newArr = snapshot.docs.map(doc => {
         return {
           id: doc.id,
@@ -230,9 +225,6 @@ const HotArticles8 = styled.section`
   padding-top: 125px;
   padding-bottom: 5rem;
   margin: 0 auto;
-  h2 {
-    font-size: 40px;
-  }
   .Hot8 {
     width: 980px;
     margin: 60px auto 5rem;
