@@ -4,7 +4,7 @@ import 'firebase/compat/firestore';
 
 import 'firebase/compat/database'
 import "firebase/compat/storage";
-import { useFirestoreCollectionData } from 'reactfire';
+
 // const {
 //   VITE_API_KEY,
 //   VITE_AUTH_DOMAIN,
@@ -41,6 +41,5 @@ export const storage = firebase.storage();
 
 export const usersRef = db.collection('users'); // 유저 정보 컬렉션
 export const userWriteRef = db.collection('UserWrite'); // 게시글 정보 컬렉션
-export const useDBCollectionData = (query) => useFirestoreCollectionData(query);
 
 export default firebase;
