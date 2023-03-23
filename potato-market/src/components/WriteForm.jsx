@@ -33,6 +33,10 @@ function WriteForm(){
     profileImage: '',
     imgsrc: '',
   });
+
+  if(formState.price>1000000000){
+    formState.price=999999999;
+  }
   
   const handleChange = (e) => {
     setFormState({
