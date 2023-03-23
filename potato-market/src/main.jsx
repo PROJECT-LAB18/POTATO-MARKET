@@ -2,17 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { RecoilRoot } from "recoil";
+
 import App from './App'
 import Chat from './pages/Chat';
 import Home from './pages/Home';
 import HotArticles from './pages/HotArticles/HotArticles';
-import MyArticle from './pages/MyArticle';
+import MyPage from './pages/MyPage';
 import Detailarticle from './pages/productdetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-
 import WriteArticle from './pages/WriteArticle';
-import { RecoilRoot } from "recoil";
 
 // import {
 //   RecoilRoot,
@@ -101,8 +101,8 @@ const router = createBrowserRouter([
         element: <WriteArticle />,
       },
       {
-        path: 'myarticle',
-        element: <MyArticle />,
+        path: 'mypage',
+        element: <MyPage />,
       },
       {
         path: 'signin',
@@ -116,7 +116,7 @@ const router = createBrowserRouter([
         path: 'chat',
         element: <Chat />,
       },
-     
+
     ],
   },
 ]);
