@@ -44,6 +44,23 @@ function Comment(){
     }, 150);
   },[lender])
 
+  const sendMessage = ()=>{  
+    const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
+    const userSnap = getDoc(userRef);
+    userSnap.then((item)=>{chatData=item.data();
+      chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date(),img:userInfo.profileImage});
+      inputValue.current.value = "";
+      updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
+      })})        
+    });
+  }
+
+  const handleOnKeyPress = (e)=>{
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
   return(
 
     <>
@@ -79,17 +96,8 @@ function Comment(){
         </div>
         <div className="comment-div">          
           <div className="comment-wrapper-div">
-            <input ref={inputValue} type="text" />
-            <button className="send-button" type="button" onClick={()=>{  
-              const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
-              const userSnap = getDoc(userRef);
-              userSnap.then((item)=>{chatData=item.data();
-                chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date(),img:userInfo.profileImage});
-                inputValue.current.value = "";
-                updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
-                })})        
-              });
-            }}></button>
+            <input ref={inputValue} type="text" onKeyPress={handleOnKeyPress} />
+            <button className="send-button" type="button" onClick={sendMessage}></button>
           </div>          
         </div>
       </Div>    
