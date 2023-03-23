@@ -29,6 +29,7 @@ const Div = styled.div`
 	top: 53px;
 	padding : 32px 40px;
 	box-sizing: border-box;
+	z-index: 100;
 	
 	ul {
 		font-size: 1.125rem;

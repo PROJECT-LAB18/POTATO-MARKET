@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import styled from "styled-components";
 
 import Toggle from "./Toggle";
@@ -6,6 +8,11 @@ import mainLogo from "../assets/logo(symbol+name).svg";
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
+  const [showToggle, setShowToggle] = useState(false);
+  const handleToggle = () => {
+    setShowToggle(current => !current);
+  }
+
   return (
     <HeaderWrap>
       <MainTitle className="a11yHidden">감자마켓</MainTitle>
@@ -17,8 +24,8 @@ function Header () {
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
       <ChatButton>채팅하기</ChatButton>
-      <MypageIcon aria-label="마이페이지"/>
-      <Toggle/>
+      <MypageIcon aria-label="마이페이지" onClick={handleToggle}/>
+      {showToggle && <Toggle/>}
     </HeaderWrap>
   )
 }
