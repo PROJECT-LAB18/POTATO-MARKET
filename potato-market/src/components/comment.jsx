@@ -44,6 +44,29 @@ function Comment(){
     }, 150);
   },[lender])
 
+  const sendMessage = ()=>{  
+    const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
+    const userSnap = getDoc(userRef);
+    userSnap.then((item)=>{chatData=item.data();
+      chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date(),img:userInfo.profileImage});
+      inputValue.current.value = "";
+      updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
+      })})        
+    });
+  }
+
+  const handleOnKeyPress = (e)=>{
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
+  const escClose = (e) => {
+    if(e.keyCode === 27){
+      setChat(false);
+    }
+  }
+
   return(
 
     <>
@@ -79,17 +102,8 @@ function Comment(){
         </div>
         <div className="comment-div">          
           <div className="comment-wrapper-div">
-            <input ref={inputValue} type="text" />
-            <button className="send-button" type="button" onClick={()=>{  
-              const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
-              const userSnap = getDoc(userRef);
-              userSnap.then((item)=>{chatData=item.data();
-                chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date(),img:userInfo.profileImage});
-                inputValue.current.value = "";
-                updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
-                })})        
-              });
-            }}></button>
+            <input ref={inputValue} type="text" onKeyDown={escClose} onKeyPress={handleOnKeyPress} />
+            <button className="send-button" type="button" onClick={sendMessage}></button>
           </div>          
         </div>
       </Div>    
@@ -111,13 +125,6 @@ const Div = styled.div`
   width: 432.9px;
   height: 400px;
   box-shadow: 0 3px 7px 3px rgb(0 0 0 / 7%);
-
-  button:focus{
-    outline-offset: -7px;
-    outline-width: medium;
-    outline-color: #AFDBAF;
-  }
-
   & .header-div{
     width: 100%;
     position: relative;
@@ -145,19 +152,21 @@ const Div = styled.div`
     position:absolute;
     border-radius: 50%;
     border:none;
-    width: 35px;
-    height: 35px;
+    width: 18px;
+    height: 18px;
     background-color: pink;
   }
   & .chat-false-button{
     background: url(${chat_close_button}) no-repeat, 100%;
     background-position: center;
     right:10px;
+    background-size: contain;    
   }
   & .reset-button{
-    right: 30px;
+    right: 32px;
     background: url(${chat_reset}) no-repeat, 100%;
     background-position: center;
+    background-size: contain;    
   }
 
   & .time-class{
@@ -196,7 +205,6 @@ const Div = styled.div`
     display:flex;
     align-items: center;
     margin-bottom:8px;
-    
   }
   & li img{
     margin: 10px 10px 0 10px;
@@ -245,7 +253,7 @@ const Div = styled.div`
     outline: none;
   }  
   & .comment-div input{
-    padding:0 15px;
+    padding:0 37px 0 15px;
     margin:0 auto;
     width: 250px;
     height: 30px;
@@ -260,12 +268,13 @@ const Div = styled.div`
     position: absolute;
     border: none;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    background: url(${send_img}) no-repeat, 100%;
+    width: 20px;
+    height: 20px;
+    background: url(${send_img}) no-repeat;
     background-position: center;
-    right: 5px;
-    top: -3px;
+    background-size: contain;  
+    right: 10px;
+    top: 5px;
   }
   & .send-button img{
     width: 100%;
