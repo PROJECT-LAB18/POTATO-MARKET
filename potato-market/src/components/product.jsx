@@ -23,32 +23,31 @@ const Section = styled.div`
   }
 `
 const Imagediv = styled.div`
-margin:0;
+  margin:0;
   & img{
     display:block;
     border-radius: 12px;
     width:201px;
     height: 201px ;
     overflow:hidden;
+    object-fit: cover;
   }
 `
 const SubList = styled.div`
-
   flex-flow: row;
 
-& span{
-  margin-top:5.5px;
-  font-size: 12px;
-  color: #868E96;
-}
-& span::after{
-  content: '•';
-  margin : 0 4px;
-  
-}
-& span:last-child::after{
-  content:'';
-}
+  & span{
+    margin-top:5.5px;
+    font-size: 12px;
+    color: #868E96;
+  }
+  & span::after{
+    content: '•';
+    margin : 0 4px;  
+  }
+  & span:last-child::after{
+    content:'';
+  }
 `
 
 const Image = styled.img`

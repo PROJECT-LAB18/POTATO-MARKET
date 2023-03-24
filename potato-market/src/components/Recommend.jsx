@@ -1,19 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useParams } from "react-router";
 
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRecoilState } from "recoil"
 import styled from "styled-components"
 
 import {db} from '@/firebase';
 import { userInformation } from "@/stores/userAuth.js"
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { useParams } from "react-router";
-
+import { gray5, primaryColor } from "@/styles/global";
 
 function Recommend({recommend}){
   const [userInfo] = useRecoilState(userInformation);
   const inputValue = useRef();
   const uid = useParams();
-  console.log(recommend[2].id==false)
   const sendHandler = () =>{  
     const userRef = doc(db,"UserWrite",uid.id);
     const userSnap = getDoc(userRef);   
@@ -33,39 +32,31 @@ function Recommend({recommend}){
     <Div>
       <h2>댓글 {recommend.length}</h2>
       <ul>
-        {/* <li className="recommend-list">
-          <img src="https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3" alt="사진" />
-          <div className="recommend-wrapper">
-            <span>닉네임</span>
-            <span className="time-span">시간</span> 
-          </div>
-          <span className="content">zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</span>
-        </li> */}
         {recommend.length>0?
-         <>{recommend.map(({content,id,time,commendimg},index)=>(
-          <li className="recommend-list" key={index}>
-          <img src={commendimg?commendimg:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} alt="사진" />
-          <div className="recommend-wrapper">
-            <span>{id?id:'수상한 고구마'}</span>
-            <span className="time-span">{time.slice(3,23)}</span> 
-          </div>
-          <span className="content">{content}</span>
-        </li>
-        ))}</>
-        :<h3>아직 댓글이 없습니다.</h3>}
+          <>{recommend.map(({content,id,time,commendimg},index)=>(
+            <li key={index} className="recommend-list">
+              <img alt="사진" src={commendimg?commendimg:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
+              <div className="recommend-wrapper">
+                <span>{id?id:'수상한 고구마'}</span>
+                <span className="time-span">{time.slice(3,23)}</span> 
+              </div>
+              <span className="content">{content}</span>
+            </li>
+          ))}</>
+        :<p>아직 댓글이 없습니다.</p>}
 
       </ul>
       <div className="input-div">
-        <img src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} alt="본인 프로필" />
+        <img alt="본인 프로필" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
         <input ref={inputValue} type="text" />
-        <button onClick={sendHandler}>게시</button>
+        <button type="button" onClick={sendHandler}>게시</button>
       </div>
     </Div>
   )
 }
 
 const Div = styled.div`
-  padding:20px 0;
+  padding: 35px 0;
   border-bottom: 1px solid rgb(233, 236, 239);
   img{
     border-radius: 50%;
@@ -73,40 +64,49 @@ const Div = styled.div`
     height: 50px;
   }
   span{
-    font-weight: 600;
+    font-weight: 700;
   }
   h2{
     font-weight: 600;
-    font-size: 18px;
+    font-size: 19px;
+    margin-bottom: 20px;
+  }
+  p{
     margin-bottom: 20px;
   }
   .recommend-list{
-    height: 80px;
-    display:flex;
+    height: 75px;
+    display: flex;
     position: relative;
   }
   .time-span{
-    font-weight: 500;
-    font-size:16px;
-    color: #92959b;
+    margin-left: 5px;
+    font-weight: 400;
+    font-size: 11px;
+    color: ${gray5};
+    letter-spacing: .5px;
   }
   .recommend-wrapper{
-    left:65px;
+    left: 65px;
     position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
   }
   .input-div{
-    margin-top:10px;
-    gap:15px;
+    margin-top: 10px;
+    gap: 15px;
     position: relative;
-    display:flex;
+    display: flex;
     justify-content: center
   }
   .content{
     word-wrap: break-word;
-    display:inline;
+    display: inline;
     margin-left: 15px;
-    margin-top: 20px;
-    max-width:580px;
+    margin-top: 27px;
+    max-width: 580px;
   }
   .input-div input{
     border: 1px solid rgb(209, 211, 216);
@@ -118,12 +118,13 @@ const Div = styled.div`
     outline: none;
   }
   .input-div button{
-    top:15px;
+    padding 10px 15px;
+    top: 7px;
     position: absolute;
-    right:15px;
-    border:none;
+    right: 10px;
+    border: none;
     background-color: inherit;
-    color:#4e6ae9;
+    color: ${primaryColor};
     font-weight: 700;
   }
 `

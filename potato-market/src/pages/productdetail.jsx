@@ -9,6 +9,7 @@ import styled from "styled-components"
 import close_button from "../assets/closebutton.svg"
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
+import Recommend from "../components/Recommend";
 import SwiperPhoto from "../components/swiper"
 import { WriteInput } from "../components/WriteForm";
 
@@ -17,7 +18,6 @@ import {db, userWriteRef} from '@/firebase';
 
 import { userInformation } from "@/stores/userAuth.js"
 import moneyUnit from "@/utils/moneyUnit";
-import Recommend from "../components/Recommend";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -60,7 +60,7 @@ function Detailarticle(){
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} recommend={propsdata.recommend} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}  
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} recommend={propsdata.recommend} side={propsdata.side} state={myBoard} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
@@ -385,6 +385,7 @@ const Section = styled.section`
   & .swiper img{
     width:100%;
     height: 100%;
+    object-fit: cover;
   }
   & .profile{
     text-decoration: none;
@@ -459,7 +460,7 @@ const Section = styled.section`
   }
   & .title{
     font-weight: 600;
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 8px;
   }
   & .side-title{
@@ -500,7 +501,7 @@ const Section = styled.section`
   }
   & .best-product-group h2{
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
   }
   & .best-product-group a{
     color: #CFA36E;
