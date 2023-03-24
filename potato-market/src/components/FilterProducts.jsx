@@ -1,8 +1,6 @@
 import Product from './Product';
 
-import ErrPotato from '@/assets/404감자.png'; 
-
-import styled from 'styled-components';
+import errorImg from "@/assets/errorImg.svg";
 
 const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
   const filteredProducts = newArr.filter(({ title }) =>
@@ -13,7 +11,7 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
     setHasResults(false);
     return (<>
     
-    <img src={ErrPotato} alt="Error" />
+    <img src={errorImg} alt="Error" />
     <h1> 찾는 제품이 없습니다.</h1>; 
     
     </>
