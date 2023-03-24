@@ -5,13 +5,13 @@ const { persistAtom } = recoilPersist();
 
 export const userId = atom({
   key: "userId",
-  default: null
+  default: null,
+  effects_UNSTABLE: [persistAtom],
 })
 
 export const userInformation = atom({
   key: "userInformation",
   default: {
-    uid: "",
     location: "",
     agree: "",
     email: "",

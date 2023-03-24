@@ -26,10 +26,8 @@ function App() {
         const userInfoRef = db.collection("users").doc(user.uid);
         userInfoRef.get().then((doc) => {
           console.log(`로그인상태\nUID : ${user.uid} \n닉네임 : ${doc.data().nickname}`);
-
-          setUserUid(uid);
+          setUserUid(user.uid);
           setUserInfo({
-            uid: user.uid,
             location: doc.data().location,
             agree: doc.data().agree,
             email: doc.data().email,
@@ -38,9 +36,7 @@ function App() {
             profileImage: doc.data().profileImage,
           });
           setLender(1);
-
         })
-        let uid = user.uid;
       } else {
         console.log('로그아웃상태');
         setLender(1)
