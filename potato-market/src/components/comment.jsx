@@ -39,10 +39,12 @@ function Comment(){
   }, [onSnapshot]);
 
   useMemo(()=>{
-    setTimeout(() => {
-      scrollRef.current.scrollTop=scrollRef.current.scrollHeight
-    }, 150);
-  },[lender])
+    if(chat){
+      setTimeout(() => {
+        scrollRef.current.scrollTop=scrollRef.current.scrollHeight
+      }, 150);
+    }
+  },[lender,chat])
 
   return(
 
