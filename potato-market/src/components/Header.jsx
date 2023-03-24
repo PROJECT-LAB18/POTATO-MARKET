@@ -34,8 +34,10 @@ function Header () {
         <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
       </SearchForm>
       <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
-      <MypageIcon aria-label="마이페이지" onClick={handleToggle}/>
-      {showToggle && <Toggle/>}
+      <ToggleWrap>
+        <MypageIcon aria-label="마이페이지" onClick={handleToggle}/>
+        {showToggle && <Toggle/>}
+      </ToggleWrap>
     </HeaderWrap>
   )
 }
@@ -136,6 +138,11 @@ const ChatButton = styled.button`
   &:hover {
     background-color: ${gray2};
   }
+`;
+
+const ToggleWrap = styled.div`
+  position: relative;
+
 `;
 
 const MypageIcon= styled.button`

@@ -49,7 +49,7 @@ const Div = styled.div`
 	width: 213px;
 	height: 135px;
 	position: absolute;
-	right: 468px;
+	right: 16px;
 	top: 53px;
 	padding : 32px 40px;
 	box-sizing: border-box;
