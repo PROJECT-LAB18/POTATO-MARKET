@@ -1,31 +1,40 @@
-import {useState} from 'react'
+import { useEffect } from "react";
 
+import imageCompression from "browser-image-compression";
 import styled from 'styled-components';
 
 import { WriteInput } from "./WriteForm";
 
 import { gray4, primaryColor } from "@/styles/global";
 
-function AddPhoto({myinputRef}){
-  const [postImg, setPostImg] = useState([]);
-  const [previewImg, setPreviewImg] = useState([]);
+function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
 
-  const uploadFile = (event) => {
-    let fileArr = event.target.files;
-    setPostImg(Array.from(fileArr));
-    let fileURLs = [];
-    let filesLength = fileArr.length > 5 ? 5 : fileArr.length;
-
+  const uploadFile = async (event) => {
+    const files = event.target.files;
+    const uploadedImages = [];
+    const options = {
+      maxSizeMB: 0.5, // 이미지 최대 용량
+      maxWidthOrHeight: 1920, // 최대 넓이/높이
+      useWebWorker: true,
+    };
+    let filesLength = files.length > 5 ? 5 : files.length;
     for (let i = 0; i < filesLength; i++) {
-      let file = fileArr[i];
-      let reader = new FileReader();
-      reader.onload = () => {
-        fileURLs[i] = reader.result;
-        setPreviewImg([...fileURLs]);
-      };
-      reader.readAsDataURL(file);
+      const file = files[i];
+      try {
+        const compressedFile = await imageCompression(file, options);
+        uploadedImages.push(compressedFile);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    setPostImg(uploadedImages);
   };
+  useEffect(() => {
+    const postImageUrl = postImg.map((file) => imageCompression.getDataUrlFromFile(file));
+    Promise.all(postImageUrl).then((results) => {
+      setPreviewImg(results);
+    });
+  }, [postImg]);
 
   const removeImage = (index) => {
     const newPostImg = [...postImg];
@@ -39,7 +48,7 @@ function AddPhoto({myinputRef}){
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg, .gif" multiple={true} myinputRef={myinputRef} type="file"        
+      <WriteInput accept=".png, .jpeg, .jpg, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"        
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
