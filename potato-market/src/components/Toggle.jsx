@@ -10,7 +10,7 @@ import { userId } from '../stores/userAuth';
 import toggleBox from "@/assets/header_toggle.svg";
 import LogoutButton from '@/components/LogoutButton';
 
-
+const navigate = useNavigate;
 
 function Toggle(){
 

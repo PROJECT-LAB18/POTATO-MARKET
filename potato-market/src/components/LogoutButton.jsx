@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
@@ -9,7 +7,6 @@ import { userId } from '../stores/userAuth';
 import firebase from '@/firebase';
 
 const auth = firebase.auth();
-const navigate = useNavigate;
 
 const Button = styled.button`
   background-color: transparent;
@@ -31,7 +28,7 @@ function LogoutButton() {
       await auth.signOut();
       setLogin(null);
       setShowToggle(false);
-
+      window.location.replace("/");
     } catch (error) {
       console.error(error);
     }
