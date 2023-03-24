@@ -10,11 +10,13 @@ import mainLogo from "../assets/logo(symbol+name).svg";
 
 import { onChat } from "../stores/onChat";
 import { toggle } from "../stores/toggle";
+import { userId, userInformation } from '../stores/userAuth';
 
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
-
+  const [login] = useRecoilState(userId);
+  const [userInfo] = useRecoilState(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
   const handleToggle = () => {
     setShowToggle(!showToggle);
@@ -35,7 +37,7 @@ function Header () {
       </SearchForm>
       <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
       <ToggleWrap>
-        <MypageIcon aria-label="마이페이지" onClick={handleToggle}/>
+        <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle}/>
         {showToggle && <Toggle/>}
       </ToggleWrap>
     </HeaderWrap>
@@ -153,7 +155,7 @@ const MypageIcon= styled.button`
   background-color: transparent;
   border: 0;
   border-radius: 50%;
-  background: url(${defaultProfile}) no-repeat center local;
+  background: ${(props) => (props.login === null ? `url(${defaultProfile}) no-repeat center local` : `url(${props.userInfo.profileImage}) no-repeat center local`)};
   background-size: 36px;
   background-clip: border-box;
   cursor: pointer;
