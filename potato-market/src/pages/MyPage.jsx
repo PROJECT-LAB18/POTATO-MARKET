@@ -12,6 +12,7 @@ import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 // import FormButton from '@/styles/FormButton';
 import { gray5, primaryColor } from '@/styles/Global';
 import ProductList from '@/styles/ProductList';
+import LoginNeed from '../components/loginNeed';
 
 function MyPage() {
   const [render, setRender] = useState(false);
@@ -33,43 +34,48 @@ function MyPage() {
   }, [userUid]);
 
   return (
+    <>
+       {userUid==null?<LoginNeed/>:
     <Main className="wrapper">
-      <ContainerGlobalStyle />
-      <h2 className="articleTitle">마이페이지</h2>
-      <MyProfile>
-        <div className="basicInfo">
-          <img alt="내 프로필 사진" className="profileImage" src={userInfo.profileImage} />
-          <span className="intro">
-            <b aria-label="내 주소" className="location">
-              "{userInfo.location.sido} {userInfo.location.sigungu} {userInfo.location.bname}"
-            </b>
-            에서 🥔를 캐는<br />
-            나는
-            <b aria-label="내 닉네임" className="nickname">{userInfo.nickname}</b>
-          </span>
-          <span aria-label="내 UID" className="uid">#{userUid}</span>
-          <Temperature>
-            <img alt="매너온도 아이콘" className="face" src="src/assets/icon_temp4.svg" />
-            <div className="right-box">
-              <span className="text">36.5 ℃</span>
-              <div className="gauge">
-                <span className="gauge_bar" style={{ width: 36 + '%' }}></span>
+        <ContainerGlobalStyle />
+        <h2 className="articleTitle">마이페이지</h2>
+        <MyProfile>
+          <div className="basicInfo">
+            <img alt="내 프로필 사진" className="profileImage" src={userInfo.profileImage} />
+            <span className="intro">
+              <b aria-label="내 주소" className="location">
+                "{userInfo.location.sido} {userInfo.location.sigungu} {userInfo.location.bname}"
+              </b>
+              에서 🥔를 캐는<br />
+              나는
+              <b aria-label="내 닉네임" className="nickname">{userInfo.nickname}</b>
+            </span>
+            <span aria-label="내 UID" className="uid">#{userUid}</span>
+            <Temperature>
+              <img alt="매너온도 아이콘" className="face" src="src/assets/icon_temp4.svg" />
+              <div className="right-box">
+                <span className="text">36.5 ℃</span>
+                <div className="gauge">
+                  <span className="gauge_bar" style={{ width: 36 + '%' }}></span>
+                </div>
               </div>
-            </div>
-          </Temperature>
-          {/* <FormButton type="submit">회원정보 변경</FormButton> */}
-        </div>
-      </MyProfile>
-      <h2 className="articleTitle">나의 매물</h2>
-      <ProductList >
-        {render
-          ? newArr.map(({ content, title, price, side, imgsrc, id, check, heart }, index) => (
-            <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
-          ))
-          : <LoadingSpinner className="loading" />
-        }
-      </ProductList>
+            </Temperature>
+            {/* <FormButton type="submit">회원정보 변경</FormButton> */}
+          </div>
+        </MyProfile>
+        <h2 className="articleTitle">나의 매물</h2>
+        <ProductList >
+          {render
+            ? newArr.map(({ content, title, price, side, imgsrc, id, check, heart }, index) => (
+              <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
+            ))
+            : <LoadingSpinner className="loading" />
+          }
+         </ProductList>   
     </Main>
+    
+      }
+    </>
   )
 };
 

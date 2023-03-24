@@ -68,10 +68,10 @@ function Comment(){
             </p>
               </li> */}
             {lender?chatData.chat.map((item,index)=>(
-            <li key={index}><img alt={item.img} src={item.img}></img>
+            <li key={index}><img alt={item.img} src={item.img?item.img:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"}></img>
             <div className="chat-line">
               <p>{item.coment}</p>
-              <p className="time-class">{item.time.slice(7,23)} • {item.id}</p>
+              <p className="time-class">{item.time.slice(7,23)} • {item.id?item.id:"수상한 고구마"}</p>
             </div>
             </li>
             )):<p>렌더링중</p>}
