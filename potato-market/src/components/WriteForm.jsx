@@ -78,6 +78,7 @@ function WriteForm(){
             nickname: userInfo.nickname,
             profileImage: userInfo.profileImage,
             location : userInfo.location,
+            recommend : [],
           }).then(()=>{
             navigate("/HotArticles");
           })

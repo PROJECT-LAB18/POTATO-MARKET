@@ -17,6 +17,7 @@ import {db, userWriteRef} from '@/firebase';
 
 import { userInformation } from "@/stores/userAuth.js"
 import moneyUnit from "@/utils/moneyUnit";
+import Recommend from "../components/Recommend";
 
 function Detailarticle(){
   const [propsdata, setPropsdata] = useState({
@@ -59,13 +60,13 @@ function Detailarticle(){
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}  
+      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} recommend={propsdata.recommend} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}  
         />:<LoadingSpinner/>}
     </>
   )
 }
 
-function Productdetail({state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
+function Productdetail({recommend,state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
@@ -73,7 +74,6 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
   const [clickDelete, setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
   const clickButton = () => {setClick(click?0:1)}
-  
   const uid = useParams();
   const userRef = doc(db, "UserWrite", uid.id);
   const userSnap = getDoc(userRef);
@@ -178,6 +178,9 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
             }
           </div>
         </div>
+      </Section>
+      <Section>
+        <Recommend recommend={recommend}/>
       </Section>
       <Section>
         <div className="best-product-group">

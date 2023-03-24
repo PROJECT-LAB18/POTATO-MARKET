@@ -235,11 +235,9 @@ const Div = styled.div`
   & li p:first-child{
     margin-right: 5px;
     margin-left: 5px;
-    flex-shrink: 0;
   }
   & li p:nth{
     margin-right:10px;
-    flex-shrink: 0;
   }
 
   & .comment-div{
