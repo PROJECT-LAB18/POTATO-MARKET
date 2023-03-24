@@ -6,6 +6,7 @@ import { RecoilRoot } from "recoil";
 
 import App from './App'
 
+import NotFound from './components/NotFound';
 import Home from './pages/Home';
 import ChatPage from './pages/ChatPage';
 import HotArticles from './pages/HotArticles/HotArticles';
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <NotFound title={"페이지에 접근할 수 없습니다."} />,
     children: [
       {
         path: '',
