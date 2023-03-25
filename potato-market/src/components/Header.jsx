@@ -1,6 +1,6 @@
-import { useRecoilState } from "recoil";
-
 import { Link, useNavigate } from 'react-router-dom';
+
+import { useRecoilState } from "recoil";
 
 import styled from "styled-components";
 
@@ -9,26 +9,35 @@ import styled from "styled-components";
 import { searchKeywordState } from '@/stores/state';
 
 
+import Toggle from "./Toggle";
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
+
 import { onChat } from "../stores/onChat";
+import { toggle } from "../stores/toggle";
+import { userId, userInformation } from '../stores/userAuth';
+
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
 function Header () {
-
-
+  const [login] = useRecoilState(userId);
+  const [userInfo] = useRecoilState(userInformation);
+  const [showToggle, setShowToggle] = useRecoilState(toggle);
+  const handleToggle = () => {
+    setShowToggle(!showToggle);
+  }
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-
-  const [chat,setChat] = useRecoilState(onChat);
+  const [chat, setChat] = useRecoilState(onChat);
   const navigate = useNavigate();
 
   return (
     <HeaderWrap>
       <MainTitle className="a11yHidden">감자마켓</MainTitle>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <Link to="/"><img alt="" src={mainLogo} /></Link>
       <MenuButton as={"a"} className="primary" onClick={()=>navigate(`/hotArticles`)}>중고거래</MenuButton>
       <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
-      <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton>
+      {/* <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton> */}
       <SearchForm>
       <input
           placeholder="물품이나 동네를 검색해보세요"
@@ -37,10 +46,11 @@ function Header () {
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
       </SearchForm>
-
       <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
-
-      <MypageIcon aria-label="마이페이지"/>
+      <ToggleWrap>
+        <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle}/>
+        {showToggle && <Toggle/>}
+      </ToggleWrap>
     </HeaderWrap>
   )
 }
@@ -53,6 +63,7 @@ const HeaderWrap = styled.header`
   margin-right: auto;
   justify-content: center;
   flex-wrap: wrap;
+  position: relative;
 
   .a11yHidden {
     display: inline-block;
@@ -80,6 +91,7 @@ const HeaderWrap = styled.header`
   .primary:hover {
     color: ${primaryColor};
   }
+
 `;
 
 const MainTitle = styled.h1`
@@ -87,7 +99,8 @@ const MainTitle = styled.h1`
   `;
 
 const SearchForm = styled.form`
-  margin-right: 12px;
+  margin-left: 5rem;
+  margin-right: 3rem;
   margin-top: 12px;
   & input {
     color: ${gray7};
@@ -131,7 +144,6 @@ const ChatButton = styled.button`
   font-size: 16px;
   background-color: #FFF;
   display: inline-block;
-  /* border: 0; */
   border: 1px solid #D1D3D8;
   border-radius: 4px;
   cursor: pointer;
@@ -139,6 +151,11 @@ const ChatButton = styled.button`
   &:hover {
     background-color: ${gray2};
   }
+`;
+
+const ToggleWrap = styled.div`
+  position: relative;
+
 `;
 
 const MypageIcon= styled.button`
@@ -149,7 +166,7 @@ const MypageIcon= styled.button`
   background-color: transparent;
   border: 0;
   border-radius: 50%;
-  background: url(${defaultProfile}) no-repeat center local;
+  background: ${(props) => (props.login === null ? `url(${defaultProfile}) no-repeat center local` : `url(${props.userInfo.profileImage}) no-repeat center local`)};
   background-size: 36px;
   background-clip: border-box;
   cursor: pointer;

@@ -6,11 +6,12 @@ import { useRecoilState } from "recoil";
 
 import Footer from './components/Footer';
 import Header from './components/Header';
-import LogoutButton from './components/LogoutButton';
+
 import firebase from './firebase';
 import GlobalStyle from './styles/Global';
 
 import { userId, userInformation } from "@/stores/userAuth.js"
+
 import Comment from './components/comment';
 
 function App() {
@@ -54,8 +55,6 @@ function App() {
       <div className="App">
         <Header />
         <Comment/>
-        <LogoutButton />
-
         {lender?<Outlet />:null}
         <Footer />
       </div>
