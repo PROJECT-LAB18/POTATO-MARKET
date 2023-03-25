@@ -1,18 +1,28 @@
 import { useState } from 'react';
 
+import imageCompression from "browser-image-compression";
+
 import styled from 'styled-components';
 
 import { gray5, primaryColor } from '../styles/Global';
 
-export const FormInputImage = () => {
+export const FormInputImage = ({ profileUrl, setProfileUrl }) => {
+  const [previewUrl, setPreviewUrl] = useState(
+    profileUrl || "../src/assets/default_profile.png"
+  );
 
-  const [previewImage, setPreviewImage] = useState("../src/assets/default_profile.png");
-
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     const uploadedImage = e.target.files[0];
+    const options = { // 이미지 최적화 옵션
+      maxSizeMB: 0.1, // 이미지 최대 용량
+      maxWidthOrHeight: 100, // 최대 넓이/높이
+      useWebWorker: true,
+    };
     if (uploadedImage) {
-      const imageUrl = URL.createObjectURL(uploadedImage);
-      setPreviewImage(imageUrl);
+      const compressedFile = await imageCompression(uploadedImage, options);
+      const imageUrl = URL.createObjectURL(compressedFile);
+      setPreviewUrl(imageUrl);
+      setProfileUrl(compressedFile);
     }
   };
 
@@ -23,7 +33,7 @@ export const FormInputImage = () => {
         <img
           alt="프로필 이미지사진 미리보기"
           className="profile-image-preview"
-          src={previewImage}
+          src={previewUrl}
         />
         <input
           accept=".png, .jpg, .jpeg, .svg"
@@ -36,7 +46,7 @@ export const FormInputImage = () => {
   )
 };
 
-export const FormInputLocation = ({setOpenPostcode, fullAddress}) => {
+export const FormInputLocation = ({ setOpenPostcode, fullAddress }) => {
 
   const clickButton = () => {
     setOpenPostcode(current => !current);
@@ -45,17 +55,17 @@ export const FormInputLocation = ({setOpenPostcode, fullAddress}) => {
   return (
     <>
       <LabelText htmlFor="userLocation">주소</LabelText>
-        <InputBox >
-          <div className="loca" >
-            <input readOnly id="userLocation" name="userLocation" type="text" 
-            value={fullAddress==='undefined undefined undefined' ? '' : fullAddress} 
+      <InputBox >
+        <div className="loca" >
+          <input readOnly id="userLocation" name="userLocation" type="text"
+            value={fullAddress === 'undefined undefined undefined' ? '' : fullAddress}
             onClick={clickButton}
-            />
-            <Button type="button" onClick={clickButton}>검색</Button>
-          </div>
-          {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}
-          <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
-        </InputBox>
+          />
+          <Button type="button" onClick={clickButton}>검색</Button>
+        </div>
+        {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}
+        <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
+      </InputBox>
     </>
   )
 };

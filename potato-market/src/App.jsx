@@ -11,6 +11,7 @@ import firebase from './firebase';
 import GlobalStyle from './styles/Global';
 
 import { userId, userInformation } from "@/stores/userAuth.js"
+import Comment from './components/comment';
 
 function App() {
   const [userUid, setUserUid] = useRecoilState(userId);
@@ -52,6 +53,7 @@ function App() {
       <GlobalStyle />
       <div className="App">
         <Header />
+        <Comment/>
         <LogoutButton />
 
         {lender?<Outlet />:null}
