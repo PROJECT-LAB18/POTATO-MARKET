@@ -1,25 +1,22 @@
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
-import LoginNeed from "../components/loginNeed";
+import LoginState from "../components/LoginState";
 
 import WriteForm from '@/components/WriteForm';
 import { userId } from "@/stores/userAuth.js"
-import {ContainerGlobalStyle} from '@/styles/ContainerGlobalStyle';
+import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 
-
-
-function WriteArticle(){
-  const [login,setLogin] = useRecoilState(userId);
-
+function WriteArticle() {
+  const [login, setLogin] = useRecoilState(userId);
   return (
     <>
       <ContainerGlobalStyle />
-      {login==null? <LoginNeed/>:
-      (<Main className="wrapper">
+      {login == null ? <LoginState state="login" /> :
+        (<Main className="wrapper">
           <h2 className="articleTitle">게시글 작성</h2>
           <WriteForm />
-      </Main>  )}
+        </Main>)}
     </>
   )
 }

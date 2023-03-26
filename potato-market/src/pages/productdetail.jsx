@@ -16,7 +16,9 @@ import { WriteInput } from "../components/WriteForm";
 import icon_temp4 from "@/assets/icon_temp4.svg"
 import { db, userWriteRef } from '@/firebase';
 
-import { userId } from "@/stores/userAuth.js"
+import { userId } from "@/stores/userAuth.js";
+import { CustomButton } from "@/styles/CustomButton";
+
 import moneyUnit from "@/utils/moneyUnit";
 
 function Detailarticle() {
@@ -172,12 +174,12 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
             <span>조회 {check} </span>
           </div>
           <div className="button-list">
-            {state ?
-              <>
-                <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
-                <CustomButton red onClick={() => { setClickDelete(1) }}>삭제</CustomButton>
-              </> :
-              <CustomButton>채팅하기</CustomButton>
+            {state?
+            <>
+              <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
+              <CustomButton filled onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
+            </>:                    
+            <CustomButton>채팅하기</CustomButton>         
             }
           </div>
         </div>
@@ -348,24 +350,6 @@ const ModifiedDiv = styled.div`
     font-weight: 600;
     font-size: 32px;
     margin-bottom: 24px;
-  }
-`
-export const CustomButton = styled.button`
-  & .BoardDeleteButton{
-    border: 1px solid #FFFFFF;
-  }
-  cursor:pointer;
-  width: 99px;
-  height: 40px;
-  color : ${props => props.red ? '#FFFFFF' : '#212124'};
-  background: ${props => props.red ? '#CFA36E' : '#FFFFFF'};
-  border: 1px solid ${props => props.red ? '' : '#D1D3D8'};
-  border-radius: 4px;
-  font-weight: 700;
-  font-size: 16px;
-    &:hover{
-    background: ${props => props.red ? '#a7845b' : '#D1D3D8'};
-    transition: .5s;
   }
 `
 
