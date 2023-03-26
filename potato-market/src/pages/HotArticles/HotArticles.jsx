@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { onSnapshot } from "firebase/firestore"
 
+import { useRecoilValue } from 'recoil';
 
 import LoadingSpinner from '../../components/LoadingSpinner';
 
@@ -9,7 +10,6 @@ import FilterProducts from '@/components/FilterProducts';
 
 import { userWriteRef } from '@/firebase';
 
-import { useRecoilValue } from 'recoil';
 
 import { searchKeywordState } from '@/stores/state';
 
@@ -21,7 +21,6 @@ import Wrapper from '@/styles/Wrapper'
 
 let newArr = [];
 
-// console.log(serverdata)
 function HotArticles() {
   const [render, Setrender] = useState(0);
   const searchKeyword = useRecoilValue(searchKeywordState);
@@ -39,7 +38,6 @@ function HotArticles() {
         newArr.push(newObj);
         newArr.sort((b, a) => a.date - b.date);
         Setrender(1);
-        // console.log(newArr);
       })
     })
   }, [])
@@ -60,7 +58,7 @@ function HotArticles() {
           {render ? (<FilterProducts  newArr={newArr} searchKeyword={searchKeyword} setHasResults={setHasResults}/>) : ( <LoadingSpinner className="loading" />)}
         </Wrapper>
       )}
-  </main>
+    </main>
   )
 }
 
