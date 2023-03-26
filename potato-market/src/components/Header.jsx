@@ -67,7 +67,7 @@ function Header () {
         <Icon iconname={searchIcon} onClick={openSearch}/>
         <Icon iconname={hamburger} onClick={openMenu}/>
       </MobileIcons>
-      {showSearch ? <SearchModal setShowSearch={setShowSearch} /> : null}
+      {showSearch ? <SearchModal setShowSearch={setShowSearch} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword}/> : null}
       {showMenu ? <MenuModal setShowMenu={setShowMenu} /> : null}
     </HeaderWrap>
   )
@@ -253,10 +253,7 @@ const Icon = styled.button`
   }
 `;
 
-const SearchModal = ({ setShowSearch }) => {
-  
-  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-
+const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword }) => {
   return (
     <Modal>
       <Input
@@ -271,7 +268,6 @@ const SearchModal = ({ setShowSearch }) => {
 };
 
 const MenuModal = ({setShowMenu}) => {
-
   return (
     <Modal>
       <ul>
