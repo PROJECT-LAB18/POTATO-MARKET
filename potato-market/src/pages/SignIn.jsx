@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
 import FormInput from '@/components/FormInput';
-import LoginAlready from '@/components/LoginAlready';
+import LoginState from '@/components/LoginState';
 import Popup from '@/components/Popup';
 import { auth, usersRef } from '@/firebase';
 import { userId } from '@/stores/userAuth';
@@ -48,7 +48,7 @@ function SignIn() {
 
   return (
     <>
-      {login !== null ? <LoginAlready /> :
+      {login !== null ? <LoginState /> :
         <Section>
           <h2>로그인</h2>
           <LoginForm id="loginForm" onSubmit={handleSignIn}>

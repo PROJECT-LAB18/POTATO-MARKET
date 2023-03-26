@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import FormInput, { FormInputImage } from '@/components/FormInput';
 import FormInputAddress from '@/components/FormInputAddress';
 import FormTerms from '@/components/FormTerms';
-import LoginAlready from '@/components/LoginAlready';
+import LoginState from "@/components/LoginState";
 import Popup from '@/components/Popup';
 import { auth, db, storage, usersRef } from '@/firebase';
 import { userId } from '@/stores/userAuth';
@@ -195,7 +195,7 @@ function SignUp() {
   };
   return (
     <>
-      {login !== null ? <LoginAlready /> :
+      {login !== null ? <LoginState /> :
         <Section>
           <h2>회원가입</h2>
           <SignUpForm onSubmit={handleSignUp}>
