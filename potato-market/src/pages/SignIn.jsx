@@ -7,10 +7,9 @@ import styled from 'styled-components';
 import FormInput from '@/components/FormInput';
 import LoginState from '@/components/LoginState';
 import Popup from '@/components/Popup';
-import { auth, usersRef } from '@/firebase';
+import firebase, { auth, usersRef } from '@/firebase';
 import { userId } from '@/stores/userAuth';
 import FormButton from '@/styles/FormButton';
-
 
 function SignIn() {
 
@@ -29,6 +28,7 @@ function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
+      await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
       await auth.signInWithEmailAndPassword(formState.email, formState.password);
       const querySnapshot = await usersRef.where('email', '==', formState.email).get();
       if (querySnapshot.size > 0) {
