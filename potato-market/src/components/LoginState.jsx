@@ -18,15 +18,10 @@ function LoginState() {
         {login === null ? "로그인 후 사용해주세요." : "이미 로그인 한 사용자 입니다."}
       </h2>
       <div className="button-div">
-        {login === null
-          ? ( <>
-            <CustomButton filled as={"a"} onClick={() => { navigate('/signin') }}>로그인</CustomButton>
-            <CustomButton as={"a"} onClick={() => { navigate(-1) }}>뒤로가기</CustomButton>
-          </> ) : ( <>
-            <CustomButton filled as={"a"} onClick={() => { navigate(-1) }}>뒤로가기</CustomButton>
-            <CustomButton as={"a"} onClick={() => { navigate('/mypage') }}>마이페이지</CustomButton>
-          </> )
-        }
+        <CustomButton filled as={"a"}
+          onClick={() => { login === null ? navigate('/signin') : navigate('/mypage') }}
+        >{ login === null ? "로그인" : "마이페이지" }</CustomButton>
+        <CustomButton as={"a"} onClick={() => { navigate(-1) }}>뒤로가기</CustomButton>
       </div>
     </Main >
   )
