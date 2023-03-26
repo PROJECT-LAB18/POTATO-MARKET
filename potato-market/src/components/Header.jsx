@@ -12,6 +12,8 @@ import { searchKeywordState } from '@/stores/state';
 import Toggle from "./Toggle";
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
+import searchIcon from "../assets/searchIcon.svg";
+import hamburger from "../assets/hamburger.svg";
 
 import { onChat } from "../stores/onChat";
 import { toggle } from "../stores/toggle";
@@ -51,6 +53,10 @@ function Header () {
         <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle}/>
         {showToggle && <Toggle/>}
       </ToggleWrap>
+      <MobileIcons>
+        <Icon iconname={searchIcon}/>
+        <Icon iconname={hamburger}/>
+      </MobileIcons>
     </HeaderWrap>
   )
 }
@@ -76,6 +82,11 @@ const HeaderWrap = styled.header`
     margin: -1px;
   }
 
+  Link {
+    width: 101px;
+    height: 26px;
+  }
+
   img {
     width: 101px;
     height: 26px;
@@ -92,6 +103,13 @@ const HeaderWrap = styled.header`
     color: ${primaryColor};
   }
 
+  @media (max-width: 768px){
+
+    justify-content: space-between;
+    img {
+      
+    }
+  }
 `;
 
 const MainTitle = styled.h1`
@@ -106,7 +124,7 @@ const SearchForm = styled.form`
     color: ${gray7};
     background-color: ${gray1};
     font-size: 16px;
-    width: 288px;
+    width: 18rem;
     height : 40px;
     border: 0;
     border-radius: 6px;
@@ -115,6 +133,16 @@ const SearchForm = styled.form`
 
   & input:focus {
     outline: none;
+  }
+  @media (min-width: 768px) and (max-width: 1023px){
+    margin-left: 0;
+    margin-right: 0;
+    & input {
+      width: 12rem;
+    }
+  }
+  @media (max-width: 768px){
+    display: none;
   }
 `;
 
@@ -131,10 +159,14 @@ const MenuButton = styled.button`
   &:hover {
     color: ${gray3};
   }
+
+  @media (max-width: 768px){
+    display: none;
+  }
 `;
 
 const ChatButton = styled.button`
-  width: 98px;
+  width: 6.125rem;
   margin-top: 12px;
   margin-right: 2rem;
   margin-left: 2rem;
@@ -150,6 +182,14 @@ const ChatButton = styled.button`
   
   &:hover {
     background-color: ${gray2};
+  }
+  @media (min-width: 768px) and (max-width: 1023px){
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  @media (max-width: 768px){
+    margin-left: 1rem;
+    display: none;
   }
 `;
 
@@ -170,6 +210,30 @@ const MypageIcon= styled.button`
   background-size: 36px;
   background-clip: border-box;
   cursor: pointer;
+  @media (max-width: 768px){
+    display: none;
+  }
 `
+
+const MobileIcons = styled.div`
+  height: inherit;
+  width: 5rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
+
+const Icon = styled.button`
+  border: 0;
+  background-color: transparent;
+  background: url("") no-repeat center local;
+  background-image: url(${(props)=>props.iconname});
+  width: 1.5rem;
+  height: 1.5rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
 
 export default Header;
