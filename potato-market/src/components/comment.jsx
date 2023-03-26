@@ -11,12 +11,13 @@ import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
 import { db } from '@/firebase';
-import { userInformation } from "@/stores/userAuth.js"
+import { userInformation, userId } from "@/stores/userAuth.js"
 
 function Comment() {
   const inputValue = useRef();
   const [lender, setLender] = useState(0);
   const [userInfo] = useRecoilState(userInformation);
+  const [userUid] = useRecoilState(userId);
   const [chat, setChat] = useRecoilState(onChat);
   let [chatData, setChatData] = useState({ chat: [] });
   const scrollRef = useRef();
@@ -52,10 +53,10 @@ function Comment() {
     userSnap.then((item) => {
       chatData = item.data();
       chatData.chat.push({
-        id: userInfo ? userInfo.nickname : "수상한 고구마",
+        id: userUid ? userInfo.nickname : "수상한 고구마",
         coment: inputValue.current.value,
         time: Date(),
-        img: userInfo ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"
+        img: userUid ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"
       });
       inputValue.current.value = "";
       updateDoc(userRef, chatData).then(() => {
