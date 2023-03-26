@@ -5,23 +5,22 @@ import { useRecoilState } from "recoil";
 
 import styled from "styled-components";
 
-import { searchKeywordState } from '@/stores/state';
-
-
 import Toggle from "./Toggle";
-
-import defaultProfile from "@/assets/defaultProfile.svg";
-import mainLogo from "@/assets/logo(symbol+name).svg";
-import searchIcon from "@/assets/searchIcon.svg";
-import hamburger from "@/assets/hamburger.svg";
-import closeIcon from "@/assets/closebutton.svg";
-
-import { onChat } from "@/stores/onChat";
-import { toggle } from "@/stores/toggle";
 
 import { userId, userInformation } from '../stores/userAuth';
 
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
+
+import closeIcon from "@/assets/closebutton.svg";
+import defaultProfile from "@/assets/defaultProfile.svg";
+import hamburger from "@/assets/hamburger.svg";
+import mainLogo from "@/assets/logo(symbol+name).svg";
+import searchIcon from "@/assets/searchIcon.svg";
+import xButton from "@/assets/xButton.svg";
+
+import { onChat } from "@/stores/onChat";
+import { searchKeywordState } from '@/stores/state';
+import { toggle } from "@/stores/toggle";
 
 function Header () {
   const [login] = useRecoilState(userId);
@@ -49,7 +48,6 @@ function Header () {
       <Link to="/"><img alt="" src={mainLogo} /></Link>
       <MenuButton as={"a"} className="primary" onClick={()=>navigate(`/hotArticles`)}>중고거래</MenuButton>
       <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
-      {/* <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton> */}
       <SearchForm>
       <input
           placeholder="물품이나 동네를 검색해보세요"
@@ -65,10 +63,10 @@ function Header () {
       </ToggleWrap>
       <MobileIcons>
         <Icon iconname={searchIcon} onClick={openSearch}/>
-        <Icon iconname={hamburger} onClick={openMenu}/>
+        {showMenu ? <CloseMenu onClick={()=>setShowMenu(false)}/> : <Icon iconname={hamburger} onClick={openMenu} />}
       </MobileIcons>
-      {showSearch ? <SearchModal setShowSearch={setShowSearch} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword}/> : null}
-      {showMenu ? <MenuModal setShowMenu={setShowMenu} /> : null}
+      {showSearch ? <SearchModal searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} setShowSearch={setShowSearch}/> : null}
+      {showMenu ? <MenuModal navigate={navigate} setChat={setChat} setShowMenu={setShowMenu}/> : null}
     </HeaderWrap>
   )
 }
@@ -82,7 +80,7 @@ const HeaderWrap = styled.header`
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
-
+  
   .a11yHidden {
     display: inline-block;
     overflow: hidden;
@@ -132,6 +130,7 @@ const SearchForm = styled.form`
   margin-left: 5rem;
   margin-right: 3rem;
   margin-top: 12px;
+
   & input {
     color: ${gray7};
     background-color: ${gray1};
@@ -255,60 +254,139 @@ const Icon = styled.button`
 
 const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword }) => {
   return (
-    <Modal>
+    <Modal top={0}>
       <Input
         placeholder="물품이나 동네를 검색해보세요"
         type="text"
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <CloseButton aria-label="검색 닫기" onClick={()=>setShowSearch(false)}/>
+      <CloseSearch aria-label="검색 닫기" onClick={()=>setShowSearch(false)}/>
     </Modal>
   )
 };
 
-const MenuModal = ({setShowMenu}) => {
+const MenuModal = ({setShowMenu, navigate, setChat}) => {
+ 
+  const navigateTohotArticles = () => {
+    navigate("/hotArticles")
+    setShowMenu(false);
+  }
+  
+  const navigateTowriteArticle = () => {
+    navigate("/writeArticle")
+    setShowMenu(false);
+  }
+
+  const navigateToChat = () => {
+    setShowMenu(false);
+    setChat(true);
+  }
+
   return (
-    <Modal>
-      <ul>
-        <li>중고거래</li>
-        <li>매물 등록하기</li>
-        <li>채팅하기</li>
-        <li>마이페이지</li>
-      </ul>
-      <CloseButton aria-label="메뉴 닫기" onClick={()=>setShowMenu(false)}/>
+    <Modal top={'64px'}>
+      <MenuList>
+        <li><AccordionButton onClick={navigateTohotArticles}>중고거래</AccordionButton></li>
+        <li><AccordionButton onClick={navigateTowriteArticle}>매물 등록하기</AccordionButton></li>
+        <li><AccordionButton onClick={navigateToChat}>채팅하기</AccordionButton></li>
+      </MenuList>
     </Modal>
   )
 }
 
 const Modal = styled.div`
   position: fixed;
-  top: 0;
+  top: ${ (props) => props.top };
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
-const CloseButton = styled.button`
+const MenuList = styled.ul`
+  z-index: 100;
+  position: absolute;
+  border-top: 2px solid ${gray2};
+  transition: transform .3s, opacity .1s;
+  
+  li {
+    padding: 1rem;
+    width: 100vw;
+    height: 1.25rem;
+    background-color: #fff;
+    line-height: 1.25rem;
+  }
+
+  & li:hover {
+    background-color: ${gray3};
+  }
+
+  @media (min-width: 768px) {
+  display: none;
+ }
+`;
+
+const CloseMenu = styled.button`
+  border: 0;
   background-color: transparent;
+  background: url(${xButton}) no-repeat center local;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+  display: none;
+ }
+`;
+
+const AccordionButton = styled.button`
+  background-color: transparent;
+  border: 0;
+  color: #212325;
+`;
+
+const CloseSearch = styled.button`
+  background-color: ${gray1};
   border: 0;
   background: url(${closeIcon}) no-repeat center;
   width: 1rem;
   height: 1rem;
   cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 12px;
   margin-left: 1rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const Input = styled.input`
   color: ${gray7};
   background-color: ${gray1};
   font-size: 16px;
-  width: 95vw;
+  width: 100vw;
   height : 40px;
   border: 0;
   border-radius: 6px;
   text-indent: 6px;
+  padding-right: 3.5rem;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+
+  & :focus {
+    outline: none;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `
 export default Header;
