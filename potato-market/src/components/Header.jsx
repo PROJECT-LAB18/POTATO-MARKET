@@ -5,6 +5,9 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import Toggle from "./Toggle";
+
+import { searchKeywordState } from '@/stores/state';
+
 import defaultProfile from "../assets/defaultProfile.svg";
 import mainLogo from "../assets/logo(symbol+name).svg";
 
@@ -18,10 +21,12 @@ function Header () {
   const [login] = useRecoilState(userId);
   const [userInfo] = useRecoilState(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
+  const [chat, setChat] = useRecoilState(onChat);
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
+  
   const handleToggle = () => {
     setShowToggle(!showToggle);
   }
-  const [chat, setChat] = useRecoilState(onChat);
   const navigate = useNavigate();
 
   return (
@@ -33,7 +38,12 @@ function Header () {
       <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
       {/* <MenuButton as={"a"} onClick={()=>navigate(`/myPage`)}>마이페이지</MenuButton> */}
       <SearchForm>
-        <input placeholder="물품이나 동네를 검색해보세요" type="text"/>
+      <input
+          placeholder="물품이나 동네를 검색해보세요"
+          type="text"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)}
+        />
       </SearchForm>
       <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
       <ToggleWrap>

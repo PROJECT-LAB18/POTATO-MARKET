@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import {doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
 import styled from "styled-components";
 
@@ -10,22 +10,22 @@ import chat_bg from "@/assets/chat/chat-bg.svg"
 import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
-import {db} from '@/firebase';
+import { db } from '@/firebase';
 import { userInformation } from "@/stores/userAuth.js"
 
-function Comment(){
+function Comment() {
   const inputValue = useRef();
-  const [lender,setLender] = useState(0);
+  const [lender, setLender] = useState(0);
   const [userInfo] = useRecoilState(userInformation);
-  const [chat,setChat] = useRecoilState(onChat);
-  let [chatData,setChatData] = useState({chat : []});
+  const [chat, setChat] = useRecoilState(onChat);
+  let [chatData, setChatData] = useState({ chat: [] });
   const scrollRef = useRef();
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
   const commentRef = db.collection('comment');
-  
-  if(!lender){
-    userSnap.then((item)=>{setChatData(item.data())});    
+
+  if (!lender) {
+    userSnap.then((item) => { setChatData(item.data()) });
     setLender(1);
   }
 
@@ -38,63 +38,90 @@ function Comment(){
     return fetchUser()
   }, [onSnapshot]);
 
-  useMemo(()=>{
-    setTimeout(() => {
-      scrollRef.current.scrollTop=scrollRef.current.scrollHeight
-    }, 150);
-  },[lender])
+  useMemo(() => {
+    if (chat) {
+      setTimeout(() => {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      }, 150);
+    }
+  }, [lender, chat])
 
-  return(
+  const sendMessage = () => {
+    const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
+    const userSnap = getDoc(userRef);
+    userSnap.then((item) => {
+      chatData = item.data();
+      chatData.chat.push({
+        id: userInfo ? userInfo.nickname : "수상한 고구마",
+        coment: inputValue.current.value,
+        time: Date(),
+        img: userInfo ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"
+      });
+      inputValue.current.value = "";
+      updateDoc(userRef, chatData).then(() => {
+        userSnap.then(() => {
+          setLender(0)
+        })
+      })
+    });
+  };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
+  const escClose = (e) => {
+    if (e.keyCode === 27) {
+      setChat(false);
+    }
+  }
+
+  return (
     <>
-    {
-      chat==true?
-      <Div>
-        <div className="header-div">
-          <h2 className="chat-h2">우리동네 감자 모임</h2>
-          <button className="reset-button" type="button" onClick={()=>{
-            const newData = {chat:[]};
-            updateDoc(userRef,newData).then(()=>{ userSnap.then(()=>{  setLender(0) 
-            })})
-          }
-          }></button>
-          <button className="chat-false-button" type="button" onClick={()=>{setChat(false)}}></button>
+      {
+        chat == true ?
+          <Div>
+            <div className="header-div">
+              <h2 className="chat-h2">우리동네 감자 모임</h2>
+              <button className="reset-button" type="button" onClick={() => {
+                const newData = { chat: [] };
+                updateDoc(userRef, newData).then(() => {
+                  userSnap.then(() => {
+                    setLender(0)
+                  })
+                })
+              }
+              }></button>
+              <button className="chat-false-button" type="button" onClick={() => { setChat(false) }}></button>
 
-        </div>
-        <div className="div-warpper">
-          <ul ref={scrollRef}>
-            {/* <li className='notice'><p>관리자:</p><p>초기화를 누를 경우, 모든 유저의 채팅이 증발합니다.
+            </div>
+            <div className="div-warpper">
+              <ul ref={scrollRef}>
+                {/* <li className='notice'><p>관리자:</p><p>초기화를 누를 경우, 모든 유저의 채팅이 증발합니다.
             <br></br>마지막 업데이트 <br></br> &nbsp;2023-03-22 20:00
             </p>
               </li> */}
-            {lender?chatData.chat.map((item,index)=>(
-            <li key={index}><img alt={item.img} src={item.img}></img>
-            <div className="chat-line">
-              <p>{item.coment}</p>
-              <p className="time-class">{item.time.slice(7,23)} • {item.id}</p>
+                {lender ? chatData.chat.map((item, index) => (
+                  <li key={index}><img alt={item.img} src={item.img}></img>
+                    <div className="chat-line">
+                      <p>{item.coment}</p>
+                      <p className="time-class">{item.time.slice(7, 23)} • {item.id}</p>
+                    </div>
+                  </li>
+                )) : <p>렌더링중</p>}
+              </ul>
             </div>
-            </li>
-            )):<p>렌더링중</p>}
-          </ul>      
-        </div>
-        <div className="comment-div">          
-          <div className="comment-wrapper-div">
-            <input ref={inputValue} type="text" />
-            <button className="send-button" type="button" onClick={()=>{  
-              const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
-              const userSnap = getDoc(userRef);
-              userSnap.then((item)=>{chatData=item.data();
-                chatData.chat.push({id:userInfo.nickname,coment:inputValue.current.value,time:Date(),img:userInfo.profileImage});
-                inputValue.current.value = "";
-                updateDoc(userRef,chatData).then(()=>{ userSnap.then(()=>{   setLender(0)
-                })})        
-              });
-            }}></button>
-          </div>          
-        </div>
-      </Div>    
-      :null
-    }
+            <div className="comment-div">
+              <div className="comment-wrapper-div">
+                <input ref={inputValue} type="text" onKeyDown={escClose} onKeyPress={handleOnKeyPress} />
+                <button className="send-button" type="button" onClick={sendMessage}></button>
+              </div>
+            </div>
+          </Div>
+          : null
+      }
     </>
   )
 }
@@ -111,13 +138,6 @@ const Div = styled.div`
   width: 432.9px;
   height: 400px;
   box-shadow: 0 3px 7px 3px rgb(0 0 0 / 7%);
-
-  button:focus{
-    outline-offset: -7px;
-    outline-width: medium;
-    outline-color: #AFDBAF;
-  }
-
   & .header-div{
     width: 100%;
     position: relative;
@@ -145,19 +165,21 @@ const Div = styled.div`
     position:absolute;
     border-radius: 50%;
     border:none;
-    width: 35px;
-    height: 35px;
+    width: 18px;
+    height: 18px;
     background-color: pink;
   }
   & .chat-false-button{
     background: url(${chat_close_button}) no-repeat, 100%;
     background-position: center;
     right:10px;
+    background-size: contain;    
   }
   & .reset-button{
-    right: 30px;
+    right: 32px;
     background: url(${chat_reset}) no-repeat, 100%;
     background-position: center;
+    background-size: contain;    
   }
 
   & .time-class{
@@ -196,7 +218,6 @@ const Div = styled.div`
     display:flex;
     align-items: center;
     margin-bottom:8px;
-    
   }
   & li img{
     margin: 10px 10px 0 10px;
@@ -225,11 +246,9 @@ const Div = styled.div`
   & li p:first-child{
     margin-right: 5px;
     margin-left: 5px;
-    flex-shrink: 0;
   }
   & li p:nth{
     margin-right:10px;
-    flex-shrink: 0;
   }
 
   & .comment-div{
@@ -245,7 +264,7 @@ const Div = styled.div`
     outline: none;
   }  
   & .comment-div input{
-    padding:0 15px;
+    padding:0 37px 0 15px;
     margin:0 auto;
     width: 250px;
     height: 30px;
@@ -260,12 +279,13 @@ const Div = styled.div`
     position: absolute;
     border: none;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    background: url(${send_img}) no-repeat, 100%;
+    width: 20px;
+    height: 20px;
+    background: url(${send_img}) no-repeat;
     background-position: center;
-    right: 5px;
-    top: -3px;
+    background-size: contain;  
+    right: 10px;
+    top: 5px;
   }
   & .send-button img{
     width: 100%;
