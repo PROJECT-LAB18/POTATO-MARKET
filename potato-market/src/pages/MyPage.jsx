@@ -12,7 +12,7 @@ import { PopWrapper } from '@/components/Popup';
 
 import Product from "@/components/product";
 
-import { storage, usersRef, userWriteRef } from '@/firebase';
+import { storage, usersRef, userWriteRef, auth } from '@/firebase';
 import { userId, userInformation } from '@/stores/userAuth';
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 import { CustomButton } from '@/styles/CustomButton';
@@ -21,10 +21,11 @@ import ProductList from '@/styles/ProductList';
 
 function MyPage() {
   const [render, setRender] = useState(false);
-  const [userUid] = useRecoilState(userId);
-  const [userInfo] = useRecoilState(userInformation);
+  const [userUid, setUserUid] = useRecoilState(userId);
+  const [userInfo, setUserInfo] = useRecoilState(userInformation);
   const [newArr, setNewArr] = useState([]);
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showLeavePopup, setShowLeavePopup] = useState(false);
   const [modifiedProfileForm, setModifiedProfileForm] = useState({
     newNickname: userInfo.nickname,
     newProfileImage: null,
@@ -102,6 +103,24 @@ function MyPage() {
     }
   };
 
+  const handleLeave = () => {
+    auth.currentUser.delete().then(() => {
+      console.log("회원 삭제 완료");
+      setUserUid(null);
+      setUserInfo({
+        location: "",
+        agree: "",
+        email: "",
+        nickname: "",
+        phoneNumber: "",
+        profileImage: "",
+      });
+      window.location.replace("/");
+    }).catch(function (error) {
+      console.log(error.message);
+    });
+  }
+
   return (
     <>
       {userUid == null ? <LoginState state="login" /> :
@@ -129,12 +148,8 @@ function MyPage() {
                 </div>
               </Temperature>
               <div className="button-wrapper">
-                <CustomButton type="submit" onClick={() => {
-                  setShowEditPopup(true);
-                }}>회원정보 변경</CustomButton>
-                <CustomButton type="submit" onClick={() => {
-
-                }}>회원탈퇴</CustomButton>
+                <CustomButton type="submit" onClick={() => { setShowEditPopup(true); }}>회원정보 변경</CustomButton>
+                <CustomButton type="submit" onClick={() => { setShowLeavePopup(true); }}>회원탈퇴</CustomButton>
               </div>
             </div>
           </MyProfile>
@@ -194,6 +209,17 @@ function MyPage() {
                 </div>
               </div>
             </ProfileEdit>
+          }
+          {showLeavePopup &&
+            <ProfileDelete>
+              <div className="pop">
+                <p>정말로 회원 탈퇴하시겠습니까?</p>
+                <div className="button-wrapper">
+                  <button type="button" onClick={handleLeave}>탈퇴</button>
+                  <button type="button" onClick={() => { setShowLeavePopup(false); }}>취소</button>
+                </div>
+              </div>
+            </ProfileDelete>
           }
         </Main>
       }
@@ -370,6 +396,24 @@ const ProfileEdit = styled(PopWrapper)`
     border: 1px solid ${gray5};
   }
   .button-wrapper {
+    display: flex;
+  }
+`;
+
+const ProfileDelete = styled(PopWrapper)`
+.pop {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 100px);
+    min-width: 300px;
+    max-width: 500px;
+    box-sizing: border-box;
+    p {
+      color: #FC6767;
+      font-size: 16px;
+    }
+  }
+.button-wrapper {
     display: flex;
   }
 `;
