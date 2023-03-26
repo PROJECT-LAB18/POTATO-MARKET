@@ -29,7 +29,14 @@ function LogoutButton() {
     try {
       await auth.signOut();
       setUserUid(null);
-      setUserInfo(null);
+      setUserInfo({
+        location: "",
+        agree: "",
+        email: "",
+        nickname: "",
+        phoneNumber: "",
+        profileImage: "",
+      });
       setShowToggle(false);
       window.location.replace("/");
 
@@ -38,7 +45,7 @@ function LogoutButton() {
     }
   }
   return (
-   <Button onClick={handleLogout}>로그아웃</Button>
+    <Button onClick={handleLogout}>로그아웃</Button>
   )
 };
 
