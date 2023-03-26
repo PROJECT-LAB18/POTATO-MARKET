@@ -1,22 +1,24 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
 
 import styled from "styled-components";
 
-
-
 import { searchKeywordState } from '@/stores/state';
 
 
 import Toggle from "./Toggle";
-import defaultProfile from "../assets/defaultProfile.svg";
-import mainLogo from "../assets/logo(symbol+name).svg";
-import searchIcon from "../assets/searchIcon.svg";
-import hamburger from "../assets/hamburger.svg";
 
-import { onChat } from "../stores/onChat";
-import { toggle } from "../stores/toggle";
+import defaultProfile from "@/assets/defaultProfile.svg";
+import mainLogo from "@/assets/logo(symbol+name).svg";
+import searchIcon from "@/assets/searchIcon.svg";
+import hamburger from "@/assets/hamburger.svg";
+import closeIcon from "@/assets/closebutton.svg";
+
+import { onChat } from "@/stores/onChat";
+import { toggle } from "@/stores/toggle";
+
 import { userId, userInformation } from '../stores/userAuth';
 
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
@@ -27,10 +29,18 @@ function Header () {
   const [showToggle, setShowToggle] = useRecoilState(toggle);
   const handleToggle = () => {
     setShowToggle(!showToggle);
-  }
+  }  
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [chat, setChat] = useRecoilState(onChat);
   const navigate = useNavigate();
+  const [showSearch, setShowSearch] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const openSearch = () => {
+    setShowSearch(true);
+  };
+  const openMenu = () => {
+    setShowMenu(true)
+  };
 
   return (
     <HeaderWrap>
@@ -54,9 +64,11 @@ function Header () {
         {showToggle && <Toggle/>}
       </ToggleWrap>
       <MobileIcons>
-        <Icon iconname={searchIcon}/>
-        <Icon iconname={hamburger}/>
+        <Icon iconname={searchIcon} onClick={openSearch}/>
+        <Icon iconname={hamburger} onClick={openMenu}/>
       </MobileIcons>
+      {showSearch ? <SearchModal setShowSearch={setShowSearch} /> : null}
+      {showMenu ? <MenuModal setShowMenu={setShowMenu} /> : null}
     </HeaderWrap>
   )
 }
@@ -107,7 +119,7 @@ const HeaderWrap = styled.header`
 
     justify-content: space-between;
     img {
-      
+      margin-left: 2rem;
     }
   }
 `;
@@ -195,7 +207,7 @@ const ChatButton = styled.button`
 
 const ToggleWrap = styled.div`
   position: relative;
-
+  z-index: 100;
 `;
 
 const MypageIcon= styled.button`
@@ -217,23 +229,90 @@ const MypageIcon= styled.button`
 
 const MobileIcons = styled.div`
   height: inherit;
-  width: 5rem;
+  width: 7rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 1rem;
-`;
-
-const Icon = styled.button`
-  border: 0;
-  background-color: transparent;
-  background: url("") no-repeat center local;
-  background-image: url(${(props)=>props.iconname});
-  width: 1.5rem;
-  height: 1.5rem;
+  margin-right: 1rem;
 
   @media (min-width: 768px) {
     display: none;
   }
 `;
 
+const Icon = styled.button`
+  border: 0;
+  background-color: transparent;
+  background: url(${(props)=>props.iconname}) no-repeat center local;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const SearchModal = ({ setShowSearch }) => {
+  
+  const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
+
+  return (
+    <Modal>
+      <Input
+        placeholder="물품이나 동네를 검색해보세요"
+        type="text"
+        value={searchKeyword}
+        onChange={(e) => setSearchKeyword(e.target.value)}
+      />
+      <CloseButton aria-label="검색 닫기" onClick={()=>setShowSearch(false)}/>
+    </Modal>
+  )
+};
+
+const MenuModal = ({setShowMenu}) => {
+
+  return (
+    <Modal>
+      <ul>
+        <li>중고거래</li>
+        <li>매물 등록하기</li>
+        <li>채팅하기</li>
+        <li>마이페이지</li>
+      </ul>
+      <CloseButton aria-label="메뉴 닫기" onClick={()=>setShowMenu(false)}/>
+    </Modal>
+  )
+}
+
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
+const CloseButton = styled.button`
+  background-color: transparent;
+  border: 0;
+  background: url(${closeIcon}) no-repeat center;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  margin-left: 1rem;
+`;
+
+const Input = styled.input`
+  color: ${gray7};
+  background-color: ${gray1};
+  font-size: 16px;
+  width: 95vw;
+  height : 40px;
+  border: 0;
+  border-radius: 6px;
+  text-indent: 6px;
+`
 export default Header;
