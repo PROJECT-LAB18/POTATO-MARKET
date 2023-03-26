@@ -9,6 +9,7 @@ import styled from "styled-components"
 import close_button from "../assets/closebutton.svg"
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
+import Recommend from "../components/Recommend";
 import SwiperPhoto from "../components/swiper"
 import { WriteInput } from "../components/WriteForm";
 
@@ -61,21 +62,21 @@ function Detailarticle() {
 
   return (
     <>
-      {render ? <Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}
+      {render ? <Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} recommend={propsdata.recommend} side={propsdata.side} state={myBoard} title={propsdata.title}
       /> : <LoadingSpinner />}
     </>
   )
 }
 
-function Productdetail({ state, title, side, nickname, profileImage, location, temperature, date, price, content, heart, chat, check, imgsrc }) {
+function Productdetail({ recommend, state, title, side, nickname, profileImage, location, temperature, date, price, content, heart, chat, check, imgsrc }) {
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [clickModified, setClickModified] = useState(0);
   const [clickDelete, setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
+  
   const clickButton = () => { setClick(click ? 0 : 1) }
-
   const paramsId = useParams();
   const userRef = doc(db, "UserWrite", paramsId.id);
   const userSnap = getDoc(userRef);
@@ -180,6 +181,9 @@ function Productdetail({ state, title, side, nickname, profileImage, location, t
             }
           </div>
         </div>
+      </Section>
+      <Section>
+        <Recommend recommend={recommend}/>
       </Section>
       <Section>
         <div className="best-product-group">
@@ -386,6 +390,7 @@ const Section = styled.section`
   & .swiper img{
     width:100%;
     height: 100%;
+    object-fit: cover;
   }
   & .profile{
     text-decoration: none;
@@ -460,7 +465,7 @@ const Section = styled.section`
   }
   & .title{
     font-weight: 600;
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 8px;
   }
   & .side-title{
@@ -501,7 +506,7 @@ const Section = styled.section`
   }
   & .best-product-group h2{
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
   }
   & .best-product-group a{
     color: #CFA36E;
