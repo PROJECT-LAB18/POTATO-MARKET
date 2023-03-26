@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 import Comment from './components/comment';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import LogoutButton from './components/LogoutButton';
+
 import firebase from './firebase';
 import GlobalStyle from './styles/Global';
 
@@ -49,10 +49,8 @@ function App() {
       <GlobalStyle />
       <div className="App">
         <Header />
-        <Comment />
-        <LogoutButton />
-
-        {lender ? <Outlet /> : null}
+        <Comment/>
+        {lender?<Outlet />:null}
         <Footer />
       </div>
     </>
