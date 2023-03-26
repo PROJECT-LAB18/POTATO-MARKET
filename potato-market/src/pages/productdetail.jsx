@@ -2,81 +2,85 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { Link } from "react-router-dom";
 
-import {doc, getDoc, updateDoc, increment, onSnapshot, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, increment, onSnapshot, deleteDoc } from "firebase/firestore";
 import { useRecoilState } from "recoil";
 import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
 import LoadingSpinner from "../components/LoadingSpinner";
 import Product from "../components/product"
+import Recommend from "../components/Recommend";
 import SwiperPhoto from "../components/swiper"
 import { WriteInput } from "../components/WriteForm";
 
 import icon_temp4 from "@/assets/icon_temp4.svg"
-import {db, userWriteRef} from '@/firebase';
+import { db, userWriteRef } from '@/firebase';
 
-import { userInformation } from "@/stores/userAuth.js";
+import { userId } from "@/stores/userAuth.js";
 import { CustomButton } from "@/styles/CustomButton";
+
 import moneyUnit from "@/utils/moneyUnit";
 
-function Detailarticle(){
+function Detailarticle() {
   const [propsdata, setPropsdata] = useState({
-    title : null,
-    side : null, 
-    date : null,
-    price : null,
-    content : null,
-    heart : null,
-    chat : null,
-    check : null,
-    imgsrc : null,
-    userId : null,
+    title: null,
+    side: null,
+    date: null,
+    price: null,
+    content: null,
+    heart: null,
+    chat: null,
+    check: null,
+    imgsrc: null,
+    userId: null,
     nickname: null,
     profileImage: null,
     location: null,
   })
-  
-  const uid = useParams();
+
+  const paramsId = useParams();
   const [render, Setrender] = useState(0);
   let [myBoard] = useState(0);
-  const userRef = doc(db, "UserWrite", uid.id);
+  const userRef = doc(db, "UserWrite", paramsId.id);
   const userSnap = getDoc(userRef);
-  const [userId] = useRecoilState(userInformation);
+  const [userUid,] = useRecoilState(userId);
 
-  if(userId.uid == propsdata.userId){
+  if (userUid == propsdata.userId) {
     myBoard = 1;
   }
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
     const newObj = {
-      check : increment(1)
+      check: increment(1)
     };
-    updateDoc(userRef,newObj).then(()=>{ userSnap.then((res)=>{
-      setPropsdata(res.data());
-      Setrender(1);
-    })})
-    ;
-  }, [uid])
+    updateDoc(userRef, newObj).then(() => {
+      userSnap.then((res) => {
+        setPropsdata(res.data());
+        Setrender(1);
+      })
+    })
+      ;
+  }, [paramsId])
 
   return (
     <>
-      {render?<Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} side={propsdata.side} state={myBoard} title={propsdata.title}  
-        />:<LoadingSpinner/>}
+      {render ? <Productdetail chat={propsdata.chat} check={propsdata.check} content={propsdata.content} data={propsdata.data} heart={propsdata.heart} imgsrc={propsdata.imgsrc} location={propsdata.location} nickname={propsdata.nickname} price={propsdata.price} profileImage={propsdata.profileImage} recommend={propsdata.recommend} side={propsdata.side} state={myBoard} title={propsdata.title}
+      /> : <LoadingSpinner />}
     </>
   )
 }
 
-function Productdetail({state,title,side,nickname,profileImage,location,temperature,date,price,content,heart,chat,check,imgsrc}){
+function Productdetail({ recommend, state, title, side, nickname, profileImage, location, temperature, date, price, content, heart, chat, check, imgsrc }) {
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [clickModified, setClickModified] = useState(0);
   const [clickDelete, setClickDelete] = useState(0);
   const [heartArr, setHeart] = useState([]);
-  const clickButton = () => {setClick(click?0:1)}
   
-  const uid = useParams();
-  const userRef = doc(db, "UserWrite", uid.id);
+  const clickButton = () => { setClick(click ? 0 : 1) }
+  const paramsId = useParams();
+  const userRef = doc(db, "UserWrite", paramsId.id);
   const userSnap = getDoc(userRef);
   const [modifiedContent, setModifiedContent] = useState({
     modifiedTitle: title,
@@ -85,7 +89,7 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
   });
 
   const onChangeHandler = (e) => {
-    setModifiedContent((prev)=>{
+    setModifiedContent((prev) => {
       return {
         ...prev,
         [e.target.name]: e.target.value
@@ -93,11 +97,11 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
     })
   }
 
-  useEffect(()=>{
-    onSnapshot(userWriteRef,(snapshot)=>{
-      const newArr = snapshot.docs.map(doc=>{
+  useEffect(() => {
+    onSnapshot(userWriteRef, (snapshot) => {
+      const newArr = snapshot.docs.map(doc => {
         return {
-          id : doc.id,
+          id: doc.id,
           ...doc.data()
         }
       })
@@ -105,9 +109,9 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
       setHeart(newArr.slice(0, 6));
       Setrender(1);
     })
-  },[])
+  }, [])
 
-  const modifyBorderContent = ()=>{
+  const modifyBorderContent = () => {
     setClickModified(1);
     updateDoc(userRef, {
       title: title,
@@ -120,20 +124,20 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
     <Main>
       <Section>
         <button aria-label="화면 클릭 하면 확대가능합니다." className="image-button" type="button" onClick={clickButton}>
-          <SwiperPhoto imgsrc={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
+          <SwiperPhoto imgsrc={imgsrc[0] !== undefined ? imgsrc : "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
         </button>
 
         {
           click ?
-          <div className="module-swiper">
-            <button className="a11yhidden-button" type="button" onClick={clickButton}>
-              <img alt="닫기 버튼" src={close_button} />
-            </button>
-            <SwiperPhoto imgsrc={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"}/>
-          </div>
-          : null
+            <div className="module-swiper">
+              <button className="a11yhidden-button" type="button" onClick={clickButton}>
+                <img alt="닫기 버튼" src={close_button} />
+              </button>
+              <SwiperPhoto imgsrc={imgsrc[0] !== undefined ? imgsrc : "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
+            </div>
+            : null
         }
-        
+
         <Link className="profile" href="naver.com" rel="noopener noreferrer" target="_blank" to={`/HotArticles`} >
           <div className="left-profile">
             <img alt="프로필 사진" className="profile-image" src={profileImage} />
@@ -181,75 +185,80 @@ function Productdetail({state,title,side,nickname,profileImage,location,temperat
         </div>
       </Section>
       <Section>
+        <Recommend recommend={recommend}/>
+      </Section>
+      <Section>
         <div className="best-product-group">
           <h2>당근마켓 인기중고</h2>
           <Link rel="noopener noreferrer" to={`/HotArticles`} >더 구경하기</Link>
         </div>
 
         <div className="best-product">
-        {render?heartArr.map(({content,title,price, side,imgsrc,location,id,heart,check},index)=>(
-          <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} side={side} title={title} />
-        )):<LoadingSpinner className="loading"/>}
+          {render ? heartArr.map(({ content, title, price, side, imgsrc, location, id, heart, check }, index) => (
+            <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} side={side} title={title} />
+          )) : <LoadingSpinner className="loading" />}
         </div>
       </Section>
-      {clickDelete?
-      <DeleteDiv>
-        <form>
-          <h3>정말로 삭제하시겠습니까?</h3>
-          <div className="button-wrapper">
-            <CustomButton red onClick={(e)=>{
-              e.preventDefault();  
-              deleteDoc(doc(db,"UserWrite",uid.id)).then(()=>{navigate("/HotArticles");})
-            }}>삭제</CustomButton>
-            <CustomButton onClick={()=>{setClickDelete(0)}}>취소</CustomButton>
-          </div>
-        </form>
-      </DeleteDiv>:
-      null      
+      {clickDelete ?
+        <DeleteDiv>
+          <form>
+            <h3>정말로 삭제하시겠습니까?</h3>
+            <div className="button-wrapper">
+              <CustomButton red onClick={(e) => {
+                e.preventDefault();
+                deleteDoc(doc(db, "UserWrite", paramsId.id)).then(() => { navigate("/HotArticles"); })
+              }}>삭제</CustomButton>
+              <CustomButton onClick={() => { setClickDelete(0) }}>취소</CustomButton>
+            </div>
+          </form>
+        </DeleteDiv> :
+        null
       }
 
-      {clickModified?
-      <ModifiedDiv>
-        <form>
-          <h2>게시글 수정</h2>
-          <div className="input-wrapper">
-          <WriteInput className="title-input" name="modifiedTitle" type="text" value={modifiedContent.modifiedTitle} onChange={onChangeHandler}/>
-          <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler}/>
-          </div>
-          <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler}/>
-          <div className="button-wrapper">
-            <CustomButton onClick={()=>{setClickModified(0)}}>취소</CustomButton>
-            <CustomButton className="modifie-button" onClick={()=>{ 
-              const newObj = {
-                content: modifiedContent.modifiedContent,
-                price: modifiedContent.modifiedPrice,
-                title: modifiedContent.modifiedTitle,
-              };
-              updateDoc(userRef,newObj).then(()=>{ userSnap.then(()=>{
-                location.reload();
-              })})
-            }}>수정</CustomButton>
-          </div>
-        </form>
-      </ModifiedDiv>:null  
-    } 
+      {clickModified ?
+        <ModifiedDiv>
+          <form>
+            <h2>게시글 수정</h2>
+            <div className="input-wrapper">
+              <WriteInput className="title-input" name="modifiedTitle" type="text" value={modifiedContent.modifiedTitle} onChange={onChangeHandler} />
+              <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler} />
+            </div>
+            <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler} />
+            <div className="button-wrapper">
+              <CustomButton onClick={() => { setClickModified(0) }}>취소</CustomButton>
+              <CustomButton className="modifie-button" onClick={() => {
+                const newObj = {
+                  content: modifiedContent.modifiedContent,
+                  price: modifiedContent.modifiedPrice,
+                  title: modifiedContent.modifiedTitle,
+                };
+                updateDoc(userRef, newObj).then(() => {
+                  userSnap.then(() => {
+                    location.reload();
+                  })
+                })
+              }}>수정</CustomButton>
+            </div>
+          </form>
+        </ModifiedDiv> : null
+      }
     </Main>
   )
 }
 
-Productdetail.defaultProps={
-  title:'제목을 입력해주세요.',
-  side:'가구',
-  nickname : '닉네임',
-  address : '인천시 부평구 산곡동',
-  temperature : '36.5',
-  date : '1',
-  price : '500',
-  content : '판매 완료',
-  heart : '0',
-  chat : '0',
-  check : '0',
-  imgsrc : ["https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
+Productdetail.defaultProps = {
+  title: '제목을 입력해주세요.',
+  side: '가구',
+  nickname: '닉네임',
+  address: '인천시 부평구 산곡동',
+  temperature: '36.5',
+  date: '1',
+  price: '500',
+  content: '판매 완료',
+  heart: '0',
+  chat: '0',
+  check: '0',
+  imgsrc: ["https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"]
@@ -365,6 +374,7 @@ const Section = styled.section`
   & .swiper img{
     width:100%;
     height: 100%;
+    object-fit: cover;
   }
   & .profile{
     text-decoration: none;
@@ -439,7 +449,7 @@ const Section = styled.section`
   }
   & .title{
     font-weight: 600;
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 8px;
   }
   & .side-title{
@@ -480,7 +490,7 @@ const Section = styled.section`
   }
   & .best-product-group h2{
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
   }
   & .best-product-group a{
     color: #CFA36E;

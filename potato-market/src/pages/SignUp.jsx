@@ -72,7 +72,6 @@ function SignUp() {
     try {
       // Firebase Authentication : 신규 계정 생성
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
-
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
       let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"; // 기본 이미지
       if (profileUrl) {
@@ -82,7 +81,6 @@ function SignUp() {
           (snapshot) => snapshot.ref.getDownloadURL()
         );
       }
-
       // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
@@ -130,7 +128,6 @@ function SignUp() {
         return "잘못된 이메일 형식입니다.";
       case "auth/internal-error":
         return "잘못된 요청입니다.";
-
       default:
         return "회원가입에 실패 하였습니다.";
     }
@@ -309,6 +306,7 @@ function SignUp() {
               onClose={() => {
                 setShowPopup(false);
                 navigate("/");
+                window.location.reload();
               }}
             />
           }
@@ -319,56 +317,56 @@ function SignUp() {
 };
 
 const Section = styled.section`
-      padding: 80px 0 40px;
-      h2 {
-        line - height: 36px;
-      font-size: 32px;
-      font-weight: 500;
-      text-align: center;
+  padding: 80px 0 40px;
+  h2 {
+    line - height: 36px;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
   }
-      `;
+`;
 
 const SignUpForm = styled.form`
-      position: relative;
-      width: 640px;
-      margin: 44px auto;
-      .form-list {
-        display: block;
-      border-top: 2px solid black;
+  position: relative;
+  width: 640px;
+  margin: 44px auto;
+  .form-list {
+    display: block;
+    border-top: 2px solid black;
   }
-      .form-item {
-        display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      min-height: 84px;
-      padding: 20px 0;
-      box-sizing: border-box;
+  .form-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 84px;
+    padding: 20px 0;
+    box-sizing: border-box;
   }
-      .term-list {
-        display: flex;
-      gap: 8px;
-      padding: 12px 0 20px;
-      margin-bottom: 40px;
-      border-top: 1px solid black;
-      border-bottom: 1px solid ${gray8};
+  .term-list {
+    display: flex;
+    gap: 8px;
+    padding: 12px 0 20px;
+    margin-bottom: 40px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid ${gray8};
   }
-      .term-title {
-        flex - shrink: 0;
-      width: 139px;
-      font-weight: 700;
-      line-height: 32px;
+  .term-title {
+    flex - shrink: 0;
+    width: 139px;
+    font-weight: 700;
+    line-height: 32px;
   }
-      .term-check {
-        width: 100%;
+  .term-check {
+    width: 100%;
   }
-      @media screen and (max-width: 700px) {
-        width: calc(100% - 60px);
-      margin: 44px 30px;
-      .form-item {
-        flex - direction: column;
+  @media screen and (max-width: 700px) {
+    width: calc(100% - 60px);
+    margin: 44px 30px;
+    .form-item {
+      flex - direction: column;
     }
-      .term-list {
-        flex - direction: column;
+    .term-list {
+      flex - direction: column;
     }
   }
       `;
