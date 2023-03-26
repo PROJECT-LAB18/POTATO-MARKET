@@ -52,8 +52,6 @@ function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    // const currentUserUid = firebase.auth().currentUser.uid;
-    // const usersRef = firebase.db().collection("users");
 
     if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
       setShowPopup("필수 이용 약관에 동의하셔야합니다.");
@@ -71,7 +69,6 @@ function SignUp() {
     try {
       // Firebase Authentication : 신규 계정 생성
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
-
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
       let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"; // 기본 이미지
       if (profileUrl) {
@@ -81,7 +78,6 @@ function SignUp() {
           (snapshot) => snapshot.ref.getDownloadURL()
         );
       }
-
       // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
@@ -96,7 +92,6 @@ function SignUp() {
           sigungu: location.sigungu,
           bname: location.bname,
         }
-
       });
       await userBatch.commit();
       setShowPopup(true);
@@ -108,7 +103,7 @@ function SignUp() {
     }
   };
 
-  //파이어베이스 에러메세지 
+  //파이어베이스 에러메세지
   const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled) => {
     if (disabled) {
       return "모든 필수 항목을 입력해주세요.";
@@ -130,7 +125,6 @@ function SignUp() {
         return "잘못된 이메일 형식입니다.";
       case "auth/internal-error":
         return "잘못된 요청입니다.";
-
       default:
         return "회원가입에 실패 하였습니다.";
     }
@@ -286,8 +280,8 @@ function SignUp() {
           {showPopup &&
             <Popup setShowPopup={setShowPopup}
               showPopup={showPopup}
-              text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} />}
-
+              text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)} />
+          }
           <FormButton
             primary
             disabled={disabled}
@@ -304,8 +298,9 @@ function SignUp() {
         <Popup
           text={"회원가입에 성공했습니다! 어서오세요!"}
           onClose={() => {
+            navigate('/');
+            window.location.reload();
             setShowPopup(false);
-            navigate("/");
           }}
         />
       }
