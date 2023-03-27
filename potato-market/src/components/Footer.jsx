@@ -11,25 +11,27 @@ const Footer = () => {
   return (
     <FooterGlobal>
       <Footertop>
-        <ul>
-          <li>중고거래</li>
-          <li>매물 등록하기</li>
-          <li>나의 매물보기</li>
-          <li>동네가게</li>
-          <li>채팅하기</li>
-        </ul>
-        <ul>  
-          <li>당근 비즈니스</li>
-          <li>부동산 직거래</li>
-          <li>중고차 직거래</li>
-          <li>당근알바</li>
-          <li></li>
-        </ul>      
-        <ul>
-          <li>자주 묻는 질문</li>
-          <li>회사 소개</li>
-          <li>인재 채용</li>
-        </ul>
+        <div className="footer-list">
+          <ul>
+            <li>중고거래</li>
+            <li>매물 등록하기</li>
+            <li>나의 매물보기</li>
+            <li>동네가게</li>
+            <li>채팅하기</li>
+          </ul>
+          <ul>  
+            <li>당근 비즈니스</li>
+            <li>부동산 직거래</li>
+            <li>중고차 직거래</li>
+            <li>당근알바</li>
+            <li></li>
+          </ul>      
+          <ul>
+            <li>자주 묻는 질문</li>
+            <li>회사 소개</li>
+            <li>인재 채용</li>
+          </ul>
+        </div>
 
         <div className="download-app">
           <p>감자마켓 앱 다운로드</p>
@@ -91,6 +93,7 @@ const Footertop = styled.section`
   display: flex;
   flex-direction: row;
   max-width: 1200px;
+  width: 100vw;
   height : auto;
   align-items: flex-start;
   position: relative;
@@ -98,15 +101,14 @@ const Footertop = styled.section`
   justify-content: space-between;
   margin: 0 auto;
   
-  
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-    height: 20rem;
-    padding-top: 1rem;
-
-     ul {
-      margin: 0.5rem;
+  @media (max-width: 564px) {
+      flex-direction: column;
     }
+  
+  .footer-list {
+    display: flex;
+    align-items: flex-start;
+    
   }
 
   ul {
@@ -131,39 +133,38 @@ const Footertop = styled.section`
     display: block;
     position: absolute;
     right: 10%;
-    
-    @media (min-width: 375px) and (max-width: 768px){
-      position: absolute;
-      bottom : 1rem;
-      left: 0;
+    /* position: static; */
+    margin: 1rem auto;
+
+    @media (max-width: 1200px) {
+      position: static;
     }
 
     p {
       font-weight: 700;
       font-size: 0.875rem;
     }
-        
+
     .logobox {
       margin-top: 1rem;
-      
+
       button {
         width: 140px;
         height: 40px;
         background-color: ${gray4};
         color: #212325;
-        background-position: 24px 12px; 
+        background-position: 24px 12px;
         background-image: url(${githubLogo});
         background-repeat: no-repeat;
         background-size: 16px;
         cursor: pointer;
         vertical-align: middle;
-        padding-left: 16px;  
+        padding-left: 16px;
         border: 0;
         border-radius: 6px;
         font-weight: 700;
       }
     }
-
   }
 `;
 
@@ -172,6 +173,7 @@ const FooterMiddle = styled.div`
   display: flex;
   flex-direction: row;
   max-width : 1200px;
+  width: 100vw;
   height : auto;
   align-items: flex-start;
   position: relative;
@@ -218,7 +220,7 @@ const FooterMiddle = styled.div`
 const FooterBottom = styled.div`
   max-width : 1200px;
   margin: 3rem auto;
-
+  width: 100vw;
   @media (max-width: 600px) {
     display: flex;
     flex-direction: column;
