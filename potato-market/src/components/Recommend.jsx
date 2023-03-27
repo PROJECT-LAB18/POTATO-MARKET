@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useParams } from "react-router";
 
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -13,6 +13,9 @@ function Recommend({recommend}){
   const [userInfo] = useRecoilState(userInformation);
   const inputValue = useRef();
   const uid = useParams();
+  useEffect(()=>{    
+    inputValue.current.value = "";
+  })
   const sendHandler = () =>{  
     const userRef = doc(db,"UserWrite",uid.id);
     const userSnap = getDoc(userRef);   
@@ -47,7 +50,7 @@ function Recommend({recommend}){
 
       </ul>
       <div className="input-div">
-        <img alt="본인 프로필" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
+        <img alt="본인 프로필" src={userInfo?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
         <input ref={inputValue} type="text" />
         <button type="button" onClick={sendHandler}>게시</button>
       </div>
