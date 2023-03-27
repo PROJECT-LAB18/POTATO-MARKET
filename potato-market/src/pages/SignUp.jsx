@@ -73,7 +73,7 @@ function SignUp() {
       // Firebase Authentication : 신규 계정 생성
       const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
-      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"; // 기본 이미지
+      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"; // 기본 이미지
       if (profileUrl) {
         const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
         const uploadTask = uploadRef.put(profileUrl);
@@ -198,15 +198,10 @@ function SignUp() {
           <SignUpForm onSubmit={handleSignUp}>
             <fieldset>
               <legend>신규 회원가입 폼</legend>
-
-              {/* 에러메세지 확인용
-          {error && <p style={{ backgroundColor: 'yellow' }}>{error}</p>} */}
-
               <ul className="form-list">
                 <li className="form-item">
                   <FormInput
                     label
-                    button={"인증번호 받기"}
                     id={"phoneNumber"}
                     placeholder={"숫자만 입력해주세요"}
                     text={"휴대폰"}
@@ -218,7 +213,6 @@ function SignUp() {
                 <li className="form-item">
                   <FormInput
                     label
-                    button={"인증번호 받기"}
                     id={"email"}
                     placeholder={"이메일을 입력해주세요"}
                     text={"이메일"}

@@ -5,14 +5,15 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRecoilState } from "recoil"
 import styled from "styled-components"
 
-import {db} from '@/firebase';
+import { db } from '@/firebase';
 import { userInformation } from "@/stores/userAuth.js"
 import { gray5, primaryColor } from "@/styles/global";
 
-function Recommend({recommend}){
+function Recommend({ recommend }) {
   const [userInfo] = useRecoilState(userInformation);
   const inputValue = useRef();
   const uid = useParams();
+
   useEffect(()=>{    
     inputValue.current.value = "";
   })
@@ -22,35 +23,35 @@ function Recommend({recommend}){
     userSnap.then((item)=>{
       recommend = item.data().recommend;
       recommend.push({
-        id:userInfo.nickname,
+        id: userInfo.nickname,
         time: Date(),
         content: inputValue.current.value,
-        commendimg : userInfo.profileImage,
+        commendimg: userInfo.profileImage,
       })
       inputValue.current.value = "";
-      updateDoc(userRef,{ recommend : recommend}).then(()=>{ location.reload()})   
+      updateDoc(userRef, { recommend: recommend }).then(() => { location.reload() })
     });
   }
-  return(
+  return (
     <Div>
       <h2>댓글 {recommend.length}</h2>
       <ul>
-        {recommend.length>0?
-          <>{recommend.map(({content,id,time,commendimg},index)=>(
+        {recommend.length > 0 ?
+          <>{recommend.map(({ content, id, time, commendimg }, index) => (
             <li key={index} className="recommend-list">
-              <img alt="사진" src={commendimg?commendimg:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
+              <img alt="사진" src={commendimg ? commendimg : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
               <div className="recommend-wrapper">
-                <span>{id?id:'수상한 고구마'}</span>
-                <span className="time-span">{time.slice(3,23)}</span> 
+                <span>{id ? id : '수상한 고구마'}</span>
+                <span className="time-span">{time.slice(3, 23)}</span>
               </div>
               <span className="content">{content}</span>
             </li>
           ))}</>
-        :<p>아직 댓글이 없습니다.</p>}
+          : <p>아직 댓글이 없습니다.</p>}
 
       </ul>
       <div className="input-div">
-        <img alt="본인 프로필" src={userInfo?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"} />
+        <img alt="본인 프로필" src={userInfo?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
         <input ref={inputValue} type="text" />
         <button type="button" onClick={sendHandler}>게시</button>
       </div>

@@ -56,7 +56,7 @@ function Comment() {
         id: userUid ? userInfo.nickname : "수상한 고구마",
         coment: inputValue.current.value,
         time: Date(),
-        img: userUid ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=bdb0de59-063c-42f9-823d-34e5d7b254c3"
+        img: userUid ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"
       });
       inputValue.current.value = "";
       updateDoc(userRef, chatData).then(() => {

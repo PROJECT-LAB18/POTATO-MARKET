@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-import { primaryColor, gray5 } from '../styles/Global';
+import checkboxChecked from '@/assets/checkbox-checked.svg';
+import checkbox from '@/assets/checkbox.svg';
+
+import { primaryColor, gray5 } from '@/styles/Global';
 
 const Label = styled.label`
   flex-grow: 1;
@@ -45,7 +48,7 @@ const CheckBox = styled.input`
   padding: 0px;
 
   &:checked + i {
-    background: url("../src/assets/checkbox-checked.svg") no-repeat;
+    background: url(${checkboxChecked}) no-repeat;
   }
 
   &:focus-visible + i {
@@ -58,7 +61,7 @@ const CheckBox = styled.input`
     display: inline-block;
     width: 24px;
     height: 24px;
-    background: url("../src/assets/checkbox.svg") no-repeat;
+    background: url(${checkbox}) no-repeat;
     border-radius: 50%;
   }
 `;
@@ -113,10 +116,10 @@ const FormTerms = ({ id, text, all, checked, onChange }) => {
     <>
       {all ? (
         <LabelAll htmlFor={id}>
-          <CheckBox id={id} name={id}
+          <CheckBox checked={checked} id={id}
+            name={id}
             type="checkbox"
-            checked={checked}
-            onChange={onChange} 
+            onChange={onChange}
           />
           <i></i>
           <TextAll aria-labelledby={id}>
@@ -131,11 +134,11 @@ const FormTerms = ({ id, text, all, checked, onChange }) => {
         <Terms>
           <Label htmlFor={id}>
             <CheckBox
+              checked={checked}
               id={id}
               name={id}
               type="checkbox"
-              checked={checked}
-              onChange={onChange} 
+              onChange={onChange}
             />
             <i></i>
             <Text aria-labelledby={id}>{text}</Text>

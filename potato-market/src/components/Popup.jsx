@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-import { gray2 } from '../styles/Global';
-
-import { primaryColor } from '@/styles/global';
+import { primaryColor, gray4 } from '@/styles/global';
 
 function Popup({ text, onClose }) {
   return (
@@ -15,7 +13,7 @@ function Popup({ text, onClose }) {
   )
 };
 
-const PopWrapper = styled.div`
+export const PopWrapper = styled.div`
   z-index: 100;
   position: fixed;
   top: 0;
@@ -41,17 +39,17 @@ const PopWrapper = styled.div`
     button {
       display: block;
       border: none;
-      border-top: 1px solid ${gray2};
+      border-top: 1px solid ${gray4};
       background-color: white;
       text-align: center;
       color: ${primaryColor};
       width: 100%;
       line-height: 30px;
       font-weight: 700;
-      margin: 10px 0;
+      margin-bottom: 10px;
+      padding-top: 10px;
     }
   }
 `
-
 
 export default Popup;
