@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import styled from 'styled-components';
 
+import addIcon from "@/assets/icon-add-photo.svg"
+
 import { WriteInput } from "./WriteForm";
 
 import { gray4, primaryColor } from "@/styles/global";
@@ -55,7 +57,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
         previewImg.map((url, index) => {
           return <ProductImage key={url}>
             <button type="button" onClick={()=>removeImage(index)}>
-              <img alt="업로드 이미지 제거" src="/src/assets/icon-close-button.svg" />
+              <img alt="업로드 이미지 제거" src="@/assets/icon-close-button.svg" />
             </button>
             <img alt={url} src={url} />
           </ProductImage>
@@ -81,14 +83,14 @@ const PhotoUploadTitle = styled.span`
 
 const PhotoContainer = styled.div`
   display: flex;
-  gap 20px;
+  gap: 20px;
   padding: 10px 0;
   
   & label{
     display: inline-block;
     width: 90px;
     height: 90px;
-    background: url('/src/assets/icon-add-photo.svg') no-repeat;
+    background: url(${addIcon}) no-repeat;
     background-position: center;
     border: 1px solid ${gray4};
     border-radius: 10px;
