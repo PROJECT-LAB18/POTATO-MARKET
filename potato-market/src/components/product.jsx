@@ -4,14 +4,13 @@ import styled from "styled-components";
 
 import moneyUnit from "@/utils/moneyUnit";
 
-const Div = styled.a`
-& .product{
-  display:inline-block;
-  width:201px;
-  text-decoration:none;
-  color:black;
-  cursor:pointer;
-}
+const Div = styled.div`
+  & .product{
+    display: inline-block;
+    width:201px;
+    text-decoration:none;
+    color: black;
+  }
 `
 const Section = styled.div`
   margin-bottom: 7px;
@@ -67,13 +66,13 @@ const H3 = styled.h3`
 `
 
 const PriceSpan = styled.span`
-font-weight: 700;
-margin-top:5px;
+  font-weight: 700;
+  margin-top:5px;
 `
 
 const AddressSpan = styled.span`
-font-size: 13px;
-margin-top: 5px;
+  font-size: 13px;
+  margin-top: 5px;
 `
 
 function Product({title,price,heart,chat,imgsrc,id,check,location}){
