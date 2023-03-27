@@ -90,18 +90,20 @@ const FooterGlobal = styled.footer`
 const Footertop = styled.section` 
   display: flex;
   flex-direction: row;
-  width : 100vw;
+  max-width: 1200px;
   height : auto;
   align-items: flex-start;
   position: relative;
-  margin: 0 auto;
   padding-top: 3rem;
-  /* justify-content: space-between; */
-
+  justify-content: space-between;
+  margin: 0 auto;
+  
+  
   @media (min-width: 375px) and (max-width: 1200px){
     margin-left: 2rem;
     height: 20rem;
     padding-top: 1rem;
+
      ul {
       margin: 0.5rem;
     }
@@ -112,7 +114,7 @@ const Footertop = styled.section`
     font-size: 0.875rem;
     margin: 0 2rem;
     position: relative;
-    right: 2rem;
+    /* right: 2rem; */
 
     li {
       margin-bottom: 2rem;
@@ -130,9 +132,9 @@ const Footertop = styled.section`
     position: absolute;
     right: 10%;
     
-    @media (min-width: 375px) and (max-width: 1200px){
+    @media (min-width: 375px) and (max-width: 768px){
       position: absolute;
-      bottom : 0;
+      bottom : 1rem;
       left: 0;
     }
 
@@ -169,24 +171,33 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  width : 100vw;
+  max-width : 1200px;
   height : auto;
   align-items: flex-start;
   position: relative;
-  margin: 1rem auto;
+  margin: 0 auto;
   justify-content: space-between;
   padding-top: 1rem;
 
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+    .information {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .snsgroup {
+      margin-left: 0;
+      width: auto;
+    }
   }
 
   .information {
     color: #868B94;
     font-size: 0.813rem;
     line-height: 1.25rem;
-    /* position: absolute; */
-    /* left: 0%; */
   }
 
   .snsgroup {
@@ -205,19 +216,21 @@ const FooterMiddle = styled.div`
 `;
 
 const FooterBottom = styled.div`
-  width : 100vw;
+  max-width : 1200px;
   margin: 3rem auto;
-  /* align-items:; */
 
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-
-    .inquirygroup {
-    margin-left: 0.25rem;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .inquirygroup, .terms {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
-
     a {
-      margin : 0.5rem;
+      margin: 0.5rem;
     }
   }
 
@@ -245,7 +258,7 @@ const FooterBottom = styled.div`
   a:hover {
     text-decoration : underline;
   }
-
+  
 `;
 
 export default Footer;
