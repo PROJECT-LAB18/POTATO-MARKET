@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 
-
 import facebookLogo from "../assets/facebook.svg" ; 
 import githubLogo from "../assets/github.svg" ; 
 import instagramLogo from "../assets/instagram.svg" ; 
 import naverblogLogo from "../assets/naverblog.svg" ; 
 import youtubeLogo from "../assets/youtube.svg" ; 
 import { gray1, gray4 } from "../styles/Global";
-
-
 
 const Footer = () => {
   return (
@@ -93,13 +90,22 @@ const FooterGlobal = styled.footer`
 const Footertop = styled.section` 
   display: flex;
   flex-direction: row;
-  width : 64rem;
-  height : 16.123rem;
+  width : 100vw;
+  height : auto;
   align-items: flex-start;
   position: relative;
   margin: 0 auto;
   padding-top: 3rem;
   /* justify-content: space-between; */
+
+  @media (min-width: 375px) and (max-width: 1200px){
+    margin-left: 2rem;
+    height: 20rem;
+    padding-top: 1rem;
+     ul {
+      margin: 0.5rem;
+    }
+  }
 
   ul {
     display: inline-block;
@@ -110,6 +116,7 @@ const Footertop = styled.section`
 
     li {
       margin-bottom: 2rem;
+      padding : 0;
     }
     
     a {
@@ -123,6 +130,12 @@ const Footertop = styled.section`
     position: absolute;
     right: 10%;
     
+    @media (min-width: 375px) and (max-width: 1200px){
+      position: absolute;
+      bottom : 0;
+      left: 0;
+    }
+
     p {
       font-weight: 700;
       font-size: 0.875rem;
@@ -156,13 +169,17 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  width : 64rem;
-  height : 5rem;
+  width : 100vw;
+  height : auto;
   align-items: flex-start;
   position: relative;
   margin: 1rem auto;
   justify-content: space-between;
   padding-top: 1rem;
+
+  @media (min-width: 375px) and (max-width: 1200px){
+    margin-left: 2rem;
+  }
 
   .information {
     color: #868B94;
@@ -179,14 +196,30 @@ const FooterMiddle = styled.div`
     img {
      margin: 0 1rem;
     }
+
+    @media (min-width: 375px) and (max-width: 1200px){
+    margin-left: 2rem;
+    width: 20rem;
+    }
   }
-  
 `;
 
 const FooterBottom = styled.div`
-  width : 64rem;
+  width : 100vw;
   margin: 3rem auto;
   /* align-items:; */
+
+  @media (min-width: 375px) and (max-width: 1200px){
+    margin-left: 2rem;
+
+    .inquirygroup {
+    margin-left: 0.25rem;
+    }
+
+    a {
+      margin : 0.5rem;
+    }
+  }
 
   .inquirygroup {
     margin-left: 0.5rem;
