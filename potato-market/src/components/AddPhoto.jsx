@@ -4,6 +4,7 @@ import imageCompression from "browser-image-compression";
 import styled from 'styled-components';
 
 import addIcon from "@/assets/icon-add-photo.svg"
+import closeButton from "@/assets/icon-close-button.svg"
 
 import { WriteInput } from "./WriteForm";
 
@@ -57,7 +58,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
         previewImg.map((url, index) => {
           return <ProductImage key={url}>
             <button type="button" onClick={()=>removeImage(index)}>
-              <img alt="업로드 이미지 제거" src="@/assets/icon-close-button.svg" />
+              <img alt="업로드 이미지 제거" src={closeButton} />
             </button>
             <img alt={url} src={url} />
           </ProductImage>
