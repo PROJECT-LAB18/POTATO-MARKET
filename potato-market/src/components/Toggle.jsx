@@ -70,6 +70,9 @@ const Div = styled.div`
 			}
 	}
 	
+	@media (max-width: 768px){
+		display: none;
+	}
 `;
 
 export default Toggle;
