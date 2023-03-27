@@ -10,10 +10,13 @@ const ProductList = styled.section`
     left:43%;
     position: absolute;
   }
-  @media (max-width: 767px){
+  @media (max-width: 480px){
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media (min-width: 481px) and (max-width: 767px){
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (min-width:768px) and (max-width: 1023px){
+  @media (min-width: 768px) and (max-width: 1023px){
     grid-template-columns: repeat(3, 1fr);
   }
 `

@@ -226,18 +226,13 @@ const HotArticles8 = styled.section`
   padding-bottom: 5rem;
   margin: 0 auto;
   .Hot8 {
-    width: 980px;
+    width: 100%;
+    max-width: 980px;
     margin: 60px auto 5rem;
   }
-  @media (min-width: 768px) and (max-width: 1023px){
-    .Hot8 {
-      width: 760px;
-    }
-  }
-  @media (max-width: 768px){
-    .Hot8 {
-      width: 480px;
-    }
+  a {
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -246,6 +241,7 @@ const UnderlineButton = styled.button`
   margin-right: auto;
   background-color: transparent;
   border: 0;
+  color: ${black};
   font-weight: 700;
   text-decoration: underline;
   display: block;
@@ -254,9 +250,11 @@ const UnderlineButton = styled.button`
 `;
 
 const HomeKeywords = styled.section`
-  width: 64rem;
+  width: 100%;
+  max-width: 980px;
   margin: 1.438rem auto 0;
-  padding-bottom: 1rem;
+  padding: 0 1rem 1rem;
+  box-sizing: border-box;
   ul {
     display: flex;
     justify-content: center;
@@ -268,16 +266,10 @@ const HomeKeywords = styled.section`
     display: inline-block;
     vertical-align: center;
     a {
-      color: #212325;
+      color: ${black};
       text-decoration: none;
       line-height: 30px;
       white-space: nowrap;
     }
-  }
-  @media (min-width: 768px) and (max-width: 1023px){
-    width: 760px;
-  }
-  @media (max-width: 768px){
-    width: 480px;
   }
 `;
