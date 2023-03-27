@@ -31,12 +31,11 @@ function Comment() {
   }
 
   useEffect(() => {
-    const fetchUser = async () => {
+    async () => {
       onSnapshot(commentRef, () => {
         setLender(0);
       });
     };
-    return fetchUser()
   }, [onSnapshot]);
 
   useMemo(() => {
