@@ -360,12 +360,16 @@ const Main = styled.main`
   display:flex;
   flex-flow:column;
   align-items: center;
-  width:100%;
+  width: 100%;
+    height: auto;
   margin-top: 40px;
   margin-bottom: 40px;
 `
 const Section = styled.section`
-  width:677px;
+    min-width:375px;
+    max-width:670px;
+    width: 100%;
+    height: auto;
   & .swiper{
     height: 500px;
     border-radius: 8px;
