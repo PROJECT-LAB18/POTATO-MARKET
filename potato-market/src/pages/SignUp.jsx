@@ -76,9 +76,10 @@ function SignUp() {
       let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"; // 기본 이미지
       if (profileUrl) {
         const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-        await uploadRef
-          .put(profileUrl)
-          .then((snapshot) => snapshot.ref.getDownloadURL());
+        const uploadTask = uploadRef.put(profileUrl);
+        profileImageUrl = await uploadTask.then(
+          (snapshot) => snapshot.ref.getDownloadURL()
+        );
       }
       // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);

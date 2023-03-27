@@ -79,28 +79,14 @@ function MyPage() {
       .put(modifiedProfileForm.newProfileImage)
       .then((snapshot) => snapshot.ref.getDownloadURL());
 
-    // 과거 프로필사진 storage에서 제거
-    if (oldImageUrl === "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401") {
-      const updateObj = {
-        nickname: modifiedProfileForm.newNickname,
-        profileImage: newImageUrl,
-      };
-      usersRef.doc(userUid).update(updateObj).then(() => {
-        setShowEditPopup(false);
-        location.reload();
-      });
-    } else {
-      oldImageRef.delete().then(() => {
-        const updateObj = {
-          nickname: modifiedProfileForm.newNickname,
-          profileImage: newImageUrl,
-        };
-        usersRef.doc(userUid).update(updateObj).then(() => {
-          setShowEditPopup(false);
-          location.reload();
-        });
-      })
-    }
+    const updateObj = {
+      nickname: modifiedProfileForm.newNickname,
+      profileImage: newImageUrl,
+    };
+    usersRef.doc(userUid).update(updateObj).then(() => {
+      setShowEditPopup(false);
+      location.reload();
+    });
   };
 
   const handleLeave = () => {
