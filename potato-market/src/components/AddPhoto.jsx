@@ -48,14 +48,14 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"        
+      <WriteInput accept=".png, .jpeg, .jpg, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
         previewImg.map((url, index) => {
           return <ProductImage key={url}>
             <button type="button" onClick={()=>removeImage(index)}>
-              <img alt="업로드 이미지 제거" src="src/assets/icon-close-button.svg" />
+              <img alt="업로드 이미지 제거" src="/src/assets/icon-close-button.svg" />
             </button>
             <img alt={url} src={url} />
           </ProductImage>
@@ -88,7 +88,7 @@ const PhotoContainer = styled.div`
     display: inline-block;
     width: 90px;
     height: 90px;
-    background: url('src/assets/icon-add-photo.svg') no-repeat;
+    background: url('/src/assets/icon-add-photo.svg') no-repeat;
     background-position: center;
     border: 1px solid ${gray4};
     border-radius: 10px;

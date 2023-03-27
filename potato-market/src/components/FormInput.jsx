@@ -4,11 +4,12 @@ import imageCompression from "browser-image-compression";
 
 import styled from 'styled-components';
 
-import { gray5, primaryColor } from '../styles/Global';
+import defaultProfile from '@/assets/default_profile.png';
+import { gray5, primaryColor } from '@/styles/Global';
 
 export const FormInputImage = ({ profileUrl, setProfileUrl }) => {
   const [previewUrl, setPreviewUrl] = useState(
-    profileUrl || "../src/assets/default_profile.png"
+    profileUrl || defaultProfile
   );
 
   const handleFileInputChange = async (e) => {

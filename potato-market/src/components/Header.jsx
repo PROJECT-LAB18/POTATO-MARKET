@@ -26,11 +26,13 @@ function Header () {
   const [login] = useRecoilState(userId);
   const [userInfo] = useRecoilState(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
+
   const handleToggle = () => {
     setShowToggle(!showToggle);
   }  
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [chat, setChat] = useRecoilState(onChat);
+
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -61,6 +63,7 @@ function Header () {
         <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle}/>
         {showToggle && <Toggle/>}
       </ToggleWrap>
+
       <MobileIcons>
         <Icon iconname={searchIcon} onClick={openSearch}/>
         {showMenu ? <CloseMenu onClick={()=>setShowMenu(false)}/> : <Icon iconname={hamburger} onClick={openMenu} />}
@@ -80,7 +83,7 @@ const HeaderWrap = styled.header`
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
-  
+
   .a11yHidden {
     display: inline-block;
     overflow: hidden;
@@ -120,6 +123,7 @@ const HeaderWrap = styled.header`
       margin-left: 2rem;
     }
   }
+
 `;
 
 const MainTitle = styled.h1`
@@ -207,6 +211,11 @@ const ChatButton = styled.button`
 const ToggleWrap = styled.div`
   position: relative;
   z-index: 100;
+`;
+
+const ToggleWrap = styled.div`
+  position: relative;
+
 `;
 
 const MypageIcon= styled.button`

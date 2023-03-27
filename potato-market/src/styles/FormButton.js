@@ -7,6 +7,7 @@ const FormButton = styled.button`
   width: 340px;
   height: 54px;
   margin: 12px auto 0;
+  box-sizing: border-box;
   border-radius: 4px;
   line-height: 54px;
   font-size: 16px;

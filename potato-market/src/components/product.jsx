@@ -4,14 +4,13 @@ import styled from "styled-components";
 
 import moneyUnit from "@/utils/moneyUnit";
 
-const Div = styled.a`
-& .product{
-  display:inline-block;
-  width:201px;
-  text-decoration:none;
-  color:black;
-  cursor:pointer;
-}
+const Div = styled.div`
+  & .product{
+    display: inline-block;
+    width:201px;
+    text-decoration:none;
+    color: black;
+  }
 `
 const Section = styled.div`
   margin-bottom: 7px;
@@ -23,32 +22,31 @@ const Section = styled.div`
   }
 `
 const Imagediv = styled.div`
-margin:0;
+  margin:0;
   & img{
     display:block;
     border-radius: 12px;
     width:201px;
     height: 201px ;
     overflow:hidden;
+    object-fit: cover;
   }
 `
 const SubList = styled.div`
-
   flex-flow: row;
 
-& span{
-  margin-top:5.5px;
-  font-size: 12px;
-  color: #868E96;
-}
-& span::after{
-  content: '•';
-  margin : 0 4px;
-  
-}
-& span:last-child::after{
-  content:'';
-}
+  & span{
+    margin-top:5.5px;
+    font-size: 12px;
+    color: #868E96;
+  }
+  & span::after{
+    content: '•';
+    margin : 0 4px;  
+  }
+  & span:last-child::after{
+    content:'';
+  }
 `
 
 const Image = styled.img`
@@ -68,13 +66,13 @@ const H3 = styled.h3`
 `
 
 const PriceSpan = styled.span`
-font-weight: 700;
-margin-top:5px;
+  font-weight: 700;
+  margin-top:5px;
 `
 
 const AddressSpan = styled.span`
-font-size: 13px;
-margin-top: 5px;
+  font-size: 13px;
+  margin-top: 5px;
 `
 
 function Product({title,price,heart,chat,imgsrc,id,check,location}){
