@@ -154,12 +154,14 @@ const Div = styled.div`
     padding: 0 20px;
     box-sizing: border-box;
   }
-  & .chat-h2{
+  & .header-div h2.chat-h2{
     width: 100%;
     height: 30px;
     line-height: 30px;
     margin:0;
     font-size:15px;
+    font-weight: 700;
+    text-align: left;
   }
 
   & .chat-false-button, & .reset-button{
