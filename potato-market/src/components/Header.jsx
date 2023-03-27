@@ -22,14 +22,14 @@ import { onChat } from "@/stores/onChat";
 import { searchKeywordState } from '@/stores/state';
 import { toggle } from "@/stores/toggle";
 
-function Header () {
+function Header() {
   const [login] = useRecoilState(userId);
   const [userInfo] = useRecoilState(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
 
   const handleToggle = () => {
     setShowToggle(!showToggle);
-  }  
+  }
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
   const [chat, setChat] = useRecoilState(onChat);
 
@@ -48,28 +48,28 @@ function Header () {
       <MainTitle className="a11yHidden">감자마켓</MainTitle>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <Link to="/"><img alt="" src={mainLogo} /></Link>
-      <MenuButton as={"a"} className="primary" onClick={()=>navigate(`/hotArticles`)}>중고거래</MenuButton>
-      <MenuButton as={"a"} onClick={()=>navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
+      <MenuButton as={"a"} className="primary" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
+      <MenuButton as={"a"} onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
       <SearchForm>
-      <input
+        <input
           placeholder="물품이나 동네를 검색해보세요"
           type="text"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
       </SearchForm>
-      <ChatButton onClick={()=>{setChat(true)}}>채팅하기</ChatButton>
+      <ChatButton onClick={() => { setChat(true) }}>채팅하기</ChatButton>
       <ToggleWrap>
-        <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle}/>
-        {showToggle && <Toggle/>}
+        <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle} />
+        {showToggle && <Toggle />}
       </ToggleWrap>
 
       <MobileIcons>
-        <Icon iconname={searchIcon} onClick={openSearch}/>
-        {showMenu ? <CloseMenu onClick={()=>setShowMenu(false)}/> : <Icon iconname={hamburger} onClick={openMenu} />}
+        <Icon iconname={searchIcon} onClick={openSearch} />
+        {showMenu ? <CloseMenu onClick={() => setShowMenu(false)} /> : <Icon iconname={hamburger} onClick={openMenu} />}
       </MobileIcons>
-      {showSearch ? <SearchModal searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} setShowSearch={setShowSearch}/> : null}
-      {showMenu ? <MenuModal navigate={navigate} setChat={setChat} setShowMenu={setShowMenu}/> : null}
+      {showSearch ? <SearchModal searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} setShowSearch={setShowSearch} /> : null}
+      {showMenu ? <MenuModal navigate={navigate} setChat={setChat} setShowMenu={setShowMenu} /> : null}
     </HeaderWrap>
   )
 }
@@ -213,12 +213,7 @@ const ToggleWrap = styled.div`
   z-index: 100;
 `;
 
-const ToggleWrap = styled.div`
-  position: relative;
-
-`;
-
-const MypageIcon= styled.button`
+const MypageIcon = styled.button`
   margin-top: 12px;
   margin-right: 21px;
   width: 36px;
@@ -251,7 +246,7 @@ const MobileIcons = styled.div`
 const Icon = styled.button`
   border: 0;
   background-color: transparent;
-  background: url(${(props)=>props.iconname}) no-repeat center local;
+  background: url(${(props) => props.iconname}) no-repeat center local;
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;
@@ -270,18 +265,18 @@ const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword }) => {
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <CloseSearch aria-label="검색 닫기" onClick={()=>setShowSearch(false)}/>
+      <CloseSearch aria-label="검색 닫기" onClick={() => setShowSearch(false)} />
     </Modal>
   )
 };
 
-const MenuModal = ({setShowMenu, navigate, setChat}) => {
- 
+const MenuModal = ({ setShowMenu, navigate, setChat }) => {
+
   const navigateTohotArticles = () => {
     navigate("/hotArticles")
     setShowMenu(false);
   }
-  
+
   const navigateTowriteArticle = () => {
     navigate("/writeArticle")
     setShowMenu(false);
@@ -305,7 +300,7 @@ const MenuModal = ({setShowMenu, navigate, setChat}) => {
 
 const Modal = styled.div`
   position: fixed;
-  top: ${ (props) => props.top };
+  top: ${(props) => props.top};
   right: 0;
   bottom: 0;
   left: 0;

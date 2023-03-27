@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
 import { toggle } from '../stores/toggle';
-import { userId } from '../stores/userAuth';
 
 import firebase from '@/firebase';
 import { userId, userInformation } from "@/stores/userAuth.js"
@@ -47,7 +46,7 @@ function LogoutButton() {
   }
 
   return (
-   <Button onClick={handleLogout}>로그아웃</Button>
+    <Button onClick={handleLogout}>로그아웃</Button>
 
   )
 };
