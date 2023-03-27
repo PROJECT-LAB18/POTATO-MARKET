@@ -435,7 +435,8 @@ const Section = styled.section`
   }
 
   & .best-product{
-    display:inline-block;
+    display: flex;
+    flex-wrap: wrap;
     margin-top: 10px;
   }
   & .best-product .product{
