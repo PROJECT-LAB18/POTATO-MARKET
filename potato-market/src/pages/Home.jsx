@@ -120,7 +120,8 @@ const MainTop = styled.section`
   display: flex;
   justify-content: center;
   max-height: 47.5rem;
-  padding: 30px 200px;
+  padding: 30px 0;
+  margin: 0 auto;
   .home-main-description {
     display: flex;
     flex-direction: column;
@@ -136,7 +137,8 @@ const MainTop = styled.section`
     }
   }
   .home-main-image {
-    width: 60%;
+    width: 80%;
+    max-width: 780px;
     margin: auto 0;
     img {
       padding: 50px 0 0 50px;
@@ -158,6 +160,7 @@ const MainTop = styled.section`
   }
   @media (max-width: 768px){
     padding: 50px;
+    margin-top: 50px;
     .home-main-description {
       padding-left: 0;
     }
@@ -166,14 +169,21 @@ const MainTop = styled.section`
 
 const MainReversed = styled(MainTop)`
   background-color: #FFF;
+  display: flex;
+  justify-content: center;
+  max-height: 47.5rem;
+  padding: 30px 0;
+  margin: 0 auto;
   .home-main-image {
     width: 40%;
     img {
+      max-width: 610px;
       padding: 0;
     }
   }
   .home-main-description {
     width: 60%;
+    max-width: 450px;
     margin-left: 100px;
   }
   .link-wrap {
@@ -195,11 +205,15 @@ const MainReversed = styled(MainTop)`
     }
   }
   @media (max-width: 1200px){
+    .home-main-image img {
+      padding: 20px 0 0 20px;
+    }
     .link-wrap {
       margin-top: 10px;
     }
   }
   @media (min-width:768px) and (max-width: 1200px){
+    padding: 30px 100px;
     .home-main-description {
       margin-left: 50px;
     }
@@ -207,6 +221,7 @@ const MainReversed = styled(MainTop)`
   @media (max-width: 768px){
     .home-main-description {
       margin-left: 20px;
+      max-width: 240px;
     }
     .link-wrap {
       flex-direction: column;
