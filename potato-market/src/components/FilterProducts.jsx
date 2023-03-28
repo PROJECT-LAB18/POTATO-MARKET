@@ -19,9 +19,9 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
     
   }
   setHasResults(true);
-  return filteredProducts.map( ({ content, title, price, side, imgsrc, id, check, heart ,location},index) => (
-     <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} location={location} />
-     )
+  return filteredProducts.map( ({ content, title, price, side, imgsrc, id, check, heart ,location, recommend},index) => (
+    <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} recommend={recommend} side={side} title={title}  />
+    )
   );
 };
 
