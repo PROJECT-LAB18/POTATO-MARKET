@@ -204,7 +204,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
           <form>
             <h3>정말로 삭제하시겠습니까?</h3>
             <div className="button-wrapper">
-              <CustomButton red onClick={(e) => {
+              <CustomButton filled onClick={(e) => {
                 e.preventDefault();
                 deleteDoc(doc(db, "UserWrite", paramsId.id)).then(() => { navigate("/HotArticles"); })
               }}>삭제</CustomButton>
@@ -224,8 +224,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
               <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler} />
             </div>
             <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler} />
-            <div className="button-wrapper">
-              <CustomButton onClick={() => { setClickModified(0) }}>취소</CustomButton>
+            <div className="button-wrapper">              
               <CustomButton className="modifie-button" onClick={() => {
                 const newObj = {
                   content: modifiedContent.modifiedContent,
@@ -238,6 +237,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
                   })
                 })
               }}>수정</CustomButton>
+              <CustomButton onClick={() => { setClickModified(0) }}>취소</CustomButton>
             </div>
           </form>
         </ModifiedDiv> : null
@@ -319,6 +319,9 @@ const ModifiedDiv = styled.div`
   }
   & .price-input{
     width: 150px;
+  }
+  & .price-input::-webkit-inner-spin-button {
+    appearance: none;
   }
   & .content-input{
     width: 673.5px;

@@ -48,6 +48,7 @@ function Comment() {
   }, [lender, chat])
 
   const sendMessage = () => {
+    if(inputValue.current.value==="") return;
     const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
     const userSnap = getDoc(userRef);
     userSnap.then((item) => {
@@ -154,12 +155,14 @@ const Div = styled.div`
     padding: 0 20px;
     box-sizing: border-box;
   }
-  & .chat-h2{
+  & .header-div h2.chat-h2{
     width: 100%;
     height: 30px;
     line-height: 30px;
     margin:0;
     font-size:15px;
+    font-weight: 700;
+    text-align: left;
   }
 
   & .chat-false-button, & .reset-button{
