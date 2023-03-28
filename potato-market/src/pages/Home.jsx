@@ -43,12 +43,12 @@ export default function Home() {
             가깝고 따뜻한 당신의 근처를 만들어요.</p>
         </div>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
+          <img alt="이웃과 함께하는 감자마켓" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
         </div>
       </MainTop>
       <MainReversed>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
+          <img alt="채팅으로 거래하기" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
         </div>
         <div className="home-main-description">
           <h2>우리 동네<br /> 중고 직거래 마켓</h2>
