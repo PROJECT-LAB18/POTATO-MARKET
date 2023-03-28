@@ -11,25 +11,27 @@ const Footer = () => {
   return (
     <FooterGlobal>
       <Footertop>
-        <ul>
-          <li>중고거래</li>
-          <li>매물 등록하기</li>
-          <li>나의 매물보기</li>
-          <li>동네가게</li>
-          <li>채팅하기</li>
-        </ul>
-        <ul>  
-          <li>당근 비즈니스</li>
-          <li>부동산 직거래</li>
-          <li>중고차 직거래</li>
-          <li>당근알바</li>
-          <li></li>
-        </ul>      
-        <ul>
-          <li>자주 묻는 질문</li>
-          <li>회사 소개</li>
-          <li>인재 채용</li>
-        </ul>
+        <div className="footer-list">
+          <ul>
+            <li>중고거래</li>
+            <li>매물 등록하기</li>
+            <li>나의 매물보기</li>
+            <li>동네가게</li>
+            <li>채팅하기</li>
+          </ul>
+          <ul>  
+            <li>당근 비즈니스</li>
+            <li>부동산 직거래</li>
+            <li>중고차 직거래</li>
+            <li>당근알바</li>
+            <li></li>
+          </ul>      
+          <ul>
+            <li>자주 묻는 질문</li>
+            <li>회사 소개</li>
+            <li>인재 채용</li>
+          </ul>
+        </div>
 
         <div className="download-app">
           <p>감자마켓 앱 다운로드</p>
@@ -90,21 +92,23 @@ const FooterGlobal = styled.footer`
 const Footertop = styled.section` 
   display: flex;
   flex-direction: row;
-  width : 100vw;
+  max-width: 1200px;
+  width: 100vw;
   height : auto;
   align-items: flex-start;
   position: relative;
-  margin: 0 auto;
   padding-top: 3rem;
-  /* justify-content: space-between; */
-
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-    height: 20rem;
-    padding-top: 1rem;
-     ul {
-      margin: 0.5rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  
+  @media (max-width: 564px) {
+      flex-direction: column;
     }
+  
+  .footer-list {
+    display: flex;
+    align-items: flex-start;
+    
   }
 
   ul {
@@ -112,7 +116,7 @@ const Footertop = styled.section`
     font-size: 0.875rem;
     margin: 0 2rem;
     position: relative;
-    right: 2rem;
+    /* right: 2rem; */
 
     li {
       margin-bottom: 2rem;
@@ -129,39 +133,38 @@ const Footertop = styled.section`
     display: block;
     position: absolute;
     right: 10%;
-    
-    @media (min-width: 375px) and (max-width: 1200px){
-      position: absolute;
-      bottom : 0;
-      left: 0;
+    /* position: static; */
+    margin: 1rem auto;
+
+    @media (max-width: 1200px) {
+      position: static;
     }
 
     p {
       font-weight: 700;
       font-size: 0.875rem;
     }
-        
+
     .logobox {
       margin-top: 1rem;
-      
+
       button {
         width: 140px;
         height: 40px;
         background-color: ${gray4};
         color: #212325;
-        background-position: 24px 12px; 
+        background-position: 24px 12px;
         background-image: url(${githubLogo});
         background-repeat: no-repeat;
         background-size: 16px;
         cursor: pointer;
         vertical-align: middle;
-        padding-left: 16px;  
+        padding-left: 16px;
         border: 0;
         border-radius: 6px;
         font-weight: 700;
       }
     }
-
   }
 `;
 
@@ -169,24 +172,34 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  width : 100vw;
+  max-width : 1200px;
+  width: 100vw;
   height : auto;
   align-items: flex-start;
   position: relative;
-  margin: 1rem auto;
+  margin: 0 auto;
   justify-content: space-between;
   padding-top: 1rem;
 
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+
+    .information {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .snsgroup {
+      margin-left: 0;
+      width: auto;
+    }
   }
 
   .information {
     color: #868B94;
     font-size: 0.813rem;
     line-height: 1.25rem;
-    /* position: absolute; */
-    /* left: 0%; */
   }
 
   .snsgroup {
@@ -205,19 +218,21 @@ const FooterMiddle = styled.div`
 `;
 
 const FooterBottom = styled.div`
-  width : 100vw;
+  max-width : 1200px;
   margin: 3rem auto;
-  /* align-items:; */
-
-  @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-
-    .inquirygroup {
-    margin-left: 0.25rem;
+  width: 100vw;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .inquirygroup, .terms {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
     }
-
     a {
-      margin : 0.5rem;
+      margin: 0.5rem;
     }
   }
 
@@ -245,7 +260,7 @@ const FooterBottom = styled.div`
   a:hover {
     text-decoration : underline;
   }
-
+  
 `;
 
 export default Footer;
