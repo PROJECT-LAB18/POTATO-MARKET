@@ -17,7 +17,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
-  const [chat, setChat] = useRecoilState(onChat);
+  const [, setChat] = useRecoilState(onChat);
 
   useEffect(() => {
     userWriteRef.onSnapshot((snapshot) => {
@@ -55,7 +55,7 @@ export default function Home() {
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
             <Link to="/hotarticles">인기매물 보기</Link>
-            <button onClick={() => { setChat(true) }}>주민들과 소통하기</button>
+            <button type="button" onClick={() => { setChat(true) }}>주민들과 소통하기</button>
           </div>
         </div>
       </MainReversed>
@@ -63,8 +63,8 @@ export default function Home() {
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
           {readyToRender ? checkArr.map(
-            ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
-              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />))
+            ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />))
             : <p>Render Failed</p>
           }
         </ProductList>

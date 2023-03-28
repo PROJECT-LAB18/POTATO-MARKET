@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
