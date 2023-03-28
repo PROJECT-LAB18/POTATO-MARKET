@@ -48,6 +48,7 @@ function Comment() {
   }, [lender, chat])
 
   const sendMessage = () => {
+    if(inputValue.current.value==="") return;
     const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
     const userSnap = getDoc(userRef);
     userSnap.then((item) => {

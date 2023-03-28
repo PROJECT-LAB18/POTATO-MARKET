@@ -17,7 +17,9 @@ function Recommend({ recommend }) {
   useEffect(()=>{    
     inputValue.current.value = "";
   })
-  const sendHandler = () =>{  
+  const sendHandler = () =>{
+    if(inputValue.current.value==="") return;
+    
     const userRef = doc(db,"UserWrite",uid.id);
     const userSnap = getDoc(userRef);   
     userSnap.then((item)=>{
