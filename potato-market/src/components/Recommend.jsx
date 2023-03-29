@@ -41,7 +41,7 @@ function Recommend({ recommend }) {
         {recommend.length > 0 ?
           <>{recommend.map(({ content, id, time, commendimg }, index) => (
             <li key={index} className="recommend-list">
-              <img alt="사진" src={commendimg ? commendimg : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
+              <img alt="비로그인 유저 기본 이미지" src={commendimg ? commendimg : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
               <div className="recommend-wrapper">
                 <span>{id ? id : '수상한 고구마'}</span>
                 <span className="time-span">{time.slice(3, 23)}</span>
@@ -53,7 +53,7 @@ function Recommend({ recommend }) {
 
       </ul>
       <div className="input-div">
-        <img alt="본인 프로필" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
+        <img alt="프로필 사진" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
         <label>
           <input ref={inputValue} type="text" />
         </label>
