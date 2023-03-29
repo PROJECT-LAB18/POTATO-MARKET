@@ -70,13 +70,13 @@ function Detailarticle() {
   )
 }
 
-function Productdetail({ recommend, state, title, side, nickname, profileImage, location, temperature, date, price, content, heart, chat, check, imgsrc }) {
+function Productdetail({ recommend, state, title, side, nickname, profileImage, location, temperature, date, price, content, heart, check, imgsrc }) {
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
   const [render, Setrender] = useState(0);
   const [clickModified, setClickModified] = useState(0);
   const [clickDelete, setClickDelete] = useState(0);
-  const [heartArr, setHeart] = useState([]);
+  const [recommendCount, setRecommendCount] = useState([]);
   
   const clickButton = () => { setClick(click ? 0 : 1) }
   const paramsId = useParams();
@@ -105,8 +105,8 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
           ...doc.data()
         }
       })
-      newArr.sort((b, a) => a.heart - b.heart);
-      setHeart(newArr.slice(0, 6));
+      newArr.sort((b, a) => a.recommend.length - b.recommend.length);
+      setRecommendCount(newArr.slice(0, 6));
       Setrender(1);
     })
   }, [])
@@ -170,7 +170,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
           </p>
           <div className="counting-group">
             <span>관심 {heart} </span>
-            <span>채팅 {chat} </span>
+            <span>댓글 {recommend.length} </span>
             <span>조회 {check} </span>
           </div>
           <div className="button-list">
@@ -194,8 +194,8 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
         </div>
 
         <div className="best-product">
-          {render ? heartArr.map(({ content, title, price, side, imgsrc, location, id, heart, check }, index) => (
-            <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} side={side} title={title} />
+          {render ? recommendCount.map(({ content, title, price, side, imgsrc, location, id, heart, check, recommend }, index) => (
+            <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} recommend={recommend} side={side} title={title} />
           )) : <LoadingSpinner className="loading" />}
         </div>
       </Section>

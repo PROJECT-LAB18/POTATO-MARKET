@@ -27,7 +27,7 @@ function WriteForm(){
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
-    price : '0',
+    price : '',
     content: '',
     nickname: '',
     profileImage: '',
@@ -101,7 +101,7 @@ function WriteForm(){
 
         <ProductPriceBox>
           <WriteInput name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
-          <span className="productPrice">판매 가격 : {formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
+          <span className="productPrice">판매 가격 : {formState.price===''?0:formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
         </ProductPriceBox>
 
         <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
@@ -124,6 +124,8 @@ export function WriteInput({className, placeholder, disabled, type, content, val
     }
   </label>
 }
+
+
 
 // mixin
 const mixinInputStyle = css`

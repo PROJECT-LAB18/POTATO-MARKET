@@ -17,7 +17,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
-  const [chat, setChat] = useRecoilState(onChat);
+  const [, setChat] = useRecoilState(onChat);
 
   useEffect(() => {
     userWriteRef.onSnapshot((snapshot) => {
@@ -43,19 +43,19 @@ export default function Home() {
             가깝고 따뜻한 당신의 근처를 만들어요.</p>
         </div>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
+          <img alt="이웃과 함께하는 감자마켓" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-top-68ba12f0da7b5af9a574ed92ca8b3a9c0068db176b566dd374ee50359693358b.png" />
         </div>
       </MainTop>
       <MainReversed>
         <div className="home-main-image">
-          <img alt="" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
+          <img alt="채팅으로 거래하기" src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/image-1-39ac203e8922f615aa3843337871cb654b81269e872494128bf08236157c5f6a.png" />
         </div>
         <div className="home-main-description">
           <h2>우리 동네<br /> 중고 직거래 마켓</h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
             <Link to="/hotarticles">인기매물 보기</Link>
-            <button onClick={() => { setChat(true) }}>주민들과 소통하기</button>
+            <button type="button" onClick={() => { setChat(true) }}>주민들과 소통하기</button>
           </div>
         </div>
       </MainReversed>
@@ -63,8 +63,8 @@ export default function Home() {
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
           {readyToRender ? checkArr.map(
-            ({ content, title, price, side, imgsrc, id, check, heart }, index) =>
-              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />))
+            ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) =>
+              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />))
             : <p>Render Failed</p>
           }
         </ProductList>
@@ -120,7 +120,8 @@ const MainTop = styled.section`
   display: flex;
   justify-content: center;
   max-height: 47.5rem;
-  padding: 30px 200px;
+  padding: 30px 0;
+  margin: 0 auto;
   .home-main-description {
     display: flex;
     flex-direction: column;
@@ -136,7 +137,8 @@ const MainTop = styled.section`
     }
   }
   .home-main-image {
-    width: 60%;
+    width: 80%;
+    max-width: 780px;
     margin: auto 0;
     img {
       padding: 50px 0 0 50px;
@@ -158,6 +160,7 @@ const MainTop = styled.section`
   }
   @media (max-width: 768px){
     padding: 50px;
+    margin-top: 50px;
     .home-main-description {
       padding-left: 0;
     }
@@ -166,14 +169,21 @@ const MainTop = styled.section`
 
 const MainReversed = styled(MainTop)`
   background-color: #FFF;
+  display: flex;
+  justify-content: center;
+  max-height: 47.5rem;
+  padding: 30px 0;
+  margin: 0 auto;
   .home-main-image {
     width: 40%;
     img {
+      max-width: 610px;
       padding: 0;
     }
   }
   .home-main-description {
     width: 60%;
+    max-width: 450px;
     margin-left: 100px;
   }
   .link-wrap {
@@ -195,11 +205,15 @@ const MainReversed = styled(MainTop)`
     }
   }
   @media (max-width: 1200px){
+    .home-main-image img {
+      padding: 20px 0 0 20px;
+    }
     .link-wrap {
       margin-top: 10px;
     }
   }
   @media (min-width:768px) and (max-width: 1200px){
+    padding: 30px 100px;
     .home-main-description {
       margin-left: 50px;
     }
@@ -207,6 +221,7 @@ const MainReversed = styled(MainTop)`
   @media (max-width: 768px){
     .home-main-description {
       margin-left: 20px;
+      max-width: 240px;
     }
     .link-wrap {
       flex-direction: column;

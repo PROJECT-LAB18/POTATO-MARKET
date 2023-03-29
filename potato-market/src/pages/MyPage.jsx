@@ -70,8 +70,6 @@ function MyPage() {
   const handleProfileEdit = async (e) => {
     e.preventDefault();
 
-    const oldImageUrl = userInfo.profileImage;
-    const oldImageRef = storage.refFromURL(oldImageUrl);
     const newImageRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
 
     // 신규 프로필사진 업로드
@@ -142,8 +140,8 @@ function MyPage() {
           <h2 className="articleTitle">나의 매물</h2>
           <ProductList >
             {render
-              ? newArr.map(({ content, title, price, side, imgsrc, id, check, heart }, index) => (
-                <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} side={side} title={title} />
+              ? newArr.map(({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
+                <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />
               ))
               : <LoadingSpinner className="loading" />
             }

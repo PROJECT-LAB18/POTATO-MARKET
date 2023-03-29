@@ -75,14 +75,15 @@ const AddressSpan = styled.span`
   margin-top: 5px;
 `
 
-function Product({title,price,heart,chat,imgsrc,id,check,location}){
+function Product({title,price,heart,recommend,imgsrc,id,check,location}){
+
   return(
     <Div>
       <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer">
         <Imagediv>
           <div>
             <Image alt="상품 자세히 보기" src={imgsrc[0]!==undefined?imgsrc:"https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/no_image.jpg?alt=media&token=d2d005ba-9dbb-40cb-bd61-4d47f5118b2c"} />
-          </div>              
+          </div>
         </Imagediv>
         <Section>
           <H3>{title}</H3>
@@ -92,7 +93,7 @@ function Product({title,price,heart,chat,imgsrc,id,check,location}){
         <SubList>
           <span>조회 {check}</span>
           <span>관심 {heart}</span>
-          <span>채팅 {chat}</span>
+          <span>댓글 {recommend.length}</span>
         </SubList>
       </Link>
     </Div>
