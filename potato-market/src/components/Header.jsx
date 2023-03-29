@@ -31,7 +31,7 @@ function Header() {
     setShowToggle(!showToggle);
   }
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-  const [chat, setChat] = useRecoilState(onChat);
+  const [, setChat] = useRecoilState(onChat);
 
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
@@ -45,18 +45,22 @@ function Header() {
 
   return (
     <HeaderWrap>
-      <MainTitle className="a11yHidden">감자마켓</MainTitle>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <Link to="/"><img alt="" src={mainLogo} /></Link>
-      <MenuButton as={"a"} className="primary" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
-      <MenuButton as={"a"} onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
+        <MainTitle>
+          <span className="a11yHidden">감자마켓 로고</span>
+          <Link to="/"><img alt="감자마켓" src={mainLogo} /></Link>
+        </MainTitle>
+        
+      <MenuButton as={"a"} className="primary" tabIndex="0" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
+      <MenuButton as={"a"} tabIndex="0" onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
       <SearchForm>
-        <input
-          placeholder="물품이나 동네를 검색해보세요"
-          type="text"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
+        <label>
+          <input
+            placeholder="물품이나 동네를 검색해보세요"
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+        </label>
       </SearchForm>
       <ChatButton onClick={() => { setChat(true) }}>채팅하기</ChatButton>
       <ToggleWrap>
@@ -81,20 +85,10 @@ const HeaderWrap = styled.header`
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
+  align-item: center;
   flex-wrap: wrap;
   position: relative;
   background-color: #fff;
-  
-  .a11yHidden {
-    display: inline-block;
-    overflow: hidden;
-    position: absolute !important;
-    clip: rect(0, 0, 0, 0);
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-  }
   
   Link {
     width: 101px;
@@ -105,8 +99,6 @@ const HeaderWrap = styled.header`
     width: 101px;
     height: 26px;
     display: inline-block;
-    margin-top: 16px;
-    margin-right: 35px;
   }
   
   .primary {
@@ -130,14 +122,13 @@ const HeaderWrap = styled.header`
       margin-left: 2rem;
       background-color: inherit;
     }
-
   }
-
 `;
 
 const MainTitle = styled.h1`
   margin-right: 35px;
-  `;
+  transform: translateY(-6px);
+`;
 
 const SearchForm = styled.form`
   margin-left: 5rem;

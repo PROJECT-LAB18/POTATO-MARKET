@@ -10,7 +10,7 @@ function NotFound(props) {
   return(
     <Section>
       <h2>{props.title}</h2>
-      <ErrorImage alt="에러 페이지" src={errorImg} />
+      <ErrorImage alt="찾을 수 없는 페이지입니다." src={errorImg} />
       <Button onClick={()=>{navigate(-1)}}>뒤로가기</Button>
     </Section>
   )

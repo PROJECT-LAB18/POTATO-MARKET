@@ -36,12 +36,12 @@ function Recommend({ recommend }) {
   }
   return (
     <Div>
-      <h2>댓글 {recommend.length}</h2>
+      <h3>댓글 {recommend.length}</h3>
       <ul>
         {recommend.length > 0 ?
           <>{recommend.map(({ content, id, time, commendimg }, index) => (
             <li key={index} className="recommend-list">
-              <img alt="사진" src={commendimg ? commendimg : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
+              <img alt="비로그인 유저 기본 이미지" src={commendimg ? commendimg : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
               <div className="recommend-wrapper">
                 <span>{id ? id : '수상한 고구마'}</span>
                 <span className="time-span">{time.slice(3, 23)}</span>
@@ -53,8 +53,10 @@ function Recommend({ recommend }) {
 
       </ul>
       <div className="input-div">
-        <img alt="본인 프로필" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
-        <input ref={inputValue} type="text" />
+        <img alt="프로필 사진" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
+        <label>
+          <input ref={inputValue} type="text" />
+        </label>
         <button type="button" onClick={sendHandler}>게시</button>
       </div>
     </Div>
@@ -72,7 +74,7 @@ const Div = styled.div`
   span{
     font-weight: 700;
   }
-  h2{
+  h3{
     font-weight: 600;
     font-size: 19px;
     margin-bottom: 20px;
@@ -105,7 +107,7 @@ const Div = styled.div`
     gap: 15px;
     position: relative;
     display: flex;
-    justify-content: center
+    justify-content: space-between;
   }
   .content{
     word-wrap: break-word;
@@ -114,11 +116,17 @@ const Div = styled.div`
     margin-top: 27px;
     max-width: 580px;
   }
+  .input-div label{
+    width: 90%;
+  }
   .input-div input{
+    display: inline-block;
+    height: 49px;
     border: 1px solid rgb(209, 211, 216);
     border-radius: 12px;
-    width:80%;
+    width: 100%;
     padding:0 70px 0 10px;
+    box-sizing: border-box;
   }
   .input-div input:focus{
     outline: none;
