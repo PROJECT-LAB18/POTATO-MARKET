@@ -54,7 +54,9 @@ function Recommend({ recommend }) {
       </ul>
       <div className="input-div">
         <img alt="본인 프로필" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
-        <input ref={inputValue} type="text" />
+        <label>
+          <input ref={inputValue} type="text" />
+        </label>
         <button type="button" onClick={sendHandler}>게시</button>
       </div>
     </Div>
@@ -105,7 +107,7 @@ const Div = styled.div`
     gap: 15px;
     position: relative;
     display: flex;
-    justify-content: center
+    justify-content: space-between;
   }
   .content{
     word-wrap: break-word;
@@ -114,11 +116,17 @@ const Div = styled.div`
     margin-top: 27px;
     max-width: 580px;
   }
+  .input-div label{
+    width: 90%;
+  }
   .input-div input{
+    display: inline-block;
+    height: 49px;
     border: 1px solid rgb(209, 211, 216);
     border-radius: 12px;
-    width:80%;
+    width: 100%;
     padding:0 70px 0 10px;
+    box-sizing: border-box;
   }
   .input-div input:focus{
     outline: none;
