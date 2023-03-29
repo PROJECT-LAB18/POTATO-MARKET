@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Outlet } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ import { userId, userInformation } from "@/stores/userAuth.js"
 
 function App() {
   const [userUid, setUserUid] = useRecoilState(userId);
-  const [userInfo, setUserInfo] = useRecoilState(userInformation);
+  const [, setUserInfo] = useRecoilState(userInformation);
   const [lender, setLender] = useState(0);
 
   // 로그인 상태 체크 (로그인/로그아웃/새로고침 시 실행)

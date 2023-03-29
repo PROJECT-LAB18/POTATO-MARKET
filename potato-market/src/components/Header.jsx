@@ -53,12 +53,14 @@ function Header() {
       <MenuButton as={"a"} className="primary" tabIndex="0" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
       <MenuButton as={"a"} tabIndex="0" onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
       <SearchForm>
-        <input
-          placeholder="물품이나 동네를 검색해보세요"
-          type="text"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
+        <label>
+          <input
+            placeholder="물품이나 동네를 검색해보세요"
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+          />
+        </label>
       </SearchForm>
       <ChatButton onClick={() => { setChat(true) }}>채팅하기</ChatButton>
       <ToggleWrap>
