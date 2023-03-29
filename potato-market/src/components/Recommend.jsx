@@ -36,7 +36,7 @@ function Recommend({ recommend }) {
   }
   return (
     <Div>
-      <h2>댓글 {recommend.length}</h2>
+      <h3>댓글 {recommend.length}</h3>
       <ul>
         {recommend.length > 0 ?
           <>{recommend.map(({ content, id, time, commendimg }, index) => (
@@ -74,7 +74,7 @@ const Div = styled.div`
   span{
     font-weight: 700;
   }
-  h2{
+  h3{
     font-weight: 600;
     font-size: 19px;
     margin-bottom: 20px;
