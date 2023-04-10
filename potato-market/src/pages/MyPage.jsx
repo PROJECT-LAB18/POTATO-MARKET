@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
 import imageCompression from "browser-image-compression";
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
@@ -20,6 +22,7 @@ import { gray4, gray5, primaryColor } from '@/styles/Global';
 import ProductList from '@/styles/ProductList';
 
 function MyPage() {
+  const navigate = useNavigate();
   const [render, setRender] = useState(false);
   const [userUid, setUserUid] = useRecoilState(userId);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
@@ -104,7 +107,7 @@ function MyPage() {
         phoneNumber: "",
         profileImage: "",
       });
-      window.location.replace("/");
+      navigate("/");
     }).catch(function (error) {
       console.log(error.message);
     });
