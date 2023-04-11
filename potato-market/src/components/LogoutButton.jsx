@@ -7,8 +7,9 @@ import { toggle } from '../stores/toggle';
 import firebase from '@/firebase';
 import { userId, userInformation } from "@/stores/userAuth.js"
 
-const auth = firebase.auth();
+import {useNavigate } from 'react-router-dom';
 
+const auth = firebase.auth();
 const Button = styled.button`
   background-color: transparent;
   font-size: 1.125rem;
@@ -20,7 +21,7 @@ const Button = styled.button`
 `
 
 function LogoutButton() {
-
+  const navigate = useNavigate();
   const [showToggle, setShowToggle] = useRecoilState(toggle);
   const [login, setLogin] = useRecoilState(userId);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
@@ -39,7 +40,8 @@ function LogoutButton() {
         profileImage: "",
       });
       setShowToggle(false);
-      window.location.replace("/");
+      // window.location.replace("/");
+      navigate('/');
     } catch (error) {
       console.error(error);
     }

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { primaryColor } from '../styles/Global';
+import { primaryColor } from './Global';
 
 export const CustomButton = styled.button`
   cursor: pointer;
