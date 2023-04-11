@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
 import imageCompression from "browser-image-compression";
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
@@ -20,6 +22,7 @@ import { gray4, gray5, primaryColor } from '@/styles/Global';
 import ProductList from '@/styles/ProductList';
 
 function MyPage() {
+  const navigate = useNavigate();
   const [render, setRender] = useState(false);
   const [userUid, setUserUid] = useRecoilState(userId);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
@@ -70,17 +73,22 @@ function MyPage() {
   const handleProfileEdit = async (e) => {
     e.preventDefault();
 
-    const newImageRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
-
-    // 신규 프로필사진 업로드
-    const newImageUrl = await newImageRef
-      .put(modifiedProfileForm.newProfileImage)
-      .then((snapshot) => snapshot.ref.getDownloadURL());
-
-    const updateObj = {
-      nickname: modifiedProfileForm.newNickname,
-      profileImage: newImageUrl,
+    let updateObj = {
+      nickname: modifiedProfileForm.newNickname
     };
+
+    // 프로필사진 수정이 있는 경우만 실행
+    if (modifiedProfileForm.newProfileImage) {
+      const newImageRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
+      // 신규 프로필사진 업로드
+      const newImageUrl = await newImageRef
+        .put(modifiedProfileForm.newProfileImage)
+        .then((snapshot) => snapshot.ref.getDownloadURL());
+      updateObj.profileImage = newImageUrl;
+    } else {
+      updateObj.profileImage = userInfo.profileImage;
+    }
+
     usersRef.doc(userUid).update(updateObj).then(() => {
       setShowEditPopup(false);
       location.reload();
@@ -99,7 +107,7 @@ function MyPage() {
         phoneNumber: "",
         profileImage: "",
       });
-      window.location.replace("/");
+      navigate("/");
     }).catch(function (error) {
       console.log(error.message);
     });

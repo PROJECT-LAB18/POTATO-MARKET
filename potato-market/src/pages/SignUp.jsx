@@ -97,7 +97,6 @@ function SignUp() {
         }
       });
       await userBatch.commit();
-      setShowPopup(true);
     } catch (error) {
       const errorMessage = getErrorMessage(
         error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled
@@ -275,13 +274,6 @@ function SignUp() {
                   <FormTerms checked={isCheckedFour} id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} onChange={handleCheckboxChangeFour} />
                 </div>
               </div>
-              {showPopup &&
-                <Popup
-                  setShowPopup={setShowPopup}
-                  showPopup={showPopup}
-                  text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)}
-                />
-              }
               <FormButton
                 primary
                 disabled={disabled}
@@ -296,12 +288,8 @@ function SignUp() {
           </SignUpForm>
           {showPopup &&
             <Popup
-              text={"회원가입에 성공했습니다! 어서오세요!"}
-              onClose={() => {
-                setShowPopup(false);
-                navigate("/");
-                window.location.reload();
-              }}
+              text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)}
+              onClose={() => { setShowPopup(false); }}
             />
           }
         </Section >
