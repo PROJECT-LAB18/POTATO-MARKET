@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 
 import { Outlet } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ import GlobalStyle from './styles/Global';
 
 import { userId, userInformation } from "@/stores/userAuth.js"
 
-function App() {
+function App() : JSX.Element {
   const [userUid, setUserUid] = useRecoilState(userId);
   const [, setUserInfo] = useRecoilState(userInformation);
   const [lender, setLender] = useState(0);
@@ -50,7 +50,7 @@ function App() {
       <div className="App">
         <Header />
         <Comment/>
-        {lender?<Outlet />:null}
+        { lender ? <Outlet /> : null }
         <Footer />
       </div>
     </>
