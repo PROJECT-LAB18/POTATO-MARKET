@@ -59,8 +59,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <RecoilRoot>
-    <RouterProvider router={router} />
-  </RecoilRoot>,
-)
+const rootElement = document.getElementById('root');
+if (rootElement !== null) {
+  ReactDOM.createRoot(rootElement).render(
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>,
+  );
+} else {
+  console.error('Could not find root element.');
+}

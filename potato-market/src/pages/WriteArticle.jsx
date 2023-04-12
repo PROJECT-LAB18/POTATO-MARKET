@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import LoginState from "../components/LoginState";
 
 import WriteForm from '@/components/WriteForm';
-import { userId } from "@/stores/userAuth.js"
+import { userId } from "@/stores/userAuth"
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 
 function WriteArticle() {

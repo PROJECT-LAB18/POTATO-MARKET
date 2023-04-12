@@ -16,7 +16,7 @@ import { WriteInput } from "../components/WriteForm";
 import icon_temp4 from "@/assets/icon_temp4.svg"
 import { db, userWriteRef } from '@/firebase';
 
-import { userId } from "@/stores/userAuth.js";
+import { userId } from "@/stores/userAuth";
 import { CustomButton } from "@/styles/CustomButton";
 
 import moneyUnit from "@/utils/moneyUnit";
@@ -77,7 +77,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
   const [clickModified, setClickModified] = useState(0);
   const [clickDelete, setClickDelete] = useState(0);
   const [recommendCount, setRecommendCount] = useState([]);
-  
+
   const clickButton = () => { setClick(click ? 0 : 1) }
   const paramsId = useParams();
   const userRef = doc(db, "UserWrite", paramsId.id);
@@ -174,18 +174,18 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
             <span>조회 {check} </span>
           </div>
           <div className="button-list">
-            {state?
-            <>
-              <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
-              <CustomButton filled onClick={()=>{setClickDelete(1)}}>삭제</CustomButton>
-            </>:                    
-            <CustomButton>채팅하기</CustomButton>         
+            {state ?
+              <>
+                <CustomButton onClick={modifyBorderContent}>수정</CustomButton>
+                <CustomButton filled onClick={() => { setClickDelete(1) }}>삭제</CustomButton>
+              </> :
+              <CustomButton>채팅하기</CustomButton>
             }
           </div>
         </div>
       </Section>
       <Section>
-        <Recommend recommend={recommend}/>
+        <Recommend recommend={recommend} />
       </Section>
       <Section>
         <div className="best-product-group">
@@ -224,7 +224,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
               <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler} />
             </div>
             <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler} />
-            <div className="button-wrapper">              
+            <div className="button-wrapper">
               <CustomButton className="modifie-button" onClick={() => {
                 const newObj = {
                   content: modifiedContent.modifiedContent,

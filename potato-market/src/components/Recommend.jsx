@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil"
 import styled from "styled-components"
 
 import { db } from '@/firebase';
-import { userInformation } from "@/stores/userAuth.js"
+import { userInformation } from "@/stores/userAuth"
 import { gray5, primaryColor } from "@/styles/global";
 
 function Recommend({ recommend }) {
@@ -14,15 +14,15 @@ function Recommend({ recommend }) {
   const inputValue = useRef();
   const uid = useParams();
 
-  useEffect(()=>{    
+  useEffect(() => {
     inputValue.current.value = "";
   })
-  const sendHandler = () =>{
-    if(inputValue.current.value==="") return;
-    
-    const userRef = doc(db,"UserWrite",uid.id);
-    const userSnap = getDoc(userRef);   
-    userSnap.then((item)=>{
+  const sendHandler = () => {
+    if (inputValue.current.value === "") return;
+
+    const userRef = doc(db, "UserWrite", uid.id);
+    const userSnap = getDoc(userRef);
+    userSnap.then((item) => {
       recommend = item.data().recommend;
       recommend.push({
         id: userInfo.nickname,
@@ -53,7 +53,7 @@ function Recommend({ recommend }) {
 
       </ul>
       <div className="input-div">
-        <img alt="프로필 사진" src={userInfo.profileImage?userInfo.profileImage:"https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
+        <img alt="프로필 사진" src={userInfo.profileImage ? userInfo.profileImage : "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"} />
         <label>
           <input ref={inputValue} type="text" />
         </label>

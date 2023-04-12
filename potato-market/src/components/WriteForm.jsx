@@ -8,18 +8,18 @@ import styled, { css } from 'styled-components';
 
 import AddPhoto from '@/components/AddPhoto';
 import firebase from '@/firebase';
-import { userId, userInformation } from "@/stores/userAuth.js"
+import { userId, userInformation } from "@/stores/userAuth"
 import { gray4, gray6, primaryColor } from "@/styles/global";
 
 const db = firebase.firestore();
 const storage = getStorage();
 
-function WriteForm(){  
+function WriteForm() {
   const inputRef = useRef();
   const navigate = useNavigate();
-  const [click,setClick] = useState(0);
+  const [click, setClick] = useState(0);
   const [userUid,] = useRecoilState(userId);
-  const [userInfo, ] = useRecoilState(userInformation);
+  const [userInfo,] = useRecoilState(userInformation);
 
   const [postImg, setPostImg] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
@@ -27,21 +27,21 @@ function WriteForm(){
   const [formState, setFormState] = useState({
     title: '',
     side: '물품 종류',
-    price : '',
+    price: '',
     content: '',
     nickname: '',
     profileImage: '',
     imgsrc: '',
   });
 
-  if(formState.price>1000000000){
-    formState.price=999999999;
+  if (formState.price > 1000000000) {
+    formState.price = 999999999;
   }
-  
+
   const handleChange = (e) => {
     setFormState({
       ...formState,
-      [e.target.name] : e.target.value,
+      [e.target.name]: e.target.value,
     })
   }
 
@@ -55,7 +55,7 @@ function WriteForm(){
       const mountainRef = ref(storage, "writeimages/" + file[i].name);
       uploadPromises.push(uploadBytes(mountainRef, file[i]));
     }
-  
+
     Promise.all(uploadPromises).then(() => {
       const urlPromises = [];
       for (let i = 0; i < file.length; i++) {
@@ -74,23 +74,23 @@ function WriteForm(){
             chat: 0,
             check: 0,
             heart: 0,
-            userId : userUid,
+            userId: userUid,
             nickname: userInfo.nickname,
             profileImage: userInfo.profileImage,
-            location : userInfo.location,
-            recommend : [],
-          }).then(()=>{
+            location: userInfo.location,
+            recommend: [],
+          }).then(() => {
             navigate("/HotArticles");
           })
       })
     })
   }
-  return <section>    
+  return <section>
     <h3 className="a11yHidden">게시글 작성란</h3>
     <Form>
       <fieldset>
         <AddPhoto myinputRef={inputRef} name="imgsrc" postImg={postImg} previewImg={previewImg} required={true} setPostImg={setPostImg} setPreviewImg={setPreviewImg} />
-        <legend>게시글 등록 폼</legend>      
+        <legend>게시글 등록 폼</legend>
         <WriteInput name="title" placeholder="제목을 입력해주세요" required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
@@ -101,26 +101,26 @@ function WriteForm(){
 
         <ProductPriceBox>
           <WriteInput name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
-          <span className="productPrice">판매 가격 : {formState.price===''?0:formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
+          <span className="productPrice">판매 가격 : {formState.price === '' ? 0 : formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
         </ProductPriceBox>
 
-        <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
-        
+        <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />
+
         <WriteButtonBox>
-          <Button onClick={()=>{navigate("/HotArticles");}}>취소</Button>
-          <Button disabled={click||!previewImg[0]||!formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
+          <Button onClick={() => { navigate("/HotArticles"); }}>취소</Button>
+          <Button disabled={click || !previewImg[0] || !formState.title || !formState.price || !formState.content} type="submit" onClick={handleSubmit}>완료</Button>
         </WriteButtonBox>
       </fieldset>
     </Form>
   </section>
 }
 
-export function WriteInput({className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
+export function WriteInput({ className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple, myinputRef, onClick }) {
   return <label>
     {
       content ?
-      <Textarea ref={myinputRef} className={className} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick} />
+        <Textarea ref={myinputRef} className={className} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
+        <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick} />
     }
   </label>
 }
