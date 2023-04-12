@@ -99,7 +99,7 @@ function WriteForm(){
           <span>{userInfo.location.bname}</span>
         </RegionInformation>
 
-        <ProductPriceBox>
+        <ProductPriceBox className="productPriceBox">
           <WriteInput id="productPrice" name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
           <span className="productPrice">판매 가격 : {formState.price===''?0:formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
         </ProductPriceBox>
@@ -138,7 +138,7 @@ const mixinInputStyle = css`
 `
 
 const Form = styled.form`
-  width: 886px;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   margin-left: auto;
@@ -146,6 +146,27 @@ const Form = styled.form`
 
   fieldset{
     padding: 0;
+  }  
+  
+  @media all and (max-width: 767px) {
+    .userRegion{
+      flex-flow: column;
+      gap: 0;
+    }
+    input#boardTitle, .userRegion span, .productPriceBox, .productPriceBox *{
+      margin-bottom: 10px;
+    }
+    .productPriceBox{
+      flex-flow: column;
+      gap: 0;
+      input, span{
+        width: 100%;
+        text-align: left;
+      }
+      span{
+        text-indent: 10px;
+      }
+    }
   }
 `
 
@@ -177,13 +198,13 @@ const Textarea = styled.textarea`
 `
 
 const ProductPriceBox = styled.div`
-  width: 886px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 50px;
 
   input{
-    width: 585px;
+    width: 66%;
     border: none;
     border-radius: 0;
     border-bottom: 1px solid ${gray6};
@@ -194,7 +215,7 @@ const ProductPriceBox = styled.div`
   }
 
   span{    
-    width: 250px;
+    width: 30%;
     line-height: 36px;
     text-align: center;
     font-weight: bold;
@@ -210,6 +231,10 @@ const WriteButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 20px;
+
+  @media all and (max-width: 767px) {
+    margin-top: 0px;
+  }
 `
 
 const Button = styled.button`

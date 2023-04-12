@@ -38,6 +38,14 @@ const Main = styled.main`
     display:flex;
     gap:12px;
   }
+
+  section{
+    width: 100%;
+  }
+
+  @media all and (max-width: 1023px) {    
+    width: 90%;
+  }  
 `
 
 export default WriteArticle;

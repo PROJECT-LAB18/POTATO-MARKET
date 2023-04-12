@@ -50,7 +50,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
   }
 
   return <Container>    
-    <PhotoContainer>
+    <PhotoContainer className="photoContainer">
       <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
@@ -71,8 +71,14 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 }
 
 const Container = styled.div`
-  width: 886px;
+  width: 100%;
   margin: 0 auto;
+
+  @media all and (max-width: 1023px) {
+    .photoContainer{
+      padding-top: 0;
+    }
+  }
 `
 
 const PhotoUploadTitle = styled.span`
@@ -86,6 +92,16 @@ const PhotoContainer = styled.div`
   display: flex;
   gap: 20px;
   padding: 10px 0;
+  height: 90px;
+
+  @media all and (max-width: 767px) {
+    width: 100%;
+    height: auto;
+    flex-flow: row wrap;
+    input{
+      margin-bottom: 0px;
+    }
+  }
     
   input[type="file"]{
     cursor: pointer;
@@ -119,6 +135,8 @@ const ProductImage = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
+
+
 
   button{
     position: absolute;
