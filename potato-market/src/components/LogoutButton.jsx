@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useRecoilState } from "recoil";
 
 import styled from 'styled-components';
@@ -5,9 +7,8 @@ import styled from 'styled-components';
 import { toggle } from '../stores/toggle';
 
 import firebase from '@/firebase';
-import { userId, userInformation } from "@/stores/userAuth.js"
+import { userId, userInformation } from "@/stores/userAuth"
 
-import {useNavigate } from 'react-router-dom';
 
 const auth = firebase.auth();
 const Button = styled.button`

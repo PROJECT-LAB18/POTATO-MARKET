@@ -11,7 +11,7 @@ import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
 import { db } from '@/firebase';
-import { userInformation, userId } from "@/stores/userAuth.js"
+import { userInformation, userId } from "@/stores/userAuth"
 
 function Comment() {
   const inputValue = useRef();
@@ -48,7 +48,7 @@ function Comment() {
   }, [lender, chat])
 
   const sendMessage = () => {
-    if(inputValue.current.value==="") return;
+    if (inputValue.current.value === "") return;
     const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
     const userSnap = getDoc(userRef);
     userSnap.then((item) => {
