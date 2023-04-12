@@ -9,7 +9,7 @@ import App from './App'
 import NotFound from './components/NotFound';
 import ChatPage from './pages/ChatPage';
 import Home from './pages/Home';
-import HotArticles from './pages/HotArticles/HotArticles';
+import HotArticles from './pages/HotArticles';
 import MyPage from './pages/MyPage';
 import Detailarticle from './pages/productdetail';
 import SignIn from './pages/SignIn';
