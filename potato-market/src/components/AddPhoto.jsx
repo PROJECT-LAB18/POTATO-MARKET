@@ -51,7 +51,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 
   return <Container>    
     <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
+      <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
@@ -86,22 +86,25 @@ const PhotoContainer = styled.div`
   display: flex;
   gap: 20px;
   padding: 10px 0;
-  
-  & label{
-    display: inline-block;
-    width: 90px;
-    height: 90px;
+    
+  input[type="file"]{
+    cursor: pointer;
     background: url(${addIcon}) no-repeat;
     background-position: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
     border: 1px solid ${gray4};
     border-radius: 10px;
-    cursor: pointer;
+    overflow: hidden;
+    &::file-selector-button{
+      border: none;
+      background: none;
+      color: transparent;
+      text-indent: 15px;
+    }
   }
-  
-  input{
-    display: none;
-  }
-  
+
   div{
     width: 90px;
     height: 90px;
