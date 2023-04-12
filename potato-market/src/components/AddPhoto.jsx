@@ -61,7 +61,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
               <img alt={postImg[index].name} src={url} />
             </ProductImage>
             <button type="button" onClick={()=>removeImage(index)}>
-              <img alt="업로드 이미지 제거" src={closeButton} />
+              <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
             </button>
           </div>
         })
