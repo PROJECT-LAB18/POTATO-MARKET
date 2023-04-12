@@ -11,7 +11,7 @@ import closeButton from "@/assets/icon-close-button.svg"
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
-
+  console.log(postImg);
   const uploadFile = async (event) => {
     const files = event.target.files;
     const uploadedImages = [];
@@ -56,12 +56,14 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
       />
       {
         previewImg.map((url, index) => {
-          return <ProductImage key={url}>
+          return <div key={url} className="uploadImageList">
+            <ProductImage tabIndex="0">
+              <img alt={postImg[index].name} src={url} />
+            </ProductImage>
             <button type="button" onClick={()=>removeImage(index)}>
               <img alt="업로드 이미지 제거" src={closeButton} />
             </button>
-            <img alt={url} src={url} />
-          </ProductImage>
+          </div>
         })
       }
       {previewImg.length>=5 ? '' : <ProductImage/>}
@@ -73,6 +75,18 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
+
+  .uploadImageList{
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+      top: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
 
   @media all and (max-width: 1023px) {
     .photoContainer{
@@ -135,17 +149,6 @@ const ProductImage = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
-
-
-
-  button{
-    position: absolute;
-    right: 0;
-    top: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
 
   img{
     width: 100%;
