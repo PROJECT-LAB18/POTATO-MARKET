@@ -1,21 +1,20 @@
-import React,{ useState,ChangeEvent } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useState, ChangeEvent } from "react";
+import { useNavigate } from "react-router";
 
 import { useRecoilState } from "recoil";
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import FormInput, { FormInputImage } from '../components/FormInput';
-import FormInputAddress from '../components/FormInputAddress';
-import FormTerms from '../components/FormTerms';
+import FormInput, { FormInputImage } from "../components/FormInput";
+import FormInputAddress from "../components/FormInputAddress";
+import FormTerms from "../components/FormTerms";
 import LoginState from "../components/LoginState";
-import Popup from '../components/Popup';
-import { auth, db, storage, usersRef } from '../firebase';
-import { userId } from '../stores/userAuth';
-import FormButton from '../styles/FormButton';
-import { gray3, gray8, primaryColor } from '../styles/Global';
+import Popup from "../components/Popup";
+import { auth, db, storage, usersRef } from "../firebase";
+import { userId } from "../stores/userAuth";
+import FormButton from "../styles/FormButton";
+import { gray3, gray8, primaryColor } from "../styles/Global";
 
-const SignUp:React.FC=()=> {
-
+const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const [login] = useRecoilState(userId);
@@ -24,8 +23,6 @@ const SignUp:React.FC=()=> {
   const [isCheckedAll, setIsCheckedAll] = useState(false);
 
   // 약관 보기 개별 선택 상태
-
-
 
   const [isCheckedOne, setIsCheckedOne] = useState(false);
   const [isCheckedTwo, setIsCheckedTwo] = useState(false);
@@ -54,9 +51,14 @@ const SignUp:React.FC=()=> {
   const [showPopup, setShowPopup] = useState("");
 
   // disabled 조건
-  const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname;
+  const disabled =
+    !formState.phoneNumber ||
+    !formState.email ||
+    !formState.password ||
+    !formState.confirmPassword ||
+    !formState.nickname;
 
-  const handleSignUp = async (e: { preventDefault: () => void; }) => {
+  const handleSignUp = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
@@ -69,23 +71,29 @@ const SignUp:React.FC=()=> {
       setNicknameValid("중복된 닉네임입니다.");
       return;
     } else {
-      setNicknameValid("")
+      setNicknameValid("");
     }
 
     try {
       // Firebase Authentication : 신규 계정 생성
-      const userCredentia = await auth.createUserWithEmailAndPassword(formState.email, formState.password) ;
+      const userCredentia = await auth.createUserWithEmailAndPassword(
+        formState.email,
+        formState.password
+      );
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
-      let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"; // 기본 이미지
+      let profileImageUrl =
+        "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"; // 기본 이미지
       if (profileUrl) {
-        const uploadRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
+        const uploadRef = storage
+          .ref()
+          .child(
+            "profileImages/" + (new Date().getTime() + Math.random().toString(36).substr(2, 5))
+          );
         const uploadTask = uploadRef.put(profileUrl);
-        profileImageUrl = await uploadTask.then(
-          (snapshot) => snapshot.ref.getDownloadURL()
-        );
+        profileImageUrl = await uploadTask.then((snapshot) => snapshot.ref.getDownloadURL());
       }
       // Firebase FireStore : 회원정보 신규 저장
-      const userDoc = usersRef.doc(userCredential.user.uid );
+      const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
       userBatch.set(userDoc, {
         email: formState.email,
@@ -97,19 +105,29 @@ const SignUp:React.FC=()=> {
           sido: location.sido,
           sigungu: location.sigungu,
           bname: location.bname,
-        }
+        },
       });
       await userBatch.commit();
     } catch (error) {
       const errorMessage = getErrorMessage(
-        error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled
-      )
+        error,
+        isCheckedOne,
+        isCheckedTwo,
+        isCheckedFour,
+        disabled
+      );
       setShowPopup(errorMessage);
     }
   };
 
   //파이어베이스 에러메세지
-  const getErrorMessage = (error: any, isCheckedOne: boolean, isCheckedTwo: boolean, isCheckedFour: boolean, disabled: boolean) => {
+  const getErrorMessage = (
+    error: any,
+    isCheckedOne: boolean,
+    isCheckedTwo: boolean,
+    isCheckedFour: boolean,
+    disabled: boolean
+  ) => {
     if (disabled) {
       return "모든 필수 항목을 입력해주세요.";
     }
@@ -133,16 +151,16 @@ const SignUp:React.FC=()=> {
       default:
         return "회원가입에 실패 하였습니다.";
     }
-  }
+  };
 
-  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     setFormState((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleCheckboxChangeAll = (event: { target: { checked: boolean; }; }) => {
+  const handleCheckboxChangeAll = (event: { target: { checked: boolean } }) => {
     const isChecked = event.target.checked;
     setIsCheckedAll(isChecked);
     setIsCheckedOne(isChecked ? true : false);
@@ -151,14 +169,18 @@ const SignUp:React.FC=()=> {
     setIsCheckedFour(isChecked ? true : false);
   };
 
-  const handleCheckboxChangeOne = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+  const handleCheckboxChangeOne = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setIsCheckedOne(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
     }
   };
 
-  const handleCheckboxChangeTwo = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+  const handleCheckboxChangeTwo = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setIsCheckedTwo(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
@@ -167,34 +189,35 @@ const SignUp:React.FC=()=> {
 
   /**
    * 약관 보기 마케팅 수신 동의 (선택)이벤트,
-   * firestore user컬렉션 안의 인증 유저uid문서 필드 저장 
+   * firestore user컬렉션 안의 인증 유저uid문서 필드 저장
    */
- type CheckedChangeEvent = ChangeEvent<HTMLInputElement>;
+  type CheckedChangeEvent = ChangeEvent<HTMLInputElement>;
 
-// handleCheckboxChangeThree 함수의 인수를 CheckboxChangeEvent 타입으로 설정
-const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
-  const currentUser = auth.currentUser;
-  
-  setIsCheckedThree(event.target.checked);
+  // handleCheckboxChangeThree 함수의 인수를 CheckboxChangeEvent 타입으로 설정
+  const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
+    const currentUser = auth.currentUser;
 
-  if (!event.target.checked) {
-    setIsCheckedAll(false);
-  }
+    setIsCheckedThree(event.target.checked);
 
-  if (currentUser) {
-    const userDocRef = usersRef.doc(currentUser.uid);
-    userDocRef.update({
-      agree: event.target.checked,
-    })
-    .catch((error) => {
-      setError(error.code);
-    });
-  }
-};
+    if (!event.target.checked) {
+      setIsCheckedAll(false);
+    }
 
+    if (currentUser) {
+      const userDocRef = usersRef.doc(currentUser.uid);
+      userDocRef
+        .update({
+          agree: event.target.checked,
+        })
+        .catch((error) => {
+          setError(error.code);
+        });
+    }
+  };
 
-
-  const handleCheckboxChangeFour = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
+  const handleCheckboxChangeFour = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setIsCheckedFour(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
@@ -202,7 +225,9 @@ const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
   };
   return (
     <>
-      {login !== null ? <LoginState /> :
+      {login !== null ? (
+        <LoginState />
+      ) : (
         <Section>
           <h2>회원가입</h2>
           <SignUpForm onSubmit={handleSignUp}>
@@ -238,7 +263,12 @@ const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
                     placeholder={"비밀번호를 입력해주세요"}
                     text={"비밀번호"}
                     type={"password"}
-                    valid={formState.password && (formState.password.length < 6 || formState.password.length > 8) ? "최소 6자 이상 8자 이하로 입력해주세요." : ""}
+                    valid={
+                      formState.password &&
+                      (formState.password.length < 6 || formState.password.length > 8)
+                        ? "최소 6자 이상 8자 이하로 입력해주세요."
+                        : ""
+                    }
                     onChange={handleInputChange}
                   />
                 </li>
@@ -249,7 +279,11 @@ const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
                     placeholder={"비밀번호를 한번 더 입력해주세요"}
                     text={"비밀번호 확인"}
                     type={"password"}
-                    valid={formState.confirmPassword && (formState.password !== formState.confirmPassword) ? "비밀번호가 일치 하지 않습니다." : ""}
+                    valid={
+                      formState.confirmPassword && formState.password !== formState.confirmPassword
+                        ? "비밀번호가 일치 하지 않습니다."
+                        : ""
+                    }
                     onChange={handleInputChange}
                   />
                 </li>
@@ -269,20 +303,38 @@ const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
                   <FormInputImage profileUrl={profileUrl} setProfileUrl={setProfileUrl} />
                 </li>
                 <li className="form-item">
-                  <FormInputAddress
-                    location={location}
-                    setLocation={setLocation}
-                  />
+                  <FormInputAddress location={location} setLocation={setLocation} />
                 </li>
               </ul>
               <div className="term-list">
                 <span className="term-title">이용약관동의</span>
                 <div className="term-check">
                   <FormTerms all checked={isCheckedAll} onChange={handleCheckboxChangeAll} />
-                  <FormTerms checked={isCheckedOne} id={"term1"} text={"이용약관 동의 (필수)"} onChange={handleCheckboxChangeOne} />
-                  <FormTerms checked={isCheckedTwo} id={"term2"} text={"개인정보 수집 · 이용 동의 (필수)"} onChange={handleCheckboxChangeTwo} />
-                  <FormTerms checked={isCheckedThree} id={"term3"} text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"} value={formState.agree} onChange={handleCheckboxChangeThree} />
-                  <FormTerms checked={isCheckedFour} id={"term4"} text={"본인은 만 14세 이상입니다. (필수)"} onChange={handleCheckboxChangeFour} />
+                  <FormTerms
+                    checked={isCheckedOne}
+                    id={"term1"}
+                    text={"이용약관 동의 (필수)"}
+                    onChange={handleCheckboxChangeOne}
+                  />
+                  <FormTerms
+                    checked={isCheckedTwo}
+                    id={"term2"}
+                    text={"개인정보 수집 · 이용 동의 (필수)"}
+                    onChange={handleCheckboxChangeTwo}
+                  />
+                  <FormTerms
+                    checked={isCheckedThree}
+                    id={"term3"}
+                    text={"무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"}
+                    value={formState.agree}
+                    onChange={handleCheckboxChangeThree}
+                  />
+                  <FormTerms
+                    checked={isCheckedFour}
+                    id={"term4"}
+                    text={"본인은 만 14세 이상입니다. (필수)"}
+                    onChange={handleCheckboxChangeFour}
+                  />
                 </div>
               </div>
               <FormButton
@@ -294,19 +346,23 @@ const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
                   pointerEvents: disabled ? "none" : "auto",
                 }}
                 onClick={handleSignUp}
-              >가입하기</FormButton>
+              >
+                가입하기
+              </FormButton>
             </fieldset>
           </SignUpForm>
-          {showPopup &&
+          {showPopup && (
             <Popup
               text={getErrorMessage(error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled)}
-              onClose={() => { setShowPopup(false); }}
+              onClose={() => {
+                setShowPopup("");
+              }}
             />
-          }
-        </Section >
-      }
+          )}
+        </Section>
+      )}
     </>
-  )
+  );
 };
 
 const Section = styled.section`
