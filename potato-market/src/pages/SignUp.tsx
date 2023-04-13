@@ -76,7 +76,7 @@ const SignUp: React.FC = () => {
 
     try {
       // Firebase Authentication : 신규 계정 생성
-      const userCredentia = await auth.createUserWithEmailAndPassword(
+      const userCredential = await auth.createUserWithEmailAndPassword(
         formState.email,
         formState.password
       );
@@ -89,9 +89,16 @@ const SignUp: React.FC = () => {
           .child(
             "profileImages/" + (new Date().getTime() + Math.random().toString(36).substr(2, 5))
           );
-        const uploadTask = uploadRef.put(profileUrl);
-        profileImageUrl = await uploadTask.then((snapshot) => snapshot.ref.getDownloadURL());
+
+        const response = await fetch(profileUrl);
+        const imageBlob = await response.blob();
+
+        const uploadTask: any = uploadRef.put(imageBlob);
+        profileImageUrl = await uploadTask.then(
+          (snapshot: { ref: { getDownloadURL: () => string } }) => snapshot.ref.getDownloadURL()
+        );
       }
+
       // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
