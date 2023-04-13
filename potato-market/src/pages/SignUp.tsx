@@ -198,9 +198,13 @@ const SignUp: React.FC = () => {
    * 약관 보기 마케팅 수신 동의 (선택)이벤트,
    * firestore user컬렉션 안의 인증 유저uid문서 필드 저장
    */
-  type CheckedChangeEvent = ChangeEvent<HTMLInputElement>;
+  interface CheckedChangeEvent extends ChangeEvent<HTMLInputElement> {
+    target: HTMLInputElement & {
+      checked: boolean;
+    };
+  }
 
-  // handleCheckboxChangeThree 함수의 인수를 CheckboxChangeEvent 타입으로 설정
+  // handleCheckboxChangeThree 함수의 인수를 CheckedChangeEvent 타입으로 설정
   const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
     const currentUser = auth.currentUser;
 
@@ -221,7 +225,6 @@ const SignUp: React.FC = () => {
         });
     }
   };
-
   const handleCheckboxChangeFour = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
   }) => {
