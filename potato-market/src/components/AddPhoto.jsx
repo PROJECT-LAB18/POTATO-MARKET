@@ -11,7 +11,7 @@ import closeButton from "@/assets/icon-close-button.svg"
 import { gray4, primaryColor } from "@/styles/global";
 
 function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
-
+  console.log(postImg);
   const uploadFile = async (event) => {
     const files = event.target.files;
     const uploadedImages = [];
@@ -50,18 +50,20 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
   }
 
   return <Container>    
-    <PhotoContainer>
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
+    <PhotoContainer className="photoContainer">
+      <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
       onChange={uploadFile} onClick={(e)=>e.target.value = null}
       />
       {
         previewImg.map((url, index) => {
-          return <ProductImage key={url}>
+          return <div key={url} className="uploadImageList">
+            <ProductImage tabIndex="0">
+              <img alt={postImg[index].name} src={url} />
+            </ProductImage>
             <button type="button" onClick={()=>removeImage(index)}>
-              <img alt="업로드 이미지 제거" src={closeButton} />
+              <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
             </button>
-            <img alt={url} src={url} />
-          </ProductImage>
+          </div>
         })
       }
       {previewImg.length>=5 ? '' : <ProductImage/>}
@@ -71,8 +73,26 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 }
 
 const Container = styled.div`
-  width: 886px;
+  width: 100%;
   margin: 0 auto;
+
+  .uploadImageList{
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+      top: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  @media all and (max-width: 1023px) {
+    .photoContainer{
+      padding-top: 0;
+    }
+  }
 `
 
 const PhotoUploadTitle = styled.span`
@@ -86,22 +106,35 @@ const PhotoContainer = styled.div`
   display: flex;
   gap: 20px;
   padding: 10px 0;
-  
-  & label{
-    display: inline-block;
-    width: 90px;
-    height: 90px;
+  height: 90px;
+
+  @media all and (max-width: 767px) {
+    width: 100%;
+    height: auto;
+    flex-flow: row wrap;
+    input{
+      margin-bottom: 0px;
+    }
+  }
+    
+  input[type="file"]{
+    cursor: pointer;
     background: url(${addIcon}) no-repeat;
     background-position: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
     border: 1px solid ${gray4};
     border-radius: 10px;
-    cursor: pointer;
+    overflow: hidden;
+    &::file-selector-button{
+      border: none;
+      background: none;
+      color: transparent;
+      text-indent: 15px;
+    }
   }
-  
-  input{
-    display: none;
-  }
-  
+
   div{
     width: 90px;
     height: 90px;
@@ -116,15 +149,6 @@ const ProductImage = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
-
-  button{
-    position: absolute;
-    right: 0;
-    top: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
 
   img{
     width: 100%;

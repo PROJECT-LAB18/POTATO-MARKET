@@ -4,16 +4,12 @@ import { onSnapshot } from "firebase/firestore"
 
 import { useRecoilValue } from 'recoil';
 
-import LoadingSpinner from '../../components/LoadingSpinner';
-
 import FilterProducts from '@/components/FilterProducts';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 import { userWriteRef } from '@/firebase';
 
-
 import { searchKeywordState } from '@/stores/state';
-
-
 
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 import ProductList from '@/styles/ProductList'

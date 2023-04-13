@@ -13,10 +13,12 @@ function WriteArticle() {
     <>
       <ContainerGlobalStyle />
       {login == null ? <LoginState state="login" /> :
-        (<Main className="wrapper">
+        (
+        <Main className="wrapper">
           <h2 className="articleTitle">게시글 작성</h2>
           <WriteForm />
-        </Main>)}
+        </Main>
+        )}
     </>
   )
 }
@@ -27,7 +29,6 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
   width: 886px;
-  margin: 0 auto;
   & .error-massage{
     font-size:32px;
     font-weight: 700;
@@ -37,6 +38,14 @@ const Main = styled.main`
     display:flex;
     gap:12px;
   }
+
+  section{
+    width: 100%;
+  }
+
+  @media all and (max-width: 1023px) {    
+    width: 90%;
+  }  
 `
 
 export default WriteArticle;

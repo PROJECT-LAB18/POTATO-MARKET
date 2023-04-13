@@ -91,7 +91,7 @@ function WriteForm(){
       <fieldset>
         <AddPhoto myinputRef={inputRef} name="imgsrc" postImg={postImg} previewImg={previewImg} required={true} setPostImg={setPostImg} setPreviewImg={setPreviewImg} />
         <legend>게시글 등록 폼</legend>      
-        <WriteInput name="title" placeholder="제목을 입력해주세요" required={true} type="text" value={formState.title} onChange={handleChange} />
+        <WriteInput id="boardTitle" name="title" placeholder="제목을 입력해주세요" required={true} type="text" value={formState.title} onChange={handleChange} />
 
         <RegionInformation className="userRegion">
           <span>{userInfo.location.sido}</span>
@@ -99,12 +99,12 @@ function WriteForm(){
           <span>{userInfo.location.bname}</span>
         </RegionInformation>
 
-        <ProductPriceBox>
-          <WriteInput name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
+        <ProductPriceBox className="productPriceBox">
+          <WriteInput id="productPrice" name="price" placeholder="상품 가격을 입력해주세요" required={true} type="number" value={formState.price} onChange={handleChange} />
           <span className="productPrice">판매 가격 : {formState.price===''?0:formState.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} 원</span>
         </ProductPriceBox>
 
-        <WriteInput content name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
+        <WriteInput content id="writeContent" label="게시글 내용" name="content" placeholder="내용을 입력해주세요" required={true} type="text" value={formState.content} onChange={handleChange} />      
         
         <WriteButtonBox>
           <Button onClick={()=>{navigate("/HotArticles");}}>취소</Button>
@@ -115,17 +115,17 @@ function WriteForm(){
   </section>
 }
 
-export function WriteInput({className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick}){
-  return <label>
+export function WriteInput({className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple,myinputRef, onClick, id, label}){
+  return <>
+    <label className={`a11yHidden ${className}`} htmlFor={id}>{label}</label>
     {
       content ?
-      <Textarea ref={myinputRef} className={className} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} /> :
-      <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick} />
+        <Textarea ref={myinputRef} className={className} id={id} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} />
+      :      
+        <Input ref={myinputRef} accept={accept} className={className} disabled={disabled} id={id}  multiple={multiple} name={name} placeholder={placeholder} required={required} type={type} value={value} onChange={onChange} onClick={onClick} />      
     }
-  </label>
+  </>
 }
-
-
 
 // mixin
 const mixinInputStyle = css`
@@ -138,7 +138,7 @@ const mixinInputStyle = css`
 `
 
 const Form = styled.form`
-  width: 886px;
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
   margin-left: auto;
@@ -146,6 +146,27 @@ const Form = styled.form`
 
   fieldset{
     padding: 0;
+  }  
+  
+  @media all and (max-width: 767px) {
+    .userRegion{
+      flex-flow: column;
+      gap: 0;
+    }
+    input#boardTitle, .userRegion span, .productPriceBox, .productPriceBox *{
+      margin-bottom: 10px;
+    }
+    .productPriceBox{
+      flex-flow: column;
+      gap: 0;
+      input, span{
+        width: 100%;
+        text-align: left;
+      }
+      span{
+        text-indent: 10px;
+      }
+    }
   }
 `
 
@@ -177,13 +198,13 @@ const Textarea = styled.textarea`
 `
 
 const ProductPriceBox = styled.div`
-  width: 886px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 50px;
 
   input{
-    width: 585px;
+    width: 66%;
     border: none;
     border-radius: 0;
     border-bottom: 1px solid ${gray6};
@@ -194,7 +215,7 @@ const ProductPriceBox = styled.div`
   }
 
   span{    
-    width: 250px;
+    width: 30%;
     line-height: 36px;
     text-align: center;
     font-weight: bold;
@@ -210,6 +231,10 @@ const WriteButtonBox = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 20px;
+
+  @media all and (max-width: 767px) {
+    margin-top: 0px;
+  }
 `
 
 const Button = styled.button`
