@@ -11,7 +11,7 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
     setHasResults(false);
     return (<>
     
-    <img src={errorImg} alt="해당하는 상품이 없습니다." />
+    <img alt="해당하는 상품이 없습니다." src={errorImg} />
     <h1> 찾는 제품이 없습니다.</h1>; 
     
     </>

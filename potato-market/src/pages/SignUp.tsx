@@ -1,20 +1,20 @@
-import { useState } from 'react';
+import React,{ useState,ChangeEvent } from 'react';
 import { useNavigate } from 'react-router';
 
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
 
-import FormInput, { FormInputImage } from '@/components/FormInput';
-import FormInputAddress from '@/components/FormInputAddress';
-import FormTerms from '@/components/FormTerms';
-import LoginState from "@/components/LoginState";
-import Popup from '@/components/Popup';
-import { auth, db, storage, usersRef } from '@/firebase';
-import { userId } from '@/stores/userAuth';
-import FormButton from '@/styles/FormButton';
-import { gray3, gray8, primaryColor } from '@/styles/Global';
+import FormInput, { FormInputImage } from '../components/FormInput';
+import FormInputAddress from '../components/FormInputAddress';
+import FormTerms from '../components/FormTerms';
+import LoginState from "../components/LoginState";
+import Popup from '../components/Popup';
+import { auth, db, storage, usersRef } from '../firebase';
+import { userId } from '../stores/userAuth';
+import FormButton from '../styles/FormButton';
+import { gray3, gray8, primaryColor } from '../styles/Global';
 
-function SignUp() {
+const SignUp:React.FC=()=> {
 
   const navigate = useNavigate();
 
@@ -24,6 +24,9 @@ function SignUp() {
   const [isCheckedAll, setIsCheckedAll] = useState(false);
 
   // 약관 보기 개별 선택 상태
+
+
+
   const [isCheckedOne, setIsCheckedOne] = useState(false);
   const [isCheckedTwo, setIsCheckedTwo] = useState(false);
   const [isCheckedThree, setIsCheckedThree] = useState(false);
@@ -48,12 +51,12 @@ function SignUp() {
   const [profileUrl, setProfileUrl] = useState("");
 
   // 팝업창
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState("");
 
   // disabled 조건
   const disabled = !formState.phoneNumber || !formState.email || !formState.password || !formState.confirmPassword || !formState.nickname;
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     if (!isCheckedOne || !isCheckedTwo || !isCheckedFour) {
@@ -71,7 +74,7 @@ function SignUp() {
 
     try {
       // Firebase Authentication : 신규 계정 생성
-      const userCredential = await auth.createUserWithEmailAndPassword(formState.email, formState.password);
+      const userCredentia = await auth.createUserWithEmailAndPassword(formState.email, formState.password) ;
       // Firebase Storage : 프로필 사진 storage로 전송 후 업로드 된 url 받아오기
       let profileImageUrl = "https://firebasestorage.googleapis.com/v0/b/potato-market-lab18.appspot.com/o/default_profile.png?alt=media&token=8d1123dc-f7dd-4439-a8e3-881b1ce4a401"; // 기본 이미지
       if (profileUrl) {
@@ -82,7 +85,7 @@ function SignUp() {
         );
       }
       // Firebase FireStore : 회원정보 신규 저장
-      const userDoc = usersRef.doc(userCredential.user.uid);
+      const userDoc = usersRef.doc(userCredential.user.uid );
       const userBatch = db.batch();
       userBatch.set(userDoc, {
         email: formState.email,
@@ -106,7 +109,7 @@ function SignUp() {
   };
 
   //파이어베이스 에러메세지
-  const getErrorMessage = (error, isCheckedOne, isCheckedTwo, isCheckedFour, disabled) => {
+  const getErrorMessage = (error: any, isCheckedOne: boolean, isCheckedTwo: boolean, isCheckedFour: boolean, disabled: boolean) => {
     if (disabled) {
       return "모든 필수 항목을 입력해주세요.";
     }
@@ -132,14 +135,14 @@ function SignUp() {
     }
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     setFormState((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleCheckboxChangeAll = (event) => {
+  const handleCheckboxChangeAll = (event: { target: { checked: boolean; }; }) => {
     const isChecked = event.target.checked;
     setIsCheckedAll(isChecked);
     setIsCheckedOne(isChecked ? true : false);
@@ -148,14 +151,14 @@ function SignUp() {
     setIsCheckedFour(isChecked ? true : false);
   };
 
-  const handleCheckboxChangeOne = (event) => {
+  const handleCheckboxChangeOne = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setIsCheckedOne(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
     }
   };
 
-  const handleCheckboxChangeTwo = (event) => {
+  const handleCheckboxChangeTwo = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setIsCheckedTwo(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
@@ -166,24 +169,32 @@ function SignUp() {
    * 약관 보기 마케팅 수신 동의 (선택)이벤트,
    * firestore user컬렉션 안의 인증 유저uid문서 필드 저장 
    */
-  const handleCheckboxChangeThree = (event) => {
-    setIsCheckedThree(event.target.checked);
-    if (!event.target.checked) {
-      setIsCheckedAll(false);
-    }
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      const userDocRef = usersRef.doc(currentUser.uid);
-      userDocRef.update({
-        agree: event.target.checked
-      }, { merge: true })
-        .catch((error) => {
-          setError(error.message);
-        });
-    }
-  };
+ type CheckedChangeEvent = ChangeEvent<HTMLInputElement>;
 
-  const handleCheckboxChangeFour = (event) => {
+// handleCheckboxChangeThree 함수의 인수를 CheckboxChangeEvent 타입으로 설정
+const handleCheckboxChangeThree = (event: CheckedChangeEvent) => {
+  const currentUser = auth.currentUser;
+  
+  setIsCheckedThree(event.target.checked);
+
+  if (!event.target.checked) {
+    setIsCheckedAll(false);
+  }
+
+  if (currentUser) {
+    const userDocRef = usersRef.doc(currentUser.uid);
+    userDocRef.update({
+      agree: event.target.checked,
+    })
+    .catch((error) => {
+      setError(error.code);
+    });
+  }
+};
+
+
+
+  const handleCheckboxChangeFour = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setIsCheckedFour(event.target.checked);
     if (!event.target.checked) {
       setIsCheckedAll(false);
