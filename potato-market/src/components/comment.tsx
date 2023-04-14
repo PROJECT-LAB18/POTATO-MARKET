@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState,useLayoutEffect } from 'react';
 
 import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { useRecoilState } from 'recoil';
@@ -10,8 +10,15 @@ import chat_bg from "@/assets/chat/chat-bg.svg"
 import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
-import { db } from '@/firebase';
-import { userInformation, userId } from "@/stores/userAuth"
+import { db } from '../firebase';
+import { userInformation, userId } from "../stores/userAuth"
+interface chatData{
+  chat: [{ 
+    id?: string,
+  coment?: string,
+  time?: string,
+  img?: string
+}]}
 
 function Comment() {
   const inputValue = useRef();
@@ -19,8 +26,8 @@ function Comment() {
   const [userInfo] = useRecoilState(userInformation);
   const [userUid] = useRecoilState(userId);
   const [chat, setChat] = useRecoilState(onChat);
-  let [chatData, setChatData] = useState({ chat: [] });
-  const scrollRef = useRef();
+  let [chatData, setChatData] = useState<chatData>({ chat: [] });
+  const scrollRef = useRef<HTMLDivElement>(null);
   const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
   const userSnap = getDoc(userRef);
   const commentRef = db.collection('comment');
@@ -29,7 +36,6 @@ function Comment() {
     userSnap.then((item) => { setChatData(item.data()) });
     setLender(1);
   }
-
   useEffect(() => {
     async function fetchData() {
       onSnapshot(commentRef, () => {
@@ -38,15 +44,12 @@ function Comment() {
     };
     fetchData();
   }, [onSnapshot]);
-
-  useMemo(() => {
-    if (chat) {
-      setTimeout(() => {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-      }, 150);
+  
+  useLayoutEffect(()=>{
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [lender, chat])
-
+  });
   const sendMessage = () => {
     if (inputValue.current.value === "") return;
     const userRef = doc(db, "comment", "kviERzom8LpJItP3g23N");
