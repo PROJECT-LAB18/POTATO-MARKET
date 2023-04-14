@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled from "styled-components";
 
-import moneyUnit from "@/utils/moneyUnit";
+import moneyUnit from "../utils/moneyUnit";
 
 const Div = styled.div`
   & .product{
@@ -32,6 +32,7 @@ const Imagediv = styled.div`
     object-fit: cover;
   }
 `
+
 const SubList = styled.div`
   flex-flow: row;
 
@@ -74,8 +75,25 @@ const AddressSpan = styled.span`
   font-size: 13px;
   margin-top: 5px;
 `
+interface Location {
+  sido:string,
+  sigungu:string,
+  bname:string,
+}
 
-function Product({title,price,heart,recommend,imgsrc,id,check,location}){
+interface IProductProps {
+  id :number,
+  title: string,
+  heart: number,
+  recommend: string,
+  imgsrc: string,
+  check: number,
+  location: Location,
+  price: number,
+  
+}
+
+function Product({title,price,heart,recommend,imgsrc,id,check,location}:IProductProps){
 
   return(
     <Div>
