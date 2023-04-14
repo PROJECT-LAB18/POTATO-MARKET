@@ -1,12 +1,14 @@
 import styled, { css } from "styled-components";
 
-import { primaryColor } from "./Global";
 
-interface FormButtonInterface {
+import { primaryColor } from "../styles/Global";
+
+interface FormButtonTypes {
   primary?: boolean;
 }
 
-const FormButton = styled.button<FormButtonInterface>`
+const FormButton = styled.button<FormButtonTypes>`
+
   display: block;
   width: 340px;
   height: 54px;
