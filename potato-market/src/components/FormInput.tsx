@@ -1,27 +1,35 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 
 import imageCompression from "browser-image-compression";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import defaultProfile from '@/assets/default_profile.png';
-import { gray5, primaryColor } from '@/styles/Global';
+import defaultProfile from "@/assets/default_profile.png";
+import { gray5, primaryColor } from "../styles/Global";
 
-export const FormInputImage = ({ profileUrl, setProfileUrl }) => {
-  const [previewUrl, setPreviewUrl] = useState(
-    profileUrl || defaultProfile
-  );
+interface FormInputImageTypes {
+  profileUrl: string;
+  setProfileUrl: React.Dispatch<React.SetStateAction<File>>;
+}
 
-  const handleFileInputChange = async (e) => {
-    const uploadedImage = e.target.files[0];
-    const options = { // 이미지 최적화 옵션
+export const FormInputImage = ({ profileUrl, setProfileUrl }: FormInputImageTypes) => {
+  const [previewUrl, setPreviewUrl] = useState(profileUrl || defaultProfile);
+
+  const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target as HTMLInputElement;
+    let uploadedImage: File | null = null;
+    if (input && input.files) {
+      uploadedImage = input.files[0];
+    }
+    const options = {
+      // 이미지 최적화 옵션
       maxSizeMB: 0.1, // 이미지 최대 용량
       maxWidthOrHeight: 100, // 최대 넓이/높이
       useWebWorker: true,
     };
     if (uploadedImage) {
       const compressedFile = await imageCompression(uploadedImage, options);
-      const imageUrl = URL.createObjectURL(compressedFile);
+      const imageUrl: string = URL.createObjectURL(compressedFile);
       setPreviewUrl(imageUrl);
       setProfileUrl(compressedFile);
     }
@@ -31,11 +39,7 @@ export const FormInputImage = ({ profileUrl, setProfileUrl }) => {
     <>
       <LabelText htmlFor="profileImage">프로필 사진</LabelText>
       <InputBox>
-        <img
-          alt="프로필 이미지사진 미리보기"
-          className="profile-image-preview"
-          src={previewUrl}
-        />
+        <img alt="프로필 이미지사진 미리보기" className="profile-image-preview" src={previewUrl} />
         <input
           accept=".png, .jpg, .jpeg, .svg"
           id="profileImage"
@@ -44,54 +48,92 @@ export const FormInputImage = ({ profileUrl, setProfileUrl }) => {
         />
       </InputBox>
     </>
-  )
+  );
 };
 
-export const FormInputLocation = ({ setOpenPostcode, fullAddress }) => {
+interface FormInputLocationTypes {
+  setOpenPostcode: React.Dispatch<React.SetStateAction<boolean>>;
+  fullAddress: string;
+}
 
+export const FormInputLocation = ({ setOpenPostcode, fullAddress }: FormInputLocationTypes) => {
   const clickButton = () => {
-    setOpenPostcode(current => !current);
+    setOpenPostcode((current) => !current);
   };
 
   return (
     <>
       <LabelText htmlFor="userLocation">주소</LabelText>
-      <InputBox >
-        <div className="loca" >
-          <input readOnly id="userLocation" name="userLocation" type="text"
-            value={fullAddress === 'undefined undefined undefined' ? '' : fullAddress}
+      <InputBox>
+        <div className="loca">
+          <input
+            readOnly
+            id="userLocation"
+            name="userLocation"
+            type="text"
+            value={fullAddress === "undefined undefined undefined" ? "" : fullAddress}
             onClick={clickButton}
           />
-          <Button type="button" onClick={clickButton}>검색</Button>
+          <Button type="button" onClick={clickButton}>
+            검색
+          </Button>
         </div>
         {/* <input id="userLocationDetail" name="userLocationDetail" placeholder="상세주소를 입력해주세요" type="text" /> */}
         <DescText>주소에 따라서 내 동네가 설정됩니다</DescText>
       </InputBox>
     </>
-  )
+  );
 };
 
-const FormInput = ({ id, type, onChange, value, placeholder, text, desc, valid, label, button }) => {
+export interface FormInputTypes {
+  id: string;
+  type: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  placeholder: string;
+  text: string;
+  label?: boolean;
+  desc?: string;
+  valid?: string;
+  button?: string;
+}
+
+export const FormInput = ({
+  id,
+  type,
+  onChange,
+  value,
+  placeholder,
+  text,
+  label,
+  desc,
+  valid,
+  button,
+}: FormInputTypes) => {
   return (
     <>
-      {label
-        ? <LabelText htmlFor={id}>{text}</LabelText>
-        : <label className="a11yHidden" htmlFor={id}>{text}</label>
-      }
+      {label ? (
+        <LabelText htmlFor={id}>{text}</LabelText>
+      ) : (
+        <label className="a11yHidden" htmlFor={id}>
+          {text}
+        </label>
+      )}
       <InputBox>
-        <input id={id} name={id} placeholder={placeholder} type={type} value={value} onChange={onChange} />
-        {desc &&
-          <DescText>{desc}</DescText>
-        }
-        {valid &&
-          <VaildNotice>{valid}</VaildNotice>
-        }
+        <input
+          id={id}
+          name={id}
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          onChange={onChange}
+        />
+        {desc && <DescText>{desc}</DescText>}
+        {valid && <VaildNotice>{valid}</VaildNotice>}
       </InputBox>
-      {button &&
-        <Button type="button">{button}</Button>
-      }
+      {button && <Button type="button">{button}</Button>}
     </>
-  )
+  );
 };
 
 const LabelText = styled.label`
