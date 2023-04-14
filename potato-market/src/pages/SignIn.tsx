@@ -47,7 +47,7 @@ function SignIn() {
   return (
     <>
       {login !== null ? (
-        <LoginState />
+        <LoginState state="login" />
       ) : (
         <Section>
           <h2>로그인</h2>
