@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import checkboxChecked from '@/assets/checkbox-checked.svg';
-import checkbox from '@/assets/checkbox.svg';
+import checkboxChecked from "@/assets/checkbox-checked.svg";
+import checkbox from "@/assets/checkbox.svg";
 
-import { primaryColor, gray5 } from '@/styles/Global';
+import { primaryColor, gray5 } from "@/styles/Global";
 
 const Label = styled.label`
   flex-grow: 1;
@@ -85,7 +85,7 @@ const TextAll = styled(Text)`
     font-size: 14px;
     font-weight: 400;
     line-height: 19px;
-    letter-spacing: -.4px;
+    letter-spacing: -0.4px;
   }
 `;
 
@@ -110,23 +110,26 @@ const DetailTermButton = styled.button`
   }
 `;
 
-const FormTerms = ({ id, text, all, checked, onChange }) => {
+interface FormTermsInterface {
+  id?: string;
+  text?: string;
+  all?: boolean;
+  checked?: boolean;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
+const FormTerms: React.FC<FormTermsInterface> = ({ id, text, all, checked, onChange, value }) => {
   return (
     <>
       {all ? (
         <LabelAll htmlFor={id}>
-          <CheckBox checked={checked} id={id}
-            name={id}
-            type="checkbox"
-            onChange={onChange}
-          />
+          <CheckBox checked={checked} id={id} name={id} type="checkbox" onChange={onChange} />
           <i></i>
           <TextAll aria-labelledby={id}>
             전체 동의합니다.
             <span>
-              선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할
-              수 있습니다.
+              선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.
             </span>
           </TextAll>
         </LabelAll>
@@ -139,6 +142,7 @@ const FormTerms = ({ id, text, all, checked, onChange }) => {
               name={id}
               type="checkbox"
               onChange={onChange}
+              value={value}
             />
             <i></i>
             <Text aria-labelledby={id}>{text}</Text>
@@ -151,5 +155,3 @@ const FormTerms = ({ id, text, all, checked, onChange }) => {
 };
 
 export default FormTerms;
-
-
