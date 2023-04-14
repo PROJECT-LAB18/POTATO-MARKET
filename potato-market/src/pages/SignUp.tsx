@@ -76,7 +76,7 @@ const SignUp: React.FC = () => {
 
     try {
       // Firebase Authentication : 신규 계정 생성
-      const userCredential = await auth.createUserWithEmailAndPassword(
+      const userCredential: any = await auth.createUserWithEmailAndPassword(
         formState.email,
         formState.password
       );
