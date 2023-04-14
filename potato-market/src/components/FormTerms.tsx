@@ -4,6 +4,7 @@ import checkboxChecked from "@/assets/checkbox-checked.svg";
 import checkbox from "@/assets/checkbox.svg";
 
 import { primaryColor, gray5 } from "@/styles/Global";
+import React from "react";
 
 const Label = styled.label`
   flex-grow: 1;
