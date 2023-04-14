@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
@@ -21,8 +21,9 @@ import xButton from "../assets/xButton.svg";
 import { onChat } from "../stores/onChat";
 import { searchKeywordState } from '../stores/state';
 import { toggle } from "../stores/toggle";
+import { JSXElement } from '@babel/types';
 
-function Header() {
+function Header(): JSX.Element {
   const [login] = useRecoilState(userId);
   const [userInfo] = useRecoilState(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
@@ -45,13 +46,26 @@ function Header() {
 
   return (
     <HeaderWrap>
-        <MainTitle>
-          <span className="a11yHidden">감자마켓 로고</span>
-          <Link to="/" ><img alt="감자마켓" src={mainLogo} /></Link>
-        </MainTitle>
-        
-      <MenuButton as={"a"} className="primary" tabIndex="0" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
-      <MenuButton as={"a"} tabIndex="0" onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
+      <MainTitle>
+        <span className="a11yHidden">감자마켓 로고</span>
+        <Link to="/" ><img alt="감자마켓" src={mainLogo} /></Link>
+      </MainTitle>
+      <>
+      <MenuButton 
+        as="a" 
+        className="primary" 
+        tabIndex={0} 
+        onClick={() => navigate(`/hotArticles`)}>
+        중고거래
+      </MenuButton>
+      
+      <MenuButton 
+        as="a"
+        tabIndex={0} 
+        onClick={() => navigate(`/writeArticle`)}>
+        매물 등록하기
+      </MenuButton>
+      </>
       <SearchForm>
         <label>
           <input
@@ -161,7 +175,14 @@ const SearchForm = styled.form`
   }
 `;
 
-const MenuButton = styled.button`
+interface IMenuButtonProps {
+  tabIndex: number;
+  as: string;
+  onClick: (value:void)=> void;
+  className?: string;
+}
+
+const MenuButton = styled.button<IMenuButtonProps>`
   background-color: transparent;
   border: 0;
   color: #4d5159;
@@ -212,8 +233,15 @@ const ToggleWrap = styled.div`
   position: relative;
   z-index: 100;
 `;
+interface IMypageIconProps{
+  login: string | null;
+  userInfo: {
+    [key:string] : string | null;
+  }; 
+  onClick: (value:void)=> void;
+}
 
-const MypageIcon = styled.button`
+const MypageIcon = styled.button<IMypageIconProps>`
   margin-top: 12px;
   margin-right: 21px;
   width: 36px;
@@ -243,7 +271,12 @@ const MobileIcons = styled.div`
   }
 `;
 
-const Icon = styled.button`
+interface IIcon {
+  iconname: string;
+  onClick: (value : void) => void;
+}
+
+const Icon = styled.button<IIcon>`
   border: 0;
   background-color: transparent;
   background: url(${(props) => props.iconname}) no-repeat center local;
@@ -257,9 +290,9 @@ const Icon = styled.button`
   }
 `;
 interface IModalProps {
-  setShowSearch : (value: boolean) => boolean;
+  setShowSearch : (value: boolean) => void;
   searchKeyword : string;
-  setSearchKeyword : (value: string) => boolean;
+  setSearchKeyword : (value: string) => void;
 }
 
 const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword } : IModalProps) => {
@@ -277,9 +310,10 @@ const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword } : IModal
 };
 
 interface IMenuModalProps {
-  setShowMenu : (value : boolean ) => boolean,
-  navigate : (value : string) => void,
-  setChat : (value : boolean ) => boolean,
+  setShowMenu : (value : boolean ) => void,
+  navigate : (value :string) => void,
+  setChat : (value : boolean) => void,
+
 }
 
 const MenuModal = ({ setShowMenu, navigate, setChat } : IMenuModalProps) => {
@@ -310,7 +344,11 @@ const MenuModal = ({ setShowMenu, navigate, setChat } : IMenuModalProps) => {
   )
 }
 
-const Modal = styled.div`
+interface IModalprops {
+  top: string | number;
+}
+
+const Modal = styled.div<IModalprops>`
   position: fixed;
   top: ${(props) => props.top};
   right: 0;
