@@ -85,7 +85,7 @@ export const FormInputLocation = ({ setOpenPostcode, fullAddress }: FormInputLoc
   );
 };
 
-export interface FormInputTypes {
+interface FormInputTypes {
   id: string;
   type: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
