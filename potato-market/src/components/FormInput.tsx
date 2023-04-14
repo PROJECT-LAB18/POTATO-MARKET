@@ -4,7 +4,8 @@ import imageCompression from "browser-image-compression";
 
 import styled from "styled-components";
 
-import defaultProfile from "@/assets/default_profile.png";
+import defaultProfile from "../assets/default_profile.png";
+
 import { gray5, primaryColor } from "../styles/Global";
 
 interface FormInputImageTypes {
@@ -13,7 +14,7 @@ interface FormInputImageTypes {
 }
 
 export const FormInputImage = ({ profileUrl, setProfileUrl }: FormInputImageTypes) => {
-  const [previewUrl, setPreviewUrl] = useState(profileUrl || defaultProfile);
+  const [previewUrl, setPreviewUrl] = useState(defaultProfile || profileUrl);
 
   const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;

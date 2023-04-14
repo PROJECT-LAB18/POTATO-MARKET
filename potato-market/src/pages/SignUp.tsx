@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router";
+import defaultProfile from "../assets/default_profile.png";
 
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -61,7 +62,7 @@ const SignUp: React.FC = () => {
   const [nicknameValid, setNicknameValid] = useState("");
 
   // 프로필 이미지
-  const [profileUrl, setProfileUrl] = useState<File>(new File([], ""));
+  const [profileUrl, setProfileUrl] = useState<string>(defaultProfile);
 
   // 팝업창
   const [showPopup, setShowPopup] = useState("");
@@ -106,9 +107,7 @@ const SignUp: React.FC = () => {
             "profileImages/" + (new Date().getTime() + Math.random().toString(36).substr(2, 5))
           );
 
-        const response = await fetch(
-          typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)
-        );
+        const response = await fetch(profileUrl);
 
         const imageBlob = await response.blob();
 
