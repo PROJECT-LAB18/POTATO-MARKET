@@ -13,6 +13,7 @@ import { auth, db, storage, usersRef } from "../firebase";
 import { userId } from "../stores/userAuth";
 import FormButton from "../styles/FormButton";
 import { gray3, gray8, primaryColor } from "../styles/Global";
+import { LocationContext } from "react-router/dist/lib/context";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -58,6 +59,11 @@ const SignUp: React.FC = () => {
     !formState.confirmPassword ||
     !formState.nickname;
 
+  interface Location {
+    sido: string;
+    sigungu: string;
+    bname: string;
+  }
   const handleSignUp = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -102,6 +108,7 @@ const SignUp: React.FC = () => {
       // Firebase FireStore : 회원정보 신규 저장
       const userDoc = usersRef.doc(userCredential.user.uid);
       const userBatch = db.batch();
+
       userBatch.set(userDoc, {
         email: formState.email,
         phoneNumber: formState.phoneNumber,
@@ -273,7 +280,7 @@ const SignUp: React.FC = () => {
                     placeholder={"비밀번호를 입력해주세요"}
                     text={"비밀번호"}
                     type={"password"}
-                    valid={
+                    value={
                       formState.password &&
                       (formState.password.length < 6 || formState.password.length > 8)
                         ? "최소 6자 이상 8자 이하로 입력해주세요."
@@ -289,7 +296,7 @@ const SignUp: React.FC = () => {
                     placeholder={"비밀번호를 한번 더 입력해주세요"}
                     text={"비밀번호 확인"}
                     type={"password"}
-                    valid={
+                    value={
                       formState.confirmPassword && formState.password !== formState.confirmPassword
                         ? "비밀번호가 일치 하지 않습니다."
                         : ""
@@ -378,7 +385,7 @@ const SignUp: React.FC = () => {
 const Section = styled.section`
   padding: 80px 0 40px;
   h2 {
-    line - height: 36px;
+    line-height: 36px;
     font-size: 32px;
     font-weight: 500;
     text-align: center;
@@ -410,7 +417,7 @@ const SignUpForm = styled.form`
     border-bottom: 1px solid ${gray8};
   }
   .term-title {
-    flex - shrink: 0;
+    flex-shrink: 0;
     width: 139px;
     font-weight: 700;
     line-height: 32px;
@@ -422,12 +429,12 @@ const SignUpForm = styled.form`
     width: calc(100% - 60px);
     margin: 44px 30px;
     .form-item {
-      flex - direction: column;
+      flex-direction: column;
     }
     .term-list {
-      flex - direction: column;
+      flex-direction: column;
     }
   }
-      `;
+`;
 
 export default SignUp;
