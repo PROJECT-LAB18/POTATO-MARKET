@@ -14,6 +14,7 @@ import { userId } from "../stores/userAuth";
 import FormButton from "../styles/FormButton";
 import { gray3, gray8, primaryColor } from "../styles/Global";
 import { LocationContext } from "react-router/dist/lib/context";
+
 export interface Location {
   sido: string;
   sigungu: string;
