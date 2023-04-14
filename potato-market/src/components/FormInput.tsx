@@ -8,7 +8,7 @@ import defaultProfile from "@/assets/default_profile.png";
 import { gray5, primaryColor } from "../styles/Global";
 
 interface FormInputImageTypes {
-  profileUrl: string;
+  profileUrl: string | File;
   setProfileUrl: React.Dispatch<React.SetStateAction<File>>;
 }
 

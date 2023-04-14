@@ -61,7 +61,7 @@ const SignUp: React.FC = () => {
   const [nicknameValid, setNicknameValid] = useState("");
 
   // 프로필 이미지
-  const [profileUrl, setProfileUrl] = useState("");
+  const [profileUrl, setProfileUrl] = useState<File>(new File([], ""));
 
   // 팝업창
   const [showPopup, setShowPopup] = useState("");
@@ -106,7 +106,10 @@ const SignUp: React.FC = () => {
             "profileImages/" + (new Date().getTime() + Math.random().toString(36).substr(2, 5))
           );
 
-        const response = await fetch(profileUrl);
+        const response = await fetch(
+          typeof profileUrl === "string" ? profileUrl : URL.createObjectURL(profileUrl)
+        );
+
         const imageBlob = await response.blob();
 
         const uploadTask: any = uploadRef.put(imageBlob);
