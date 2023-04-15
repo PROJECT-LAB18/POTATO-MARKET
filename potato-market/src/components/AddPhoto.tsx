@@ -54,7 +54,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
     Promise.all(postImageUrl).then((results) => {
       setPreviewImg(results);
     });
-  }, [postImg]);
+  }, [postImg, setPreviewImg]);
 
   const removeImage = (index: number) => {
     const newPostImg = [...postImg];
@@ -68,18 +68,29 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 
   return <Container>    
     <PhotoContainer className="photoContainer">
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
-      onChange={uploadFile} />
+      <WriteInput 
+        accept=".png, .jpeg, .jpg, .svg" 
+        id="addPhoto" 
+        label="중고 물품 등록" 
+        multiple={true} 
+        myinputRef={myinputRef} 
+        name={name} 
+        required={required} 
+        type="file"
+        onChange={uploadFile}
+      />
       {
         previewImg.map((url:string, index): JSX.Element => {
-          return <div key={url} className="uploadImageList">
-            <ProductImage tabIndex={0 as const}>
-              <img alt={postImg[index].name} src={url} />
-            </ProductImage>
-            <button type="button" onClick={()=>removeImage(index)}>
-              <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
-            </button>
-          </div>
+          return (
+            <div key={url} className="uploadImageList">
+              <ProductImage tabIndex={0 as const}>
+                <img alt={postImg[index].name} src={url} />
+              </ProductImage>
+              <button type="button" onClick={()=>removeImage(index)}>
+                <img alt={`${postImg[index].name} 제거 버튼`} width="20" height="20" src={closeButton} />
+              </button>
+            </div>
+          )
         })
       }
       {previewImg.length>=5 ? '' : <ProductImage/>}
