@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import errorImg from "@/assets/errorImg.svg";
+import errorImg from "../assets/errorImg.svg";
 import { primaryColor } from "../styles/Global";
 
 function NotFound(props:Iprops): JSX.Element {
