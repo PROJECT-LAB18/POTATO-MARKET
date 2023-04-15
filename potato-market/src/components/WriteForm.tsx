@@ -21,8 +21,8 @@ function WriteForm(): JSX.Element {
   const userUid = useRecoilValue(userId);
   const userInfo = useRecoilValue(userInformation);
 
-  const [postImg, setPostImg] = useState([]);
-  const [previewImg, setPreviewImg] = useState([]);
+  const [postImg, setPostImg] = useState<File[]>([]);
+  const [previewImg, setPreviewImg] = useState<string[]>([]);
 
   interface FormState{
     title: string;
