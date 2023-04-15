@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const ContainerGlobalStyle = createGlobalStyle`
   .wrapper{
@@ -19,4 +19,4 @@ export const ContainerGlobalStyle = createGlobalStyle`
   }
 
 
-`
+`;
