@@ -78,7 +78,12 @@ function AddPhoto({
                 <img alt={postImg[index].name} src={url} />
               </ProductImage>
               <button type="button" onClick={()=>removeImage(index)}>
-                <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
+                <img
+                  alt={`${postImg[index].name} 제거 버튼`}
+                  height="20"
+                  src={closeButton}
+                  width="20"
+                />
               </button>
             </div>
           );
