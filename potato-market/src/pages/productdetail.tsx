@@ -8,7 +8,7 @@ import styled from "styled-components"
 
 import close_button from "../assets/closebutton.svg"
 import LoadingSpinner from "../components/LoadingSpinner";
-import Product from "../components/product"
+import Product, { IProductProps } from "../components/product"
 import Recommend from "../components/Recommend";
 import SwiperPhoto from "../components/swiper"
 import { WriteInput } from "../components/WriteForm";
@@ -248,8 +248,8 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
         </div>
 
         <div className="best-product">
-          {render ? recommendCount.map(({ content, title, price, side, imgsrc, location, id, heart, check, recommend }, index) => (
-            <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} recommend={recommend} side={side} title={title} />
+          {render ? recommendCount.map(({ title, price, imgsrc, location, id, heart, check, recommend } : IProductProps, index) => (
+            <Product key={index} check={check} heart={heart} id={id} imgsrc={imgsrc} location={location} price={price} recommend={recommend} title={title} />
           )) : <LoadingSpinner className="loading" />}
         </div>
       </Section>
