@@ -277,7 +277,7 @@ function Productdetail({ recommend, state, title, side, nickname, profileImage, 
               <WriteInput className="title-input" name="modifiedTitle" type="text" value={modifiedContent.modifiedTitle} onChange={onChangeHandler} />
               <WriteInput className="price-input" name="modifiedPrice" type="number" value={modifiedContent.modifiedPrice} onChange={onChangeHandler} />
             </div>
-            <WriteInput content className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler} />
+            <WriteInput content={content} className="content-input" name="modifiedContent" type="text" value={modifiedContent.modifiedContent} onChange={onChangeHandler} />
             <div className="button-wrapper">              
               <CustomButton className="modifie-button" onClick={() => {
                 const newObj = {
