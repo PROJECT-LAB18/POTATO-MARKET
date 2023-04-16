@@ -114,8 +114,23 @@ function WriteForm() {
     </Form>
   </section>
 }
+interface WriteInputProps {
+  className: string;
+  placeholder?: string;
+  disabled?: string;
+  type?: "text" | "password" | "email" | "number" | "tel" | "url";
+  content?: string;
+  value?: string;
+  accept?: string;
+  required?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  multiple?: string;
+  myinputRef?: React.RefObject<HTMLInputElement>;
+  onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
+  }
 
-export function WriteInput({ className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple, myinputRef, onClick }) {
+export function WriteInput({ className, placeholder, disabled, type, content, value, accept, required, onChange, name, multiple, myinputRef, onClick }:WriteInputProps) {
   return <label>
     {
       content ?
