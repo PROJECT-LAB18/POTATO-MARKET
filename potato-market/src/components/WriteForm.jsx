@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import styled, { css } from 'styled-components';
 
@@ -18,8 +18,8 @@ function WriteForm(){
   const inputRef = useRef();
   const navigate = useNavigate();
   const [click,setClick] = useState(0);
-  const [userUid,] = useRecoilState(userId);
-  const [userInfo, ] = useRecoilState(userInformation);
+  const userUid = useRecoilValue(userId);
+  const userInfo = useRecoilValue(userInformation);
 
   const [postImg, setPostImg] = useState([]);
   const [previewImg, setPreviewImg] = useState([]);
@@ -48,7 +48,6 @@ function WriteForm(){
   const handleSubmit = (e) => {
     setClick(1);
     e.preventDefault();
-    // const file = inputRef.current.files;
     const file = postImg;
     const uploadPromises = [];
     for (let i = 0; i < file.length; i++) {

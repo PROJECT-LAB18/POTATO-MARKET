@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from 'styled-components';
 
 import LoginState from "../components/LoginState";
@@ -8,17 +8,18 @@ import { userId } from "@/stores/userAuth.js"
 import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
 
 function WriteArticle() {
-  const [login, setLogin] = useRecoilState(userId);
+  const login = useRecoilValue(userId);
   return (
     <>
       <ContainerGlobalStyle />
-      {login == null ? <LoginState state="login" /> :
-        (
+      {login == null ? (
+        <LoginState state="login" />
+      ) : (
         <Main className="wrapper">
           <h2 className="articleTitle">게시글 작성</h2>
           <WriteForm />
         </Main>
-        )}
+      )}
     </>
   )
 }
