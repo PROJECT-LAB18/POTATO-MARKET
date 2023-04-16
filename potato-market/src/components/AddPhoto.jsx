@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import imageCompression from "browser-image-compression";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import { WriteInput } from "./WriteForm";
 
@@ -10,8 +10,15 @@ import closeButton from "@/assets/icon-close-button.svg"
 
 import { gray4, primaryColor } from "@/styles/global";
 
-function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
-  console.log(postImg);
+function AddPhoto({
+  myinputRef,
+  name,
+  required,
+  postImg,
+  setPostImg,
+  previewImg,
+  setPreviewImg
+}){
   const uploadFile = async (event) => {
     const files = event.target.files;
     const uploadedImages = [];
@@ -27,7 +34,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
         const compressedFile = await imageCompression(file, options);
         uploadedImages.push(compressedFile);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     setPostImg(uploadedImages);
@@ -37,7 +44,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
     Promise.all(postImageUrl).then((results) => {
       setPreviewImg(results);
     });
-  }, [postImg]);
+  }, [postImg, setPreviewImg]);
 
   const removeImage = (index) => {
     const newPostImg = [...postImg];
@@ -51,22 +58,33 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 
   return <Container>    
     <PhotoContainer className="photoContainer">
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
-      onChange={uploadFile} onClick={(e)=>e.target.value = null}
+      <WriteInput
+        accept=".png, .jpeg, .jpg, .svg"
+        id="addPhoto"
+        label="중고 물품 등록"
+        multiple={true}
+        myinputRef={myinputRef}
+        name={name}
+        required={required}
+        type="file"
+        onChange={uploadFile}
+        onClick={(e)=>e.target.value = null}
       />
       {
         previewImg.map((url, index) => {
-          return <div key={url} className="uploadImageList">
-            <ProductImage tabIndex="0">
-              <img alt={postImg[index].name} src={url} />
-            </ProductImage>
-            <button type="button" onClick={()=>removeImage(index)}>
-              <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
-            </button>
-          </div>
+          return (
+            <div key={url} className="uploadImageList">
+              <ProductImage tabIndex="0">
+                <img alt={postImg[index].name} src={url} />
+              </ProductImage>
+              <button type="button" onClick={()=>removeImage(index)}>
+                <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
+              </button>
+            </div>
+          );
         })
       }
-      {previewImg.length>=5 ? '' : <ProductImage/>}
+      {previewImg.length>=5 ? "" : <ProductImage/>}
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </Container>
