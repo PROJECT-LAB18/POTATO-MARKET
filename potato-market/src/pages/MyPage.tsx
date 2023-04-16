@@ -21,20 +21,38 @@ import { CustomButton } from "../styles/CustomButton";
 import { gray4, gray5, primaryColor } from "../styles/Global";
 import ProductList from "../styles/ProductList";
 
-interface modifiedProfileType {
+interface ModifiedProfileType {
   newNickname: string;
   newProfileImage: File | null;
 }
 
+interface ProductType {
+  id: number;
+  title: string;
+  content: string;
+  imgsrc: string;
+  price: number;
+  heart: number;
+  recommend: string;
+  check: number;
+  side: string;
+  [key: string]: any;
+}
+
+interface DocDataType {
+  date: any;
+  [key: string]: any;
+}
+
 function MyPage() {
   const navigate = useNavigate();
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState<boolean>(false);
   const [userUid, setUserUid] = useRecoilState(userId);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
-  const [newArr, setNewArr] = useState<Object[]>([]);
+  const [newArr, setNewArr] = useState<DocDataType[]>([]);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showLeavePopup, setShowLeavePopup] = useState(false);
-  const [modifiedProfileForm, setModifiedProfileForm] = useState<modifiedProfileType>({
+  const [modifiedProfileForm, setModifiedProfileForm] = useState<ModifiedProfileType>({
     newNickname: userInfo.nickname,
     newProfileImage: null,
   });
@@ -199,10 +217,10 @@ function MyPage() {
                     content={content}
                     heart={heart}
                     id={id}
+                    side={side}
                     imgsrc={imgsrc}
                     price={price}
                     recommend={recommend}
-                    side={side}
                     title={title}
                   />
                 )
