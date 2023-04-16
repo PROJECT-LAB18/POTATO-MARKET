@@ -81,13 +81,13 @@ interface Location {
   bname:string,
 }
 
-interface IProductProps {
-  id :number,
+export interface IProductProps {
+  id :number | string,
   title: string,
   heart: number,
   recommend: string,
   imgsrc: string,
-  check: number,
+  check: boolean,
   location: Location,
   price: number,
   

@@ -6,31 +6,32 @@ import styled, { createGlobalStyle } from "styled-components";
 
 import mainBanner01 from "@/assets/banner-main01.png";
 import mainBanner02 from "@/assets/banner-main02.png";
-import Product from "@/components/product";
+import Product, { IProductProps } from "../components/product";
 
-import { userWriteRef } from '@/firebase';
-import { onChat } from '@/stores/onChat';
+import firebase, { userWriteRef } from '../firebase';
+import { onChat } from '../stores/onChat';
 
-import { gray1, gray2 } from '@/styles/Global';
-import ProductList from '@/styles/ProductList';
+import { gray1, gray2 } from '../styles/Global';
+import ProductList from '../styles/ProductList';
 
 
-export default function Home() {
+export default function Home():JSX.Element {
 
   const navigate = useNavigate();
-  const [readyToRender, setReadyToRender] = useState(0);
-  const [checkArr, setCheckArr] = useState([]);
+  const [readyToRender, setReadyToRender] = useState<number>(0);
+  const [checkArr, setCheckArr] = useState<object[]>([]);
   const [, setChat] = useRecoilState(onChat);
-
-  useEffect(() => {
-    userWriteRef.onSnapshot((snapshot) => {
+  
+  useEffect((): void => {
+    userWriteRef.onSnapshot((snapshot :firebase.firestore.QuerySnapshot ) => {
       const newArr = snapshot.docs.map(doc => {
         return {
           id: doc.id,
+          check: doc.data().check,
           ...doc.data()
         }
       })
-      newArr.sort((b, a) => a.check - b.check);
+      newArr.sort((b, a) => (a.check - b.check));
       setCheckArr(newArr.slice(0, 8));
       setReadyToRender(1);
     })
@@ -66,8 +67,8 @@ export default function Home() {
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
           {readyToRender ? checkArr.map(
-            ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) =>
-              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />))
+            ({ title, price, imgsrc, id, check, heart, recommend } , index ) =>
+              (<Product key={index} check={check} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} title={title} />) )
             : <p>Render Failed</p>
           }
         </ProductList>
