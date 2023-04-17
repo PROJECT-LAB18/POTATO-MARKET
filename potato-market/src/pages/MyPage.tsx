@@ -1,45 +1,70 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 import imageCompression from "browser-image-compression";
 import { useRecoilState } from "recoil";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import icon_temp4 from "@/assets/icon_temp4.svg";
 import profileBg from "@/assets/profile-bg.svg";
-import LoadingSpinner from '@/components/LoadingSpinner';
-import LoginState from '@/components/LoginState';
-import { PopWrapper } from '@/components/Popup';
+import LoadingSpinner from "../components/LoadingSpinner";
+import LoginState from "../components/LoginState";
+import { PopWrapper } from "../components/Popup";
 
-import Product from "@/components/product";
+import Product from "../components/product";
 
-import { storage, usersRef, userWriteRef, auth } from '@/firebase';
-import { userId, userInformation } from '@/stores/userAuth';
-import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
-import { CustomButton } from '@/styles/CustomButton';
-import { gray4, gray5, primaryColor } from '@/styles/Global';
-import ProductList from '@/styles/ProductList';
+import { storage, usersRef, userWriteRef, auth } from "../firebase";
+import { userId, userInformation } from "../stores/userAuth";
+import { ContainerGlobalStyle } from "../styles/ContainerGlobalStyle";
+import { CustomButton } from "../styles/CustomButton";
+import { gray4, gray5, primaryColor } from "../styles/Global";
+import ProductList from "../styles/ProductList";
+
+interface ModifiedProfileType {
+  newNickname: string;
+  newProfileImage: File | null;
+}
+
+interface ProductType {
+  id: number;
+  title: string;
+  content: string;
+  imgsrc: string;
+  price: number;
+  heart: number;
+  recommend: string;
+  check: number;
+  side: string;
+  [key: string]: any;
+}
+
+interface DocDataType {
+  date: any;
+  [key: string]: any;
+}
 
 function MyPage() {
   const navigate = useNavigate();
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState<boolean>(false);
   const [userUid, setUserUid] = useRecoilState(userId);
   const [userInfo, setUserInfo] = useRecoilState(userInformation);
-  const [newArr, setNewArr] = useState([]);
+  const [newArr, setNewArr] = useState<DocDataType[]>([]);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showLeavePopup, setShowLeavePopup] = useState(false);
-  const [modifiedProfileForm, setModifiedProfileForm] = useState({
+  const [modifiedProfileForm, setModifiedProfileForm] = useState<ModifiedProfileType>({
     newNickname: userInfo.nickname,
     newProfileImage: null,
   });
 
   useEffect(() => {
-    const query = userWriteRef.where('userId', '==', userUid); // 현재 사용자의 uid와 일치하는 문서 가져오기
+    const query = userWriteRef.where("userId", "==", userUid); // 현재 사용자의 uid와 일치하는 문서 가져오기
     query.onSnapshot((snapshot) => {
-      const docs = snapshot.docs.map((doc) => ({ // 각 문서 객체화
+      const docs = snapshot.docs.map((doc) => ({
+        // 각 문서 객체화
         id: doc.id, // 객체의 아이디 값 지정
-        ...doc.data() // 기존 데이터들을 객체 형태로 받아옴
+        date: doc.data().date,
+        ...doc.data(), // 기존 데이터들을 객체 형태로 받아옴
       }));
       docs.sort((b, a) => a.date - b.date);
       setNewArr(docs);
@@ -47,39 +72,49 @@ function MyPage() {
     });
   }, [userUid]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setModifiedProfileForm((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleFileInputChange = async (e) => {
-    const uploadedImage = e.target.files[0];
-    const options = { // 이미지 최적화 옵션
+  const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target as HTMLInputElement;
+    let uploadedImage: File | null = null;
+    if (input && input.files) {
+      uploadedImage = input.files[0];
+    }
+    const options = {
+      // 이미지 최적화 옵션
       maxSizeMB: 0.1, // 이미지 최대 용량
       maxWidthOrHeight: 100, // 최대 넓이/높이
       useWebWorker: true,
     };
     if (uploadedImage) {
       const compressedFile = await imageCompression(uploadedImage, options);
-      setModifiedProfileForm(prevState => ({
-        ...prevState,
-        newProfileImage: compressedFile
-      }));
+      setModifiedProfileForm({
+        ...modifiedProfileForm,
+        newProfileImage: compressedFile,
+      });
     }
   };
 
-  const handleProfileEdit = async (e) => {
+  const handleProfileEdit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
-    let updateObj = {
-      nickname: modifiedProfileForm.newNickname
+    let updateObj: {
+      nickname: string;
+      profileImage?: string;
+    } = {
+      nickname: modifiedProfileForm.newNickname,
     };
 
     // 프로필사진 수정이 있는 경우만 실행
     if (modifiedProfileForm.newProfileImage) {
-      const newImageRef = storage.ref().child('profileImages/' + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
+      const newImageRef = storage
+        .ref()
+        .child("profileImages/" + (new Date().getTime() + Math.random().toString(36).substr(2, 5)));
       // 신규 프로필사진 업로드
       const newImageUrl = await newImageRef
         .put(modifiedProfileForm.newProfileImage)
@@ -89,33 +124,42 @@ function MyPage() {
       updateObj.profileImage = userInfo.profileImage;
     }
 
-    usersRef.doc(userUid).update(updateObj).then(() => {
-      setShowEditPopup(false);
-      location.reload();
-    });
+    usersRef
+      .doc(userUid)
+      .update(updateObj)
+      .then(() => {
+        setShowEditPopup(false);
+        location.reload();
+      });
   };
 
   const handleLeave = () => {
-    auth.currentUser.delete().then(() => {
-      console.log("회원 삭제 완료");
-      setUserUid(null);
-      setUserInfo({
-        location: "",
-        agree: "",
-        email: "",
-        nickname: "",
-        phoneNumber: "",
-        profileImage: "",
+    if (!auth.currentUser) return;
+    auth.currentUser
+      .delete()
+      .then(() => {
+        console.log("회원 삭제 완료");
+        setUserUid(null);
+        setUserInfo({
+          location: "",
+          agree: "",
+          email: "",
+          nickname: "",
+          phoneNumber: "",
+          profileImage: "",
+        });
+        navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error.message);
       });
-      navigate("/");
-    }).catch(function (error) {
-      console.log(error.message);
-    });
-  }
+  };
 
   return (
     <>
-      {userUid == null ? <LoginState state="login" /> :
+      {userUid == null ? (
+        <LoginState state="login" />
+      ) : (
         <Main className="wrapper">
           <ContainerGlobalStyle />
           <h2 className="articleTitle">마이페이지</h2>
@@ -126,35 +170,66 @@ function MyPage() {
                 <b aria-label="내 주소" className="location">
                   "{userInfo.location.sido} {userInfo.location.sigungu} {userInfo.location.bname}"
                 </b>
-                에서 🥔를 캐는<br />
+                에서 🥔를 캐는
+                <br />
                 나는
-                <b aria-label="내 닉네임" className="nickname">{userInfo.nickname}</b>
+                <b aria-label="내 닉네임" className="nickname">
+                  {userInfo.nickname}
+                </b>
               </span>
               <Temperature>
                 <img alt="매너온도 아이콘" className="face" src={icon_temp4} />
                 <div className="right-box">
                   <span className="text">36.5 ℃</span>
                   <div className="gauge">
-                    <span className="gauge_bar" style={{ width: 36 + '%' }}></span>
+                    <span className="gauge_bar" style={{ width: 36 + "%" }}></span>
                   </div>
                 </div>
               </Temperature>
               <div className="button-wrapper">
-                <CustomButton type="submit" onClick={() => { setShowEditPopup(true); }}>회원정보 변경</CustomButton>
-                <CustomButton type="submit" onClick={() => { setShowLeavePopup(true); }}>회원탈퇴</CustomButton>
+                <CustomButton
+                  type="submit"
+                  onClick={() => {
+                    setShowEditPopup(true);
+                  }}
+                >
+                  회원정보 변경
+                </CustomButton>
+                <CustomButton
+                  type="submit"
+                  onClick={() => {
+                    setShowLeavePopup(true);
+                  }}
+                >
+                  회원탈퇴
+                </CustomButton>
               </div>
             </div>
           </MyProfile>
           <h2 className="articleTitle">나의 매물</h2>
-          <ProductList >
-            {render
-              ? newArr.map(({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
-                <Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />
-              ))
-              : <LoadingSpinner className="loading" />
-            }
+          <ProductList>
+            {render ? (
+              newArr.map(
+                ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
+                  <Product
+                    key={index}
+                    check={check}
+                    content={content}
+                    heart={heart}
+                    id={id}
+                    side={side}
+                    imgsrc={imgsrc}
+                    price={price}
+                    recommend={recommend}
+                    title={title}
+                  />
+                )
+              )
+            ) : (
+              <LoadingSpinner className="loading" />
+            )}
           </ProductList>
-          {showEditPopup &&
+          {showEditPopup && (
             <ProfileEdit>
               <div className="pop">
                 <form>
@@ -196,28 +271,46 @@ function MyPage() {
                   </fieldset>
                 </form>
                 <div className="button-wrapper">
-                  <button type="button" onClick={handleProfileEdit}>수정</button>
-                  <button type="button" onClick={() => { setShowEditPopup(false); }}>취소</button>
+                  <button type="button" onClick={handleProfileEdit}>
+                    수정
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowEditPopup(false);
+                    }}
+                  >
+                    취소
+                  </button>
                 </div>
               </div>
             </ProfileEdit>
-          }
-          {showLeavePopup &&
+          )}
+          {showLeavePopup && (
             <ProfileDelete>
               <div className="pop">
                 <p>정말로 회원 탈퇴하시겠습니까?</p>
                 <div className="button-wrapper">
-                  <button type="button" onClick={handleLeave}>탈퇴</button>
-                  <button type="button" onClick={() => { setShowLeavePopup(false); }}>취소</button>
+                  <button type="button" onClick={handleLeave}>
+                    탈퇴
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowLeavePopup(false);
+                    }}
+                  >
+                    취소
+                  </button>
                 </div>
               </div>
             </ProfileDelete>
-          }
+          )}
         </Main>
-      }
+      )}
     </>
-  )
-};
+  );
+}
 
 const Main = styled.main`
   padding-bottom: 40px;
@@ -298,7 +391,7 @@ const Temperature = styled.div`
     flex: 1;
   }
   .text {
-    color: rgb(49,158,69);
+    color: rgb(49, 158, 69);
     font-weight: 700;
     font-size: 16px;
   }
@@ -308,14 +401,14 @@ const Temperature = styled.div`
     height: 8px;
     margin: 4px 0;
     border-radius: 2.5px;
-    background-color: rgb(233,236,239);
+    background-color: rgb(233, 236, 239);
     &_bar {
       position: absolute;
       top: 0;
       bottom: 0;
       left: 0;
       border-radius: 2.5px;
-      background-color: rgb(49,158,69);
+      background-color: rgb(49, 158, 69);
     }
   }
   @media screen and (max-width: 767px) {
@@ -393,7 +486,7 @@ const ProfileEdit = styled(PopWrapper)`
 `;
 
 const ProfileDelete = styled(PopWrapper)`
-.pop {
+  .pop {
     display: flex;
     flex-direction: column;
     width: calc(100% - 100px);
@@ -401,11 +494,11 @@ const ProfileDelete = styled(PopWrapper)`
     max-width: 500px;
     box-sizing: border-box;
     p {
-      color: #FC6767;
+      color: #fc6767;
       font-size: 16px;
     }
   }
-.button-wrapper {
+  .button-wrapper {
     display: flex;
   }
 `;

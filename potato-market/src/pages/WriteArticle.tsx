@@ -1,22 +1,27 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from 'styled-components';
 
 import LoginState from "../components/LoginState";
 
-import WriteForm from '@/components/WriteForm';
-import { userId } from "@/stores/userAuth"
-import { ContainerGlobalStyle } from '@/styles/ContainerGlobalStyle';
+import WriteForm from '../components/WriteForm';
+import { userId } from "../stores/userAuth"
+import { ContainerGlobalStyle } from '../styles/ContainerGlobalStyle';
 
-function WriteArticle() {
-  const [login, setLogin] = useRecoilState(userId);
+function WriteArticle (): JSX.Element {
+  const login: string | null = useRecoilValue(userId);
   return (
     <>
       <ContainerGlobalStyle />
-      {login == null ? <LoginState state="login" /> :
-        (<Main className="wrapper">
+      {
+        login == null
+      ? (
+        <LoginState />
+      ) : (
+        <Main className="wrapper">
           <h2 className="articleTitle">게시글 작성</h2>
           <WriteForm />
-        </Main>)}
+        </Main>
+      )}
     </>
   )
 }
@@ -27,7 +32,6 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
   width: 886px;
-  margin: 0 auto;
   & .error-massage{
     font-size:32px;
     font-weight: 700;
@@ -37,6 +41,13 @@ const Main = styled.main`
     display:flex;
     gap:12px;
   }
+
+  section{
+    width: 100%;
+  }
+  @media all and (max-width: 1023px) {    
+    width: 90%;
+  }  
 `
 
 export default WriteArticle;

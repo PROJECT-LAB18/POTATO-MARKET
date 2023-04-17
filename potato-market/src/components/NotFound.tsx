@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import errorImg from "@/assets/errorImg.svg";
-import { primaryColor } from "@/styles/global";
+import errorImg from "../assets/errorImg.svg";
+import { primaryColor } from "../styles/Global";
 
-function NotFound(props) {
+function NotFound(props:Iprops): JSX.Element {
   const navigate = useNavigate();
   return(
     <Section>
@@ -14,6 +14,10 @@ function NotFound(props) {
       <Button onClick={()=>{navigate(-1)}}>뒤로가기</Button>
     </Section>
   )
+}
+
+interface Iprops {
+  title: string;
 }
 
 const Section = styled.div`
