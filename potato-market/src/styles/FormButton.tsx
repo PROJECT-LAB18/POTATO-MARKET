@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 
+
 import { primaryColor } from "../styles/Global";
 
 interface FormButtonTypes {
@@ -7,6 +8,7 @@ interface FormButtonTypes {
 }
 
 const FormButton = styled.button<FormButtonTypes>`
+
   display: block;
   width: 340px;
   height: 54px;
