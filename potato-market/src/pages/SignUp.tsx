@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router";
+import defaultProfile from "../assets/default_profile.png";
 
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -14,6 +15,21 @@ import { userId } from "../stores/userAuth";
 import FormButton from "../styles/FormButton";
 import { gray3, gray8, primaryColor } from "../styles/Global";
 import { LocationContext } from "react-router/dist/lib/context";
+
+export interface Location {
+  sido: string;
+  sigungu: string;
+  bname: string;
+}
+
+interface FormState {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phoneNumber: string;
+  nickname: string;
+  agree: string;
+}
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -32,13 +48,13 @@ const SignUp: React.FC = () => {
 
   const [location, setLocation] = useState({});
 
-  const [formState, setFormState] = useState({
-    phoneNumber: "",
+  const [formState, setFormState] = useState<FormState>({
     email: "",
     password: "",
     confirmPassword: "",
+    phoneNumber: "",
     nickname: "",
-    Agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
+    agree: isCheckedThree ? "무료배송, 할인쿠폰 등 혜택/정보 수신 동의함" : "",
   });
 
   const [error, setError] = useState("");
@@ -46,7 +62,7 @@ const SignUp: React.FC = () => {
   const [nicknameValid, setNicknameValid] = useState("");
 
   // 프로필 이미지
-  const [profileUrl, setProfileUrl] = useState("");
+  const [profileUrl, setProfileUrl] = useState<string>(defaultProfile);
 
   // 팝업창
   const [showPopup, setShowPopup] = useState("");
@@ -59,11 +75,6 @@ const SignUp: React.FC = () => {
     !formState.confirmPassword ||
     !formState.nickname;
 
-  interface Location {
-    sido: string;
-    sigungu: string;
-    bname: string;
-  }
   const handleSignUp = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -97,6 +108,7 @@ const SignUp: React.FC = () => {
           );
 
         const response = await fetch(profileUrl);
+
         const imageBlob = await response.blob();
 
         const uploadTask: any = uploadRef.put(imageBlob);
@@ -115,11 +127,7 @@ const SignUp: React.FC = () => {
         nickname: formState.nickname,
         profileImage: profileImageUrl,
         agree: isCheckedThree,
-        location: {
-          sido: location.sido,
-          sigungu: location.sigungu,
-          bname: location.bname,
-        },
+        location: location,
       });
       await userBatch.commit();
     } catch (error) {
@@ -280,7 +288,8 @@ const SignUp: React.FC = () => {
                     placeholder={"비밀번호를 입력해주세요"}
                     text={"비밀번호"}
                     type={"password"}
-                    value={
+                    value={formState.password}
+                    valid={
                       formState.password &&
                       (formState.password.length < 6 || formState.password.length > 8)
                         ? "최소 6자 이상 8자 이하로 입력해주세요."
@@ -296,7 +305,8 @@ const SignUp: React.FC = () => {
                     placeholder={"비밀번호를 한번 더 입력해주세요"}
                     text={"비밀번호 확인"}
                     type={"password"}
-                    value={
+                    value={formState.confirmPassword}
+                    valid={
                       formState.confirmPassword && formState.password !== formState.confirmPassword
                         ? "비밀번호가 일치 하지 않습니다."
                         : ""
