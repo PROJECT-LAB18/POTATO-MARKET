@@ -19,7 +19,15 @@ export default function Home():JSX.Element {
 
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState<number>(0);
-  const [checkArr, setCheckArr] = useState<object[]>([]);
+  const [checkArr, setCheckArr] = useState<ICheckArr>({
+    title : "",
+    price: 0,
+    imgsrc: "",
+    id: 0,
+    check: false,
+    heart: 0,
+    recommend: "",
+});
   const [, setChat] = useRecoilState(onChat);
   
   useEffect((): void => {
@@ -36,6 +44,16 @@ export default function Home():JSX.Element {
       setReadyToRender(1);
     })
   }, [])
+
+  interface ICheckArr {
+    title : string,
+    price: number,
+    imgsrc: string,
+    id: number | string,
+    check: boolean,
+    heart: number,
+    recommend: string,
+  }
 
   return (
     <main>
@@ -67,7 +85,7 @@ export default function Home():JSX.Element {
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
           {readyToRender ? checkArr.map(
-            ({ title, price, imgsrc, id, check, heart, recommend } , index ) =>
+            ({ title, price, imgsrc, id, check, heart, recommend } : ICheckArr, index:number ) =>
               (<Product key={index} check={check} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} title={title} />) )
             : <p>Render Failed</p>
           }

@@ -8,11 +8,11 @@ import { toggle } from '../stores/toggle';
 import { userId } from '../stores/userAuth';
 
 import toggleBox from "@/assets/header_toggle.svg";
-import LogoutButton from '@/components/LogoutButton';
+import LogoutButton from '../components/LogoutButton';
 
 const navigate = useNavigate;
 
-function Toggle(){
+function Toggle():JSX.Element {
 
   // 로그인 상태 확인
 	const [login, setLogin] = useRecoilState(userId);

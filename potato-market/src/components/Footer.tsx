@@ -7,7 +7,7 @@ import naverblogLogo from "../assets/naverblog.svg" ;
 import youtubeLogo from "../assets/youtube.svg" ; 
 import { gray1, gray4 } from "../styles/Global";
 
-const Footer = () => {
+const Footer = ():JSX.Element => {
   return (
     <FooterGlobal>
       <Footertop>
