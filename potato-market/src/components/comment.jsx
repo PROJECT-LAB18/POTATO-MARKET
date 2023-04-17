@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { onChat } from '../stores/onChat';
+import { onChat } from "../stores/onChat";
 
 import chat_bg from "@/assets/chat/chat-bg.svg"
 import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
-import { db } from '@/firebase';
+import { db } from "@/firebase";
 import { userInformation, userId } from "@/stores/userAuth.js"
 
 function Comment() {
@@ -69,7 +69,7 @@ function Comment() {
   };
 
   const handleOnKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       sendMessage();
     }
   }
@@ -101,10 +101,6 @@ function Comment() {
             </div>
             <div className="div-warpper">
               <ul ref={scrollRef}>
-                {/* <li className='notice'><p>관리자:</p><p>초기화를 누를 경우, 모든 유저의 채팅이 증발합니다.
-            <br></br>마지막 업데이트 <br></br> &nbsp;2023-03-22 20:00
-            </p>
-              </li> */}
                 {lender ? chatData.chat.map((item, index) => (
                   <li key={index}><img alt={item.img} src={item.img}></img>
                     <div className="chat-line">
@@ -229,7 +225,6 @@ const Div = styled.div`
     width: 35px;
     height: 35px;
   }
-
   & .chat-line{
     min-height: 20px;
     margin-bottom:5px;
@@ -246,7 +241,6 @@ const Div = styled.div`
   & .chat-line p{
     max-width: 335px;
   }
-
   & li p:first-child{
     margin-right: 5px;
     margin-left: 5px;
@@ -254,7 +248,6 @@ const Div = styled.div`
   & li p:nth{
     margin-right:10px;
   }
-
   & .comment-div{
     gap:5px;
     display:flex;
@@ -277,8 +270,7 @@ const Div = styled.div`
   }
   & .comment-wrapper-div{
     position: relative;
-  }
-  
+  }  
   & .send-button{
     position: absolute;
     border: none;
@@ -294,6 +286,6 @@ const Div = styled.div`
   & .send-button img{
     width: 100%;
   }
-`
+`;
 
-export default Comment
+export default Comment;

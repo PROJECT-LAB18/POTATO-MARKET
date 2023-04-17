@@ -99,7 +99,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  .uploadImageList{
+  .uploadImageList {
     position: relative;
     button {
       position: absolute;
@@ -112,18 +112,18 @@ const Container = styled.div`
   }
 
   @media all and (max-width: 1023px) {
-    .photoContainer{
+    .photoContainer {
       padding-top: 0;
     }
   }
-`
+`;
 
 const PhotoUploadTitle = styled.span`
   display: inline-block;
   font-size: 12px;
   color: ${primaryColor};
   margin-bottom: 30px;
-`
+`;
 
 const PhotoContainer = styled.div`
   display: flex;
@@ -140,7 +140,7 @@ const PhotoContainer = styled.div`
     }
   }
     
-  input[type="file"]{
+  input[type="file"] {
     cursor: pointer;
     background: url(${addIcon}) no-repeat;
     background-position: center;
@@ -150,7 +150,7 @@ const PhotoContainer = styled.div`
     border: 1px solid ${gray4};
     border-radius: 10px;
     overflow: hidden;
-    &::file-selector-button{
+    &::file-selector-button {
       border: none;
       background: none;
       color: transparent;
@@ -158,12 +158,12 @@ const PhotoContainer = styled.div`
     }
   }
 
-  div{
+  div {
     width: 90px;
     height: 90px;
     border-radius: 10px;
   }
-`
+`;
 
 const ProductImage = styled.div`
   border: 1px dashed ${gray4};
@@ -173,9 +173,9 @@ const ProductImage = styled.div`
   position: relative;
   overflow: hidden;
 
-  img{
+  img {
     width: 100%;
   }
-`
+`;
 
 export default AddPhoto;

@@ -1,82 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
 import moneyUnit from "@/utils/moneyUnit";
-
-const Div = styled.div`
-  & .product{
-    display: inline-block;
-    width:201px;
-    text-decoration:none;
-    color: black;
-  }
-`
-const Section = styled.div`
-  margin-bottom: 7px;
-  width:201px;
-  display:flex;
-  flex-flow: column;
-  & > *{
-  margin-bottom: 4px;
-  }
-`
-const Imagediv = styled.div`
-  margin:0;
-  & img{
-    display:block;
-    border-radius: 12px;
-    width:201px;
-    height: 201px ;
-    overflow:hidden;
-    object-fit: cover;
-  }
-`
-const SubList = styled.div`
-  flex-flow: row;
-
-  & span{
-    margin-top:5.5px;
-    font-size: 12px;
-    color: #868E96;
-  }
-  & span::after{
-    content: '•';
-    margin : 0 4px;  
-  }
-  & span:last-child::after{
-    content:'';
-  }
-`
-
-const Image = styled.img`
-  
-  width:100%;
-  height:100%;
-  
-`
-const H3 = styled.h3`
-  margin-top : 12px;
-  font-weight: 400;
-  font-size: 16px;
-  height: 20px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-`
-
-const PriceSpan = styled.span`
-  font-weight: 700;
-  margin-top:5px;
-`
-
-const AddressSpan = styled.span`
-  font-size: 13px;
-  margin-top: 5px;
-`
-
 function Product({title,price,heart,recommend,imgsrc,id,check,location}){
-
   return(
     <Div>
       <Link to={`/detailarticle/${id}`} className="product" rel="noopener noreferrer">
@@ -108,5 +35,78 @@ Product.defaultProps = {
   heart : 0,
   chat : 0,
 }
+
+const Div = styled.div`
+  & .product {
+    display: inline-block;
+    width: 201px;
+    text-decoration: none;
+    color: black;
+  }
+`;
+
+const Section = styled.div`
+  margin-bottom: 7px;
+  width: 201px;
+  display: flex;
+  flex-flow: column;
+  & > * {
+    margin-bottom: 4px;
+  }
+`;
+
+const Imagediv = styled.div`
+  margin:0;
+  & img {
+    display: block;
+    border-radius: 12px;
+    width: 201px;
+    height: 201px ;
+    overflow: hidden;
+    object-fit: cover;
+  }
+`;
+
+const SubList = styled.div`
+  flex-flow: row;
+
+  & span {
+    margin-top: 5.5px;
+    font-size: 12px;
+    color: #868E96;
+  }
+  & span::after {
+    content: "•";
+    margin: 0 4px;  
+  }
+  & span:last-child::after {
+    content: "";
+  }
+`;
+
+const Image = styled.img`  
+  width: 100%;
+  height: 100%;  
+`;
+
+const H3 = styled.h3`
+  margin-top : 12px;
+  font-weight: 400;
+  font-size: 16px;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const PriceSpan = styled.span`
+  font-weight: 700;
+  margin-top: 5px;
+`;
+
+const AddressSpan = styled.span`
+  font-size: 13px;
+  margin-top: 5px;
+`;
 
 export default Product;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import facebookLogo from "../assets/facebook.svg" ; 
 import githubLogo from "../assets/github.svg" ; 
@@ -36,7 +36,7 @@ const Footer = () => {
         <div className="download-app">
           <p>감자마켓 앱 다운로드</p>
           <div className="logobox">
-            <button type="button" >Github</button>
+            <button type="button">Github</button>
           </div>
         </div>
       </Footertop>
@@ -51,14 +51,18 @@ const Footer = () => {
             <b>주소 </b>
           서울특별시 구로구 디지털로 30길 28, 609호 (당근서비스)
           </p>
-          <p><b>전화 </b> 010-0000-0000</p>
-          <p><b>고객문의 </b> cs@daangnservice.com</p>
+          <p>
+            <b>전화 </b> 010-0000-0000
+          </p>
+          <p>
+            <b>고객문의 </b> cs@daangnservice.com
+          </p>
         </section>
         <section className="snsgroup">
-          <img alt="페이스북" src={facebookLogo}/>
-          <img alt="인스타그램" src={instagramLogo}/>
-          <img alt="유튜브채널" src={youtubeLogo}/>
-          <img alt="네이버블로그" src={naverblogLogo}/>
+          <img alt="페이스북" src={facebookLogo} />
+          <img alt="인스타그램" src={instagramLogo} />
+          <img alt="유튜브채널" src={youtubeLogo} />
+          <img alt="네이버블로그" src={naverblogLogo} />
         </section>
       </FooterMiddle>
 
@@ -77,7 +81,7 @@ const Footer = () => {
         </section>
       </FooterBottom>
     </FooterGlobal>
-  )
+  );
 };
 
 const FooterGlobal = styled.footer`
@@ -94,7 +98,7 @@ const Footertop = styled.section`
   flex-direction: row;
   max-width: 1200px;
   width: 100vw;
-  height : auto;
+  height: auto;
   align-items: flex-start;
   position: relative;
   padding-top: 3rem;
@@ -102,13 +106,12 @@ const Footertop = styled.section`
   margin: 0 auto;
   
   @media (max-width: 564px) {
-      flex-direction: column;
-    }
+    flex-direction: column;
+  }
   
   .footer-list {
     display: flex;
-    align-items: flex-start;
-    
+    align-items: flex-start;    
   }
 
   ul {
@@ -116,7 +119,6 @@ const Footertop = styled.section`
     font-size: 0.875rem;
     margin: 0 2rem;
     position: relative;
-    /* right: 2rem; */
 
     li {
       margin-bottom: 2rem;
@@ -133,7 +135,6 @@ const Footertop = styled.section`
     display: block;
     position: absolute;
     right: 10%;
-    /* position: static; */
     margin: 1rem auto;
 
     @media (max-width: 1200px) {
@@ -172,9 +173,9 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  max-width : 1200px;
+  max-width: 1200px;
   width: 100vw;
-  height : auto;
+  height: auto;
   align-items: flex-start;
   position: relative;
   margin: 0 auto;
@@ -203,29 +204,31 @@ const FooterMiddle = styled.div`
   }
 
   .snsgroup {
-    width : 16rem;
+    width: 16rem;
     margin-left: 6rem;
 
     img {
-     margin: 0 1rem;
+      margin: 0 1rem;
     }
 
-    @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-    width: 20rem;
+    @media (min-width: 375px) and (max-width: 1200px) {
+      margin-left: 2rem;
+      width: 20rem;
     }
   }
 `;
 
 const FooterBottom = styled.div`
-  max-width : 1200px;
+  max-width: 1200px;
   margin: 3rem auto;
   width: 100vw;
   @media (max-width: 600px) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    .inquirygroup, .terms {
+
+    .inquirygroup,
+    .terms {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -246,7 +249,6 @@ const FooterBottom = styled.div`
     margin-left: 0.5rem;
     position: relative;
     right: 1.5rem;
-
   }
   a {
     text-decoration: none;
@@ -260,7 +262,6 @@ const FooterBottom = styled.div`
   a:hover {
     text-decoration : underline;
   }
-  
 `;
 
 export default Footer;
