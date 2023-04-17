@@ -87,7 +87,7 @@ export interface IProductProps {
   heart: number,
   recommend: string,
   imgsrc: string,
-  check: boolean,
+  check: number,
   location: Location,
   price: number,
   

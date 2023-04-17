@@ -19,15 +19,7 @@ export default function Home():JSX.Element {
 
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState<number>(0);
-  const [checkArr, setCheckArr] = useState<ICheckArr>({
-    title : "",
-    price: 0,
-    imgsrc: "",
-    id: 0,
-    check: false,
-    heart: 0,
-    recommend: "",
-});
+  const [checkArr, setCheckArr] = useState([]);
   const [, setChat] = useRecoilState(onChat);
   
   useEffect((): void => {
@@ -50,7 +42,7 @@ export default function Home():JSX.Element {
     price: number,
     imgsrc: string,
     id: number | string,
-    check: boolean,
+    check: number,
     heart: number,
     recommend: string,
   }
