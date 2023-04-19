@@ -1,29 +1,27 @@
 /* eslint-disable import/no-unresolved */
 import styled from "styled-components";
 
-import checkSVG from "@/assets/check.svg"
-import defaultProfile from "@/assets/default_profile.png"
-import productImg from "@/assets/productPhoto.png"
-import question from "@/assets/question.svg"
+import checkSVG from "@/assets/check.svg";
+import defaultProfile from "@/assets/default_profile.png";
+import productImg from "@/assets/product-photo.png";
+import question from "@/assets/question.svg";
 
-import { gray1, gray8, gray3, gray7 } from "@/styles/Global"
+import { gray1, gray8, gray3, gray7 } from "@/styles/Global";
 
 function ChatList() {
   return (
     <Layout>
       <main>
-        <Nickname>
-          닉네임
-        </Nickname>
+        <Nickname>닉네임</Nickname>
         <NotReadMessage>
-          안읽은 메세지만 보기 
+          안읽은 메세지만 보기
           <button type="button">
             <img src={checkSVG} alt="안읽은 메세지만 보기" />
           </button>
         </NotReadMessage>
         <PreviewList>
           <ul>
-            <li className="chat-list"> 
+            <li className="chat-list">
               <div>
                 <OtherProfile alt="프로필" />
                 <div className="chat-preview">
@@ -38,7 +36,7 @@ function ChatList() {
                   </div>
                 </div>
               </div>
-              <div className="product-preview" >
+              <div className="product-preview">
                 <img src={productImg} width="40px" alt="제품사진" />
               </div>
             </li>
@@ -46,10 +44,8 @@ function ChatList() {
         </PreviewList>
       </main>
       <Question>
-        <a href="#">
-        자주묻는 질문
-        </a>
-        <SVGQuestion/>
+        <a href="#">자주묻는 질문</a>
+        <SVGQuestion />
       </Question>
     </Layout>
   );
@@ -69,7 +65,7 @@ const Layout = styled.article`
   }
 `;
 
-const Nickname= styled.section`
+const Nickname = styled.section`
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -95,9 +91,9 @@ const NotReadMessage = styled.section`
     justify-items: center;
   }
   img {
-    width: 18px; 
+    width: 18px;
     height: 18px;
-  }  
+  }
 `;
 
 const PreviewList = styled.section`
@@ -110,7 +106,7 @@ const PreviewList = styled.section`
     padding: 16px;
     align-items: center;
   }
-  div{
+  div {
     display: flex;
     &:first-child {
       color: ${gray8};
@@ -126,15 +122,15 @@ const PreviewList = styled.section`
           color: #212122;
           font-weight: bold;
           margin-right: 6px;
-        }        
+        }
       }
     }
-    .product-preview{
-      margin-left:10px;
+    .product-preview {
+      margin-left: 10px;
     }
   }
   img.other-profile {
-    border-radius:50%;
+    border-radius: 50%;
     margin-right: 10px;
     border: 1px solid ${gray3};
   }
@@ -149,20 +145,20 @@ const Question = styled.div`
   min-height: 56px;
   padding-left: 10px;
   a {
-  text-decoration: none; 
-  font-size: 14px;
-  color: ${gray7};
-  margin-right: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    color: ${gray7};
+    margin-right: 4px;
   }
 `;
 
-const SVGQuestion=styled.img.attrs({ src:`${question}` })`
+const SVGQuestion = styled.img.attrs({ src: `${question}` })`
   align-items: center;
-  width : 15px;
+  width: 15px;
   margin-bottom: 3px;
 `;
 
-const OtherProfile = styled.img.attrs({ src:`${defaultProfile}` })`
+const OtherProfile = styled.img.attrs({ src: `${defaultProfile}` })`
   border-radius: 50%;
   margin-right: 10px;
   border: 1px solid ${gray3};
