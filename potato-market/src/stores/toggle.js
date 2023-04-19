@@ -1,6 +1,6 @@
-import { atom } from "recoil"
+import { atom } from "recoil";
 
 export const toggle = atom({
   key: "toggle",
-  default: false
+  default: false,
 });
