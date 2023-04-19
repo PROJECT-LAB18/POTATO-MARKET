@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useRecoilState } from "recoil";
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import FormInput from '@/components/FormInput';
-import LoginState from '@/components/LoginState';
-import Popup from '@/components/Popup';
-import firebase, { auth, usersRef } from '@/firebase';
-import { userId } from '@/stores/userAuth';
-import FormButton from '@/styles/FormButton';
+import FormInput from "@/components/FormInput";
+import LoginState from "@/components/LoginState";
+import Popup from "@/components/Popup";
+import firebase, { auth, usersRef } from "@/firebase";
+import { userId } from "@/stores/userAuth";
+import FormButton from "@/styles/FormButton";
 
 function SignIn() {
 
@@ -30,7 +30,7 @@ function SignIn() {
     try {
       await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
       await auth.signInWithEmailAndPassword(formState.email, formState.password);
-      const querySnapshot = await usersRef.where('email', '==', formState.email).get();
+      const querySnapshot = await usersRef.where("email", "==", formState.email).get();
       if (querySnapshot.size > 0) {
         navigate(-1);
       }
@@ -48,7 +48,9 @@ function SignIn() {
 
   return (
     <>
-      {login !== null ? <LoginState /> :
+      {login !== null ? (
+        <LoginState />
+      ) : (
         <Section>
           <h2>로그인</h2>
           <LoginForm id="loginForm" onSubmit={handleSignIn}>
@@ -80,23 +82,27 @@ function SignIn() {
               <li><Link to={"#"}>아이디 찾기</Link></li>
               <li><Link to={"#"}>비밀번호 찾기</Link></li>
             </ul> */}
-              <FormButton primary type="submit">로그인</FormButton>
-              <FormButton as={"a"} onClick={() => navigate("/signup")}>회원가입</FormButton>
+              <FormButton primary type="submit">
+                로그인
+              </FormButton>
+              <FormButton as={"a"} onClick={() => navigate("/signup")}>
+                회원가입
+              </FormButton>
             </fieldset>
           </LoginForm>
-          {showPopup &&
+          {showPopup && (
             <Popup
               text={"아이디, 비밀번호를 확인해주세요."}
               onClose={() => {
                 setShowPopup(false);
               }}
             />
-          }
+          )}
         </Section>
-      }
+      )}
     </>
-  )
-};
+  );
+}
 
 const Section = styled.section`
   padding: 80px 0 70px;

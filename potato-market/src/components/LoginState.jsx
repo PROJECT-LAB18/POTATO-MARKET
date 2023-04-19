@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import styled from "styled-components";
 
@@ -9,7 +9,7 @@ import { CustomButton } from "@/styles/CustomButton";
 
 function LoginState() {
 
-  const [login] = useRecoilState(userId);
+  const login = useRecoilValue(userId);
   const navigate = useNavigate();
 
   return (

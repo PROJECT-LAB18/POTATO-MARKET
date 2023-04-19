@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { useParams } from "react-router";
 
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 import { db } from "@/firebase";
@@ -10,7 +10,7 @@ import { userInformation } from "@/stores/userAuth.js";
 import { gray5, primaryColor } from "@/styles/global";
 
 function Recommend({ recommend }) {
-  const [userInfo] = useRecoilState(userInformation);
+  const userInfo = useRecoilValue(userInformation);
   const inputValue = useRef();
   const uid = useParams();
 

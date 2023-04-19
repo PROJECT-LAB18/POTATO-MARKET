@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import styled from "styled-components";
 
@@ -23,15 +23,15 @@ import { searchKeywordState } from "@/stores/state";
 import { toggle } from "@/stores/toggle";
 
 function Header() {
-  const [login] = useRecoilState(userId);
-  const [userInfo] = useRecoilState(userInformation);
+  const login = useRecoilValue(userId);
+  const userInfo = useRecoilValue(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
 
   const handleToggle = () => {
     setShowToggle(!showToggle);
   };
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-  const [, setChat] = useRecoilState(onChat);
+  const setChat = useSetRecoilState(onChat);
 
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
@@ -115,7 +115,6 @@ const HeaderWrap = styled.header`
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
-  align-item: center;
   flex-wrap: wrap;
   position: relative;
   background-color: #fff;
