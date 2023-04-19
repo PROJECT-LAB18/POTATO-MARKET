@@ -294,9 +294,20 @@ const HotArticles8 = styled.section`
   padding-bottom: 5rem;
   margin: 0 auto;
   .Hot8 {
-    width: 100%;
-    max-width: 980px;
+    width: 980px;
     margin: 60px auto 5rem;
+    @media (max-width: 480px){
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      width: 90%;
+    }
+    @media (min-width: 481px) and (max-width: 767px){
+      width: 480px;
+    }
+    @media (min-width: 768px) and (max-width: 1023px){
+      width: 760px;
+    }
   }
   a {
     display: flex;

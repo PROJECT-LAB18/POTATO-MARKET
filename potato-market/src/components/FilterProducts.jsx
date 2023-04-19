@@ -1,5 +1,7 @@
 import Product from "./product";
 
+import styled from "styled-components";
+
 import errorImg from "@/assets/errorImg.svg";
 
 const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
@@ -9,10 +11,10 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
   if (filteredProducts.length === 0) {
     setHasResults(false);
     return (
-      <>    
+      <NotFoundImg>    
         <img alt="해당하는 상품이 없습니다." src={errorImg} />
-        <h1> 찾는 제품이 없습니다.</h1>;     
-      </>
+        <h1> 찾는 제품이 없습니다.</h1>
+      </NotFoundImg>
     );
   }
   setHasResults(true);
@@ -32,5 +34,14 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
     />
   ));
 };
+
+const NotFoundImg = styled.div`
+  @media (max-width: 1023px){
+    text-align: center;
+    img{
+      width: 70%;
+    }
+  }
+`
 
 export default FilteredProducts;

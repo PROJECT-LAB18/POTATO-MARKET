@@ -165,6 +165,7 @@ function Productdetail({
           onClick={clickButton}
         >
           <SwiperPhoto
+            className="swiper-photo"
             imgsrc={
               imgsrc[0] !== undefined
                 ? imgsrc
@@ -493,22 +494,26 @@ const Main = styled.main`
   height: auto;
   margin-top: 40px;
   margin-bottom: 40px;
+
+  @media (max-width: 767px){
+    width: 90%;
+    margin: 80px auto;
+  }
 `;
 
 const Section = styled.section`
   min-width: 375px;
   max-width: 670px;
   width: 100%;
-  height: auto;
   & .swiper {
-    height: 500px;
-    border-radius: 8px;
     overflow: hidden;
   }
   & .swiper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    text-align: center;
+    border-radius: 8px;
   }
   & .profile{
     text-decoration: none;
@@ -571,13 +576,21 @@ const Section = styled.section`
   & .best-product {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 10px;
+    @media (max-width: 532px){
+      justify-content: center;
+      gap: 0;
+    }
+    @media (min-width: 533px) and (max-width: 767px){
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
   }
   & .best-product .product {
-    margin:30px 11px;
+    margin: 30px 11px;
   }
   & .article {
-    position:relative;
+    position: relative;
     padding: 36px 0;
     border-bottom: 1px solid #E9ECEF;
     border-top: 1px solid #E9ECEF;
@@ -693,7 +706,10 @@ const Section = styled.section`
     background-color: inherit;
     border: 0;
     width: 100%;
+    @media (max-width: 767px){
+      width: 100%;
+    }
   }
-`
+`;
 
 export default Detailarticle;

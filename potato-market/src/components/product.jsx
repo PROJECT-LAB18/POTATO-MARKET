@@ -43,6 +43,16 @@ const Div = styled.div`
     text-decoration: none;
     color: black;
   }
+
+  @media (max-width: 480px){
+    width: 90%;
+    display: flex;
+    justify-content: center;
+
+    .product{
+      width: 100%;
+    }
+  }
 `;
 
 const Section = styled.div`
@@ -53,6 +63,10 @@ const Section = styled.div`
   & > * {
     margin-bottom: 4px;
   }
+
+  @media (max-width: 480px){
+    width: 90%;
+  }
 `;
 
 const Imagediv = styled.div`
@@ -61,9 +75,23 @@ const Imagediv = styled.div`
     display: block;
     border-radius: 12px;
     width: 201px;
-    height: 201px ;
+    height: 201px;
     overflow: hidden;
     object-fit: cover;
+  }
+  @media (max-width: 480px){
+    width: 100%;
+    & > div{
+      position: relative;
+      padding-bottom: 90%;
+      box-sizing: border-box;
+    }
+    & > div > img{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 `;
 

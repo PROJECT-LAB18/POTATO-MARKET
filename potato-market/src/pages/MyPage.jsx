@@ -171,7 +171,7 @@ function MyPage() {
             </div>
           </MyProfile>
           <h2 className="articleTitle">나의 매물</h2>
-          <ProductList >
+          <ProductList>
             {render ? (
               newArr.map(
                 ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
@@ -284,6 +284,13 @@ const Main = styled.main`
     font-weight: 700;
     text-align: center;
     margin-bottom: 45px;
+  }
+  @media (max-width: 480px){
+    width: 100%;
+    section{
+      display: flex;
+      justify-content: center;
+    }
   }
 `;
 

@@ -11,7 +11,9 @@ const ProductList = styled.section`
     position: absolute;
   }
   @media (max-width: 480px){
+    width: 80%;
     grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
   }
   @media (min-width: 481px) and (max-width: 767px){
     grid-template-columns: repeat(2, 1fr);

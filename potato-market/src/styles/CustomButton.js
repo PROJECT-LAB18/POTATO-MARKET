@@ -11,7 +11,7 @@ export const CustomButton = styled.button`
   background: ${props => props.filled ? primaryColor : '#FFFFFF'};
   border: 1px solid ${props => props.filled ? '' : '#D1D3D8'};
   border-radius: 4px;
-  line-height: 40px;
+  line-height: 39px;
   text-align: center;
   font-weight: 700;
   font-size: 16px;

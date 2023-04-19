@@ -153,7 +153,7 @@ const Div = styled.div`
     outline: none;
   }
   .input-div button {
-    top: 7px;
+    top: 15px;
     position: absolute;
     right: 10px;
     border: none;
