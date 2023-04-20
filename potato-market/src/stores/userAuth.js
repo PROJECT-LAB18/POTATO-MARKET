@@ -6,7 +6,7 @@ const { persistAtom } = recoilPersist();
 export const userId = atom({
   key: "userId",
   default: null,
-  effects_UNSTABLE: [persistAtom],
+  effects: [persistAtom],
 });
 
 export const userInformation = atom({
@@ -19,5 +19,5 @@ export const userInformation = atom({
     phoneNumber: "",
     profileImage: "",
   },
-  effects_UNSTABLE: [persistAtom],
+  effects: [persistAtom],
 });

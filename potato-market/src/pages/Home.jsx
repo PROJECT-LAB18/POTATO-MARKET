@@ -50,12 +50,12 @@ function Home() {
           </p>
         </div>
         <div className="home-main-image">
-          <img alt="이웃과 함께하는 감자마켓" src={mainBanner01} />
+          <img alt="이웃과 함께하는 감자마켓" height="685" src={mainBanner01} width="804"/>
         </div>
       </MainTop>
       <MainReversed>
         <div className="home-main-image">
-          <img alt="채팅으로 거래하기" src={mainBanner02} />
+          <img alt="채팅으로 거래하기" height="684" src={mainBanner02} width="532"/>
         </div>
         <div className="home-main-description">
           <h2>

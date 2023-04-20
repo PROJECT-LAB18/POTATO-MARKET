@@ -59,10 +59,10 @@ const Footer = () => {
           </p>
         </section>
         <section className="snsgroup">
-          <img alt="페이스북" src={facebookLogo} />
-          <img alt="인스타그램" src={instagramLogo} />
-          <img alt="유튜브채널" src={youtubeLogo} />
-          <img alt="네이버블로그" src={naverblogLogo} />
+          <img alt="페이스북" height="24" src={facebookLogo} width="24"/>
+          <img alt="인스타그램" height="24" src={instagramLogo} width="24"/>
+          <img alt="유튜브채널" height="24" src={youtubeLogo} width="24"/>
+          <img alt="네이버블로그" height="24" src={naverblogLogo} width="24"/>
         </section>
       </FooterMiddle>
 
