@@ -36,14 +36,14 @@ function Detailarticle() {
     nickname: null,
     profileImage: null,
     location: null,
-  })
+  });
 
   const paramsId = useParams();
   const [render, Setrender] = useState(0);
   let [myBoard] = useState(0);
   const userRef = doc(db, "UserWrite", paramsId.id);
   const userSnap = getDoc(userRef);
-  const [userUid,] = useRecoilState(userId);
+  const [userUid] = useRecoilState(userId);
 
   if (userUid == propsdata.userId) {
     myBoard = 1;
@@ -51,16 +51,16 @@ function Detailarticle() {
   useEffect(() => {
     window.scrollTo(0, 0);
     const newObj = {
-      check: increment(1)
+      check: increment(1),
     };
     updateDoc(userRef, newObj).then(() => {
       userSnap.then((res) => {
         setPropsdata(res.data());
         Setrender(1);
       })
-    })
-      ;
-  }, [paramsId])
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramsId]);
 
   return (
     <>
@@ -85,7 +85,7 @@ function Detailarticle() {
         <LoadingSpinner />
       )}
     </>
-  )
+  );
 }
 
 function Productdetail({
@@ -133,7 +133,7 @@ function Productdetail({
   };
 
   useEffect(() => {
-    onSnapshot(userWriteRef, (snapshot) => {
+    return onSnapshot(userWriteRef, (snapshot) => {
       const newArr = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
@@ -192,7 +192,7 @@ function Productdetail({
 
         <Link
           className="profile"
-          href="naver.com"
+          href="https://potato-market-lab18.web.app/hotArticles"
           rel="noopener noreferrer"
           target="_blank"
           to={`/HotArticles`}
@@ -254,7 +254,7 @@ function Productdetail({
       <Section>
         <div className="best-product-group">
           <h2>당근마켓 인기중고</h2>
-          <Link rel="noopener noreferrer" to={`/HotArticles`} >
+          <Link href="https://potato-market-lab18.web.app/hotArticles" rel="noopener noreferrer"  to={`/HotArticles`} >
             더 구경하기
           </Link>
         </div>
@@ -293,14 +293,14 @@ function Productdetail({
                   e.preventDefault();
                   deleteDoc(doc(db, "UserWrite", paramsId.id)).then(() => {
                     navigate("/HotArticles");
-                  })
+                  });
                 }}
               >
                 삭제
               </CustomButton>
               <CustomButton
                 onClick={() => {
-                  setClickDelete(0)
+                  setClickDelete(0);
                 }}
               >
                 취소
@@ -387,8 +387,8 @@ Productdetail.defaultProps = {
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b",
     "https://firebasestorage.googleapis.com/v0/b/patato-market.appspot.com/o/%E1%84%80%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8E%E1%85%B5.png?alt=media&token=f23ce701-2450-495f-8166-2e1049699b2b"
-  ]
-}
+  ],
+};
 
 const DeleteDiv = styled.div`
   display: flex;
@@ -572,7 +572,6 @@ const Section = styled.section`
     height: 30px;
     border-radius: 20px;
   }
-
   & .best-product {
     display: flex;
     flex-wrap: wrap;
@@ -646,7 +645,6 @@ const Section = styled.section`
     font-size: 15px;
     text-decoration: none;
   }
-
   & .thermometer {
     background: rgb(49,158,69);
     background: linear-gradient(90deg, rgba(49,158,69,1) 50%, rgba(233,236,239,1) 38%);
