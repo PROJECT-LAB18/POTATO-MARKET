@@ -47,7 +47,7 @@ function Header() {
     <HeaderWrap>
         <MainTitle>
           <span className="a11yHidden">감자마켓 로고</span>
-          <Link to="/">
+          <Link href="https://potato-market-lab18.web.app/" to="/">
             <img alt="감자마켓" height="26" src={mainLogo} width="101"/>
           </Link>
         </MainTitle>

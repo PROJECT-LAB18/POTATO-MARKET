@@ -16,12 +16,12 @@ function Toggle() {
       {login === null ? (
         <ul>
           <li>
-            <Link className="textLink" to="/SignIn">
+            <Link className="textLink" href="https://potato-market-lab18.web.app/signin" to="/SignIn">
               로그인
             </Link>
           </li>
           <li>
-            <Link className="textLink" to="/SignUp">
+            <Link className="textLink" href="https://potato-market-lab18.web.app/signup" to="/SignUp">
               회원가입
             </Link>
           </li>
@@ -32,7 +32,7 @@ function Toggle() {
             <LogoutButton />
           </li>
           <li>
-            <Link className="textLink" to={"/myPage"}>
+            <Link className="textLink" href="https://potato-market-lab18.web.app/myPage" to={"/myPage"}>
               마이페이지
             </Link>
           </li>

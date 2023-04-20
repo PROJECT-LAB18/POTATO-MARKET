@@ -64,7 +64,7 @@ function Home() {
           </h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
-            <Link to="/hotarticles">인기매물 보기</Link>
+            <Link href="https://potato-market-lab18.web.app/hotArticles" to="/hotarticles">인기매물 보기</Link>
             <button
               type="button"
               onClick={() => {

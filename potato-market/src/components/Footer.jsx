@@ -36,7 +36,7 @@ const Footer = () => {
         <div className="download-app">
           <p>감자마켓 앱 다운로드</p>
           <div className="logobox">
-            <button type="button">Github</button>
+            <button type="button" onClick={()=>location.href=`https://github.com/PROJECT-LAB18/POTATO-MARKET`}>Github</button>
           </div>
         </div>
       </Footertop>
