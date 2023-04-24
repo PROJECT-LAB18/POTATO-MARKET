@@ -32,4 +32,24 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom"],
+          reactRouter: ["react-router", "react-router-dom"],
+          reactDaumPost: ["react-daum-postcode"],
+          fbApp: ["firebase/compat/app"],
+          fbAuth: ["firebase/compat/auth"],
+          fbStore: ["firebase/compat/firestore"],
+          fbDb: ["firebase/compat/database"],
+          dbStorage: ["firebase/compat/storage"],
+          recoil: ["recoil", "recoil-persist"],
+          styled: ["styled-components", "styled-reset", "styled-normalize"],
+          swiper: ["swiper"],
+          compression: ["browser-image-compression"],
+        },
+      },
+    },
+  },
 });
