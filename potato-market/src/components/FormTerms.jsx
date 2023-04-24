@@ -1,9 +1,48 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import checkboxChecked from '@/assets/checkbox-checked.svg';
-import checkbox from '@/assets/checkbox.svg';
+import checkboxChecked from "@/assets/checkbox-checked.svg";
+import checkbox from "@/assets/checkbox.svg";
 
-import { primaryColor, gray5 } from '@/styles/Global';
+import { primaryColor, gray5 } from "@/styles/Global";
+
+const FormTerms = ({ id, text, all, checked, onChange }) => {
+  return (
+    <>
+      {all ? (
+        <LabelAll htmlFor={id}>
+          <CheckBox checked={checked} id={id}
+            name={id}
+            type="checkbox"
+            onChange={onChange}
+          />
+          <i></i>
+          <TextAll aria-labelledby={id}>
+            전체 동의합니다.
+            <span>
+              선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할
+              수 있습니다.
+            </span>
+          </TextAll>
+        </LabelAll>
+      ) : (
+        <Terms>
+          <Label htmlFor={id}>
+            <CheckBox
+              checked={checked}
+              id={id}
+              name={id}
+              type="checkbox"
+              onChange={onChange}
+            />
+            <i></i>
+            <Text aria-labelledby={id}>{text}</Text>
+          </Label>
+          <DetailTermButton type="button">약관보기</DetailTermButton>
+        </Terms>
+      )}
+    </>
+  );
+};
 
 const Label = styled.label`
   flex-grow: 1;
@@ -110,46 +149,4 @@ const DetailTermButton = styled.button`
   }
 `;
 
-const FormTerms = ({ id, text, all, checked, onChange }) => {
-
-  return (
-    <>
-      {all ? (
-        <LabelAll htmlFor={id}>
-          <CheckBox checked={checked} id={id}
-            name={id}
-            type="checkbox"
-            onChange={onChange}
-          />
-          <i></i>
-          <TextAll aria-labelledby={id}>
-            전체 동의합니다.
-            <span>
-              선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할
-              수 있습니다.
-            </span>
-          </TextAll>
-        </LabelAll>
-      ) : (
-        <Terms>
-          <Label htmlFor={id}>
-            <CheckBox
-              checked={checked}
-              id={id}
-              name={id}
-              type="checkbox"
-              onChange={onChange}
-            />
-            <i></i>
-            <Text aria-labelledby={id}>{text}</Text>
-          </Label>
-          <DetailTermButton type="button">약관보기</DetailTermButton>
-        </Terms>
-      )}
-    </>
-  );
-};
-
 export default FormTerms;
-
-

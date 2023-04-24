@@ -1,19 +1,25 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import errorImg from "@/assets/errorImg.svg";
 import { primaryColor } from "@/styles/global";
 
 function NotFound(props) {
   const navigate = useNavigate();
-  return(
+  return (
     <Section>
       <h2>{props.title}</h2>
       <ErrorImage alt="찾을 수 없는 페이지입니다." src={errorImg} />
-      <Button onClick={()=>{navigate(-1)}}>뒤로가기</Button>
+      <Button
+        onClick={()=>{
+          navigate(-1);
+        }}
+      >
+        뒤로가기
+      </Button>
     </Section>
-  )
+  );
 }
 
 const Section = styled.div`
@@ -23,11 +29,11 @@ const Section = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`
+`;
 
 const ErrorImage = styled.img`
   width: 450px;
-`
+`;
 
 const Button = styled.button`
   display: block;
@@ -44,13 +50,19 @@ const Button = styled.button`
   animation: moveBtn 3s infinite;
 
   @keyframes moveBtn{
-    0%{transform: rotate(1deg)}
-    3%{transform: rotate(-1deg)}
-    6%{transform: rotate(0deg)}
-    100%{transform: rotate(0deg)}
+    0% {
+      transform: rotate(1deg);
+    }
+    3% {
+      transform: rotate(-1deg);
+    }
+    6% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
   }
-`
-
-
+`;
 
 export default NotFound;

@@ -5,14 +5,14 @@ module.exports = {
         "node": true
     },
     "extends": [
-        'eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:react/jsx-runtime',
-        'plugin:import/recommended',
-        'plugin:import/typescript',
-        'plugin:react-hooks/recommended',
-        'plugin:jsx-a11y/recommended',
-        'prettier',
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended",
+        "prettier",
     ],
     "overrides": [
     ],
@@ -22,77 +22,77 @@ module.exports = {
     },
     "plugins": [
         "react",
-        'import',
-        'react-hooks',
-        'jsx-a11y',
+        "import",
+        "react-hooks",
+        "jsx-a11y",
     ],
     "rules": {
       "import/no-unresolved": "off",
-        'react-hooks/rules-of-hooks': 'error',
-		    'react-hooks/exhaustive-deps': ['warn',
+        "react-hooks/rules-of-hooks": "error",
+		    "react-hooks/exhaustive-deps": ["warn",
         {
           "additionalHooks": "useRecoilCallback"
         }],
-        'no-console': 'warn',
-        'react/prop-types': 'off',
-        'react/button-has-type': 'warn',
-        'react/self-closing-comp': [
-            'warn',
+        "no-console": "warn",
+        "react/prop-types": "off",
+        "react/button-has-type": "warn",
+        "react/self-closing-comp": [
+            "warn",
             {
                 component: true,
                 html: false
             }
         ],
-        'react/jsx-sort-props': [
-          'warn',
+        "react/jsx-sort-props": [
+          "warn",
           {
             shorthandFirst: true,
             callbacksLast: true,
             noSortAlphabetically: false,
             reservedFirst: true,
-                multiline: 'last',
+                multiline: "last",
           },
         ],
-        'import/order': [
-            'warn',
+        "import/order": [
+            "warn",
             {
               groups: [
-                'builtin',
-                'external',
-                'internal',
-                ['sibling', 'parent', 'index'],
-                'type',
-                'unknown',
+                "builtin",
+                "external",
+                "internal",
+                ["sibling", "parent", "index"],
+                "type",
+                "unknown",
               ],
               pathGroups: [
                 {
-                  pattern: '{react*,react*/**}',
-                  group: 'external',
-                  position: 'before',
+                  pattern: "{react*,react*/**}",
+                  group: "external",
+                  position: "before",
                 },
                 {
-                  pattern: '{./**/*.module.css,./**/*.css}',
-                  group: 'unknown',
+                  pattern: "{./**/*.module.css,./**/*.css}",
+                  group: "unknown",
                 },
               ],
-              pathGroupsExcludedImportTypes: ['react', 'unknown'],
-              'newlines-between': 'always-and-inside-groups',
+              pathGroupsExcludedImportTypes: ["react", "unknown"],
+              "newlines-between": "always-and-inside-groups",
               alphabetize: {
-                order: 'asc',
+                order: "asc",
                 caseInsensitive: true,
               },
             },
           ],
-          'jsx-a11y/anchor-has-content': [
-            'warn',
+          "jsx-a11y/anchor-has-content": [
+            "warn",
             {
-              components: ['Link'],
+              components: ["Link"],
             },
           ],
-          'jsx-a11y/anchor-is-valid': [
-            'warn',
+          "jsx-a11y/anchor-is-valid": [
+            "warn",
             {
-              components: ['Link'],
+              components: ["Link"],
             },
           ],
     },

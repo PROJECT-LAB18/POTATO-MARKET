@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const ProductList = styled.section`
   margin: 35px auto;
@@ -7,11 +7,13 @@ const ProductList = styled.section`
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 309px;
   & .loading{
-    left:43%;
+    left: 43%;
     position: absolute;
   }
   @media (max-width: 480px){
+    width: 80%;
     grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
   }
   @media (min-width: 481px) and (max-width: 767px){
     grid-template-columns: repeat(2, 1fr);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 import { useRecoilState } from "recoil";
 import styled, { createGlobalStyle } from "styled-components";
@@ -8,15 +8,13 @@ import mainBanner01 from "@/assets/banner-main01.png";
 import mainBanner02 from "@/assets/banner-main02.png";
 import Product from "@/components/product";
 
-import { userWriteRef } from '@/firebase';
-import { onChat } from '@/stores/onChat';
+import { userWriteRef } from "@/firebase";
+import { onChat } from "@/stores/onChat";
 
-import { gray1, gray2 } from '@/styles/Global';
-import ProductList from '@/styles/ProductList';
+import { gray1, gray2 } from "@/styles/Global";
+import ProductList from "@/styles/ProductList";
 
-
-export default function Home() {
-
+function Home() {
   const navigate = useNavigate();
   const [readyToRender, setReadyToRender] = useState(0);
   const [checkArr, setCheckArr] = useState([]);
@@ -24,52 +22,83 @@ export default function Home() {
 
   useEffect(() => {
     userWriteRef.onSnapshot((snapshot) => {
-      const newArr = snapshot.docs.map(doc => {
+      const newArr = snapshot.docs.map((doc) => {
         return {
           id: doc.id,
-          ...doc.data()
-        }
-      })
+          ...doc.data(),
+        };
+      });
       newArr.sort((b, a) => a.check - b.check);
       setCheckArr(newArr.slice(0, 8));
       setReadyToRender(1);
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <main>
       <HomeGlobal />
       <MainTop>
         <div className="home-main-description">
-          <h2>당신 근처의<br />감자마켓</h2>
-          <p>중고 거래부터 동네 정보까지, 이웃과 함께해요. <br />
-            가깝고 따뜻한 당신의 근처를 만들어요.</p>
+        <h2>
+            당신 근처의
+            <br />
+            감자마켓
+          </h2>
+          <p>
+            중고 거래부터 동네 정보까지, 이웃과 함께해요. <br />
+            가깝고 따뜻한 당신의 근처를 만들어요.
+          </p>
         </div>
         <div className="home-main-image">
-          <img alt="이웃과 함께하는 감자마켓" src={mainBanner01} />
+          <img alt="이웃과 함께하는 감자마켓" height="685" src={mainBanner01} width="804"/>
         </div>
       </MainTop>
       <MainReversed>
         <div className="home-main-image">
-          <img alt="채팅으로 거래하기" src={mainBanner02} />
+          <img alt="채팅으로 거래하기" height="684" src={mainBanner02} width="532"/>
         </div>
         <div className="home-main-description">
-          <h2>우리 동네<br /> 중고 직거래 마켓</h2>
+          <h2>
+            우리 동네
+            <br /> 중고 직거래 마켓
+          </h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
-            <Link to="/hotarticles">인기매물 보기</Link>
-            <button type="button" onClick={() => { setChat(true) }}>주민들과 소통하기</button>
+            <Link href="https://potato-market-lab18.web.app/hotArticles" to="/hotarticles">인기매물 보기</Link>
+            <button
+              type="button"
+              onClick={() => {
+                setChat(true);
+              }}
+            >
+              주민들과 소통하기
+            </button>
           </div>
         </div>
       </MainReversed>
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
-          {readyToRender ? checkArr.map(
-            ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) =>
-              (<Product key={index} check={check} content={content} heart={heart} id={id} imgsrc={imgsrc} price={price} recommend={recommend} side={side} title={title} />))
-            : <p>Render Failed</p>
-          }
+        {readyToRender ? (
+            checkArr.map(
+              ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
+                <Product
+                  key={index}
+                  check={check}
+                  content={content}
+                  heart={heart}
+                  id={id}
+                  imgsrc={imgsrc}
+                  price={price}
+                  recommend={recommend}
+                  side={side}
+                  title={title}
+                />
+              )
+            )
+          ) : (
+            <p>Render Failed</p>
+          )}
         </ProductList>
         <UnderlineButton as={"a"} onClick={() => navigate(`/hotArticles`)}>인기매물 더보기</UnderlineButton>
       </HotArticles8>
@@ -77,24 +106,45 @@ export default function Home() {
       <HomeKeywords>
         <UnderlineButton>중고거래 인기검색어</UnderlineButton>
         <ul>
-          <li><a href="/">자전거</a></li>
-          <li><a href="/">의자</a></li>
-          <li><a href="/">아이폰</a></li>
-          <li><a href="/">냉장고</a></li>
-          <li><a href="/">노트북</a></li>
-          <li><a href="/">패딩</a></li>
-          <li><a href="/">아이패드</a></li>
-          <li><a href="/">모니터</a></li>
-          <li><a href="/">스타벅스</a></li>
-          <li><a href="/">책상</a></li>
+        <li>
+            <a href="/">자전거</a>
+          </li>
+          <li>
+            <a href="/">의자</a>
+          </li>
+          <li>
+            <a href="/">아이폰</a>
+          </li>
+          <li>
+            <a href="/">냉장고</a>
+          </li>
+          <li>
+            <a href="/">노트북</a>
+          </li>
+          <li>
+            <a href="/">패딩</a>
+          </li>
+          <li>
+            <a href="/">아이패드</a>
+          </li>
+          <li>
+            <a href="/">모니터</a>
+          </li>
+          <li>
+            <a href="/">스타벅스</a>
+          </li>
+          <li>
+            <a href="/">책상</a>
+          </li>
         </ul>
       </HomeKeywords>
     </main>
-  )
+  );
 }
 
 // Styled Components
 const black = "#212529";
+
 const HomeGlobal = createGlobalStyle`
   body {
     color: ${black};
@@ -150,7 +200,7 @@ const MainTop = styled.section`
       box-sizing: border-box;
     }
   }
-  @media (max-width: 1200px){
+  @media (max-width: 1200px) {
     .home-main-description h2 {
       margin-bottom: 10px;
     }
@@ -158,10 +208,10 @@ const MainTop = styled.section`
       padding: 20px 0 0 20px;
     }
   }
-  @media (min-width:768px) and (max-width: 1200px){
+  @media (min-width: 768px) and (max-width: 1200px) {
     padding: 30px 100px;
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     padding: 50px;
     margin-top: 50px;
     .home-main-description {
@@ -207,7 +257,7 @@ const MainReversed = styled(MainTop)`
       white-space: nowrap;
     }
   }
-  @media (max-width: 1200px){
+  @media (max-width: 1200px) {
     .home-main-image img {
       padding: 20px 0 0 20px;
     }
@@ -215,13 +265,13 @@ const MainReversed = styled(MainTop)`
       margin-top: 10px;
     }
   }
-  @media (min-width:768px) and (max-width: 1200px){
+  @media (min-width:768px) and (max-width: 1200px) {
     padding: 30px 100px;
     .home-main-description {
       margin-left: 50px;
     }
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     .home-main-description {
       margin-left: 20px;
       max-width: 240px;
@@ -244,9 +294,20 @@ const HotArticles8 = styled.section`
   padding-bottom: 5rem;
   margin: 0 auto;
   .Hot8 {
-    width: 100%;
-    max-width: 980px;
+    width: 980px;
     margin: 60px auto 5rem;
+    @media (max-width: 480px){
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      width: 90%;
+    }
+    @media (min-width: 481px) and (max-width: 767px){
+      width: 480px;
+    }
+    @media (min-width: 768px) and (max-width: 1023px){
+      width: 760px;
+    }
   }
   a {
     display: flex;
@@ -291,3 +352,5 @@ const HomeKeywords = styled.section`
     }
   }
 `;
+
+export default Home;

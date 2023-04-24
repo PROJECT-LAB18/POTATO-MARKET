@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import facebookLogo from "../assets/facebook.svg" ; 
 import githubLogo from "../assets/github.svg" ; 
@@ -36,7 +36,7 @@ const Footer = () => {
         <div className="download-app">
           <p>감자마켓 앱 다운로드</p>
           <div className="logobox">
-            <button type="button" >Github</button>
+            <button type="button" onClick={()=>location.href=`https://github.com/PROJECT-LAB18/POTATO-MARKET`}>Github</button>
           </div>
         </div>
       </Footertop>
@@ -51,14 +51,18 @@ const Footer = () => {
             <b>주소 </b>
           서울특별시 구로구 디지털로 30길 28, 609호 (당근서비스)
           </p>
-          <p><b>전화 </b> 010-0000-0000</p>
-          <p><b>고객문의 </b> cs@daangnservice.com</p>
+          <p>
+            <b>전화 </b> 010-0000-0000
+          </p>
+          <p>
+            <b>고객문의 </b> cs@daangnservice.com
+          </p>
         </section>
         <section className="snsgroup">
-          <img alt="페이스북" src={facebookLogo}/>
-          <img alt="인스타그램" src={instagramLogo}/>
-          <img alt="유튜브채널" src={youtubeLogo}/>
-          <img alt="네이버블로그" src={naverblogLogo}/>
+          <img alt="페이스북" height="24" src={facebookLogo} width="24"/>
+          <img alt="인스타그램" height="24" src={instagramLogo} width="24"/>
+          <img alt="유튜브채널" height="24" src={youtubeLogo} width="24"/>
+          <img alt="네이버블로그" height="24" src={naverblogLogo} width="24"/>
         </section>
       </FooterMiddle>
 
@@ -77,7 +81,7 @@ const Footer = () => {
         </section>
       </FooterBottom>
     </FooterGlobal>
-  )
+  );
 };
 
 const FooterGlobal = styled.footer`
@@ -87,28 +91,41 @@ const FooterGlobal = styled.footer`
   display: flex;
   flex-direction: column;
   position: relative;
+  @media (max-width: 480px){
+    width: calc(90% - 16px);
+  }
 `;
 
 const Footertop = styled.section` 
   display: flex;
   flex-direction: row;
-  max-width: 1200px;
-  width: 100vw;
-  height : auto;
+  width: 980px;
+  height: auto;
   align-items: flex-start;
   position: relative;
   padding-top: 3rem;
   justify-content: space-between;
   margin: 0 auto;
   
-  @media (max-width: 564px) {
-      flex-direction: column;
-    }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (max-width: 480px){
+    width: 90%;
+  }
+  @media (max-width: 767px){
+    width: 480px;
+    align-items: center;
+  }
+  @media (min-width:768px) and (max-width: 1023px){
+    width: 760px;
+  }
   
   .footer-list {
+    width: 100%;
     display: flex;
     align-items: flex-start;
-    
   }
 
   ul {
@@ -116,31 +133,35 @@ const Footertop = styled.section`
     font-size: 0.875rem;
     margin: 0 2rem;
     position: relative;
-    /* right: 2rem; */
 
     li {
       margin-bottom: 2rem;
-      padding : 0;
+      padding: 0;
     }
     
     a {
       text-decoration: none;
       color: #212325;
     }
+
+    @media (max-width: 767px){
+      align-items: center;
+      text-align: center;
+    }
   }
   
   .download-app {
     display: block;
     position: absolute;
-    right: 10%;
-    /* position: static; */
+    right: 32px;
     margin: 1rem auto;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 768px) {
       position: static;
     }
 
     p {
+      text-align: center;
       font-weight: 700;
       font-size: 0.875rem;
     }
@@ -172,60 +193,74 @@ const FooterMiddle = styled.div`
   border-top: 1px solid ${gray1};
   display: flex;
   flex-direction: row;
-  max-width : 1200px;
+  max-width: 980px;
   width: 100vw;
-  height : auto;
+  height: auto;
   align-items: flex-start;
   position: relative;
   margin: 0 auto;
   justify-content: space-between;
-  padding-top: 1rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-
-    .information {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .snsgroup {
-      margin-left: 0;
-      width: auto;
-    }
-  }
+  padding-top: 32px;
 
   .information {
     color: #868B94;
     font-size: 0.813rem;
     line-height: 1.25rem;
+    padding-left: 32px;
   }
 
   .snsgroup {
-    width : 16rem;
-    margin-left: 6rem;
-
+    width: 215px;
+    margin-left: auto;
+    margin-right: 32px;
     img {
-     margin: 0 1rem;
+      margin: 0 1rem;
     }
 
-    @media (min-width: 375px) and (max-width: 1200px){
-    margin-left: 2rem;
-    width: 20rem;
+    img:last-child{
+      margin-right: 0;
     }
+
+    @media (min-width: 375px) and (max-width: 768px) {
+      margin-left: auto;
+      margin-right: auto;      
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
+  }
+  
+  @media (max-width: 768px) {
+    width: 480px;
+      flex-direction: column;
+      align-items: center;
+      margin: auto;
+
+      .information {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    }
+
+  @media (min-width:768px) and (max-width: 1023px) {
+    width: 760px;
   }
 `;
 
 const FooterBottom = styled.div`
-  max-width : 1200px;
+  max-width: 980px;
   margin: 3rem auto;
   width: 100vw;
-  @media (max-width: 600px) {
+  padding-left: 32px;
+  box-sizing: border-box;
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    .inquirygroup, .terms {
+
+    .inquirygroup,
+    .terms {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -246,7 +281,6 @@ const FooterBottom = styled.div`
     margin-left: 0.5rem;
     position: relative;
     right: 1.5rem;
-
   }
   a {
     text-decoration: none;
@@ -260,7 +294,16 @@ const FooterBottom = styled.div`
   a:hover {
     text-decoration : underline;
   }
-  
+
+  @media (max-width: 480px){
+    width: 90%;
+  }
+  @media (max-width: 767px){
+    width: 480px;
+  }
+  @media (min-width:768px) and (max-width: 1023px){
+    width: 760px;
+  }
 `;
 
 export default Footer;

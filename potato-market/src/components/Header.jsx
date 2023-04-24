@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import styled from "styled-components";
 
 import Toggle from "./Toggle";
 
-import { userId, userInformation } from '../stores/userAuth';
+import { userId, userInformation } from "../stores/userAuth";
 
 import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
 
@@ -19,19 +19,19 @@ import searchIcon from "@/assets/searchIcon.svg";
 import xButton from "@/assets/xButton.svg";
 
 import { onChat } from "@/stores/onChat";
-import { searchKeywordState } from '@/stores/state';
+import { searchKeywordState } from "@/stores/state";
 import { toggle } from "@/stores/toggle";
 
 function Header() {
-  const [login] = useRecoilState(userId);
-  const [userInfo] = useRecoilState(userInformation);
+  const login = useRecoilValue(userId);
+  const userInfo = useRecoilValue(userInformation);
   const [showToggle, setShowToggle] = useRecoilState(toggle);
 
   const handleToggle = () => {
     setShowToggle(!showToggle);
-  }
+  };
   const [searchKeyword, setSearchKeyword] = useRecoilState(searchKeywordState);
-  const [, setChat] = useRecoilState(onChat);
+  const setChat = useSetRecoilState(onChat);
 
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
@@ -40,18 +40,29 @@ function Header() {
     setShowSearch(true);
   };
   const openMenu = () => {
-    setShowMenu(true)
+    setShowMenu(true);
   };
 
   return (
     <HeaderWrap>
         <MainTitle>
           <span className="a11yHidden">감자마켓 로고</span>
-          <Link to="/"><img alt="감자마켓" src={mainLogo} /></Link>
+          <Link href="https://potato-market-lab18.web.app/" to="/">
+            <img alt="감자마켓" height="26" src={mainLogo} width="101"/>
+          </Link>
         </MainTitle>
         
-      <MenuButton as={"a"} className="primary" tabIndex="0" onClick={() => navigate(`/hotArticles`)}>중고거래</MenuButton>
-      <MenuButton as={"a"} tabIndex="0" onClick={() => navigate(`/writeArticle`)}>매물 등록하기</MenuButton>
+      <MenuButton
+        as={"a"}
+        className="primary"
+        tabIndex="0"
+        onClick={() => navigate(`/hotArticles`)}
+      >
+        중고거래
+      </MenuButton>
+      <MenuButton as={"a"} tabIndex="0" onClick={() => navigate(`/writeArticle`)}>
+        매물 등록하기
+      </MenuButton>
       <SearchForm>
         <label>
           <input
@@ -62,30 +73,48 @@ function Header() {
           />
         </label>
       </SearchForm>
-      <ChatButton onClick={() => { setChat(true) }}>채팅하기</ChatButton>
+      <ChatButton onClick={() => { setChat(true) }}>
+        채팅하기
+      </ChatButton>
       <ToggleWrap>
-        <MypageIcon aria-label="마이페이지" login={login} userInfo={userInfo} onClick={handleToggle} />
+        <MypageIcon
+          aria-label="마이페이지"
+          login={login}
+          userInfo={userInfo}
+          onClick={handleToggle}
+        />
         {showToggle && <Toggle />}
       </ToggleWrap>
 
       <MobileIcons>
         <Icon iconname={searchIcon} onClick={openSearch} />
-        {showMenu ? <CloseMenu onClick={() => setShowMenu(false)} /> : <Icon iconname={hamburger} onClick={openMenu} />}
+        {showMenu ? (
+          <CloseMenu onClick={() => setShowMenu(false)} />
+        ) : (
+          <Icon iconname={hamburger} onClick={openMenu} />
+        )}
       </MobileIcons>
-      {showSearch ? <SearchModal searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} setShowSearch={setShowSearch} /> : null}
-      {showMenu ? <MenuModal navigate={navigate} setChat={setChat} setShowMenu={setShowMenu} /> : null}
+      {showSearch ? (
+        <SearchModal
+          searchKeyword={searchKeyword}
+          setSearchKeyword={setSearchKeyword}
+          setShowSearch={setShowSearch}
+        />
+      ) : null}
+      {showMenu ? (
+        <MenuModal navigate={navigate} setChat={setChat} setShowMenu={setShowMenu} />
+      ) : null}
     </HeaderWrap>
-  )
+  );
 }
 
 const HeaderWrap = styled.header`
   flex-direction: row;
   display: flex;
-  height : 64px;
+  height: 64px;
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
-  align-item: center;
   flex-wrap: wrap;
   position: relative;
   background-color: #fff;
@@ -109,7 +138,7 @@ const HeaderWrap = styled.header`
     color: ${primaryColor};
   }
   
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     background-color: #fff;
     position: fixed;
     justify-content: space-between;
@@ -140,7 +169,7 @@ const SearchForm = styled.form`
     background-color: ${gray1};
     font-size: 16px;
     width: 18rem;
-    height : 40px;
+    height: 40px;
     border: 0;
     border-radius: 6px;
     text-indent: 6px;
@@ -149,14 +178,14 @@ const SearchForm = styled.form`
   & input:focus {
     outline: none;
   }
-  @media (min-width: 768px) and (max-width: 1023px){
+  @media (min-width: 768px) and (max-width: 1023px) {
     margin-left: 0;
     margin-right: 0;
     & input {
       width: 12rem;
     }
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -175,7 +204,7 @@ const MenuButton = styled.button`
     color: ${gray3};
   }
 
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -198,11 +227,11 @@ const ChatButton = styled.button`
   &:hover {
     background-color: ${gray2};
   }
-  @media (min-width: 768px) and (max-width: 1023px){
+  @media (min-width: 768px) and (max-width: 1023px) {
     margin-left: 1rem;
     margin-right: 1rem;
   }
-  @media (max-width: 768px){
+  @media (max-width: 768px) {
     margin-left: 1rem;
     display: none;
   }
@@ -221,14 +250,17 @@ const MypageIcon = styled.button`
   background-color: transparent;
   border: 0;
   border-radius: 50%;
-  background: ${(props) => (props.login === null ? `url(${defaultProfile}) no-repeat center local` : `url(${props.userInfo.profileImage}) no-repeat center local`)};
+  background: ${(props) =>
+    (props.login === null
+      ? `url(${defaultProfile}) no-repeat center local`
+      : `url(${props.userInfo.profileImage}) no-repeat center local`)};
   background-size: 36px;
   background-clip: border-box;
   cursor: pointer;
   @media (max-width: 768px){
     display: none;
   }
-`
+`;
 
 const MobileIcons = styled.div`
   height: inherit;
@@ -268,18 +300,18 @@ const SearchModal = ({ setShowSearch, searchKeyword, setSearchKeyword }) => {
       />
       <CloseSearch aria-label="검색 닫기" onClick={() => setShowSearch(false)} />
     </Modal>
-  )
+  );
 };
 
 const MenuModal = ({ setShowMenu, navigate, setChat }) => {
 
   const navigateTohotArticles = () => {
-    navigate("/hotArticles")
+    navigate("/hotArticles");
     setShowMenu(false);
   }
 
   const navigateTowriteArticle = () => {
-    navigate("/writeArticle")
+    navigate("/writeArticle");
     setShowMenu(false);
   }
 
@@ -289,14 +321,20 @@ const MenuModal = ({ setShowMenu, navigate, setChat }) => {
   }
 
   return (
-    <Modal top={'64px'}>
+    <Modal top={"64px"}>
       <MenuList>
-        <li><AccordionButton onClick={navigateTohotArticles}>중고거래</AccordionButton></li>
-        <li><AccordionButton onClick={navigateTowriteArticle}>매물 등록하기</AccordionButton></li>
-        <li><AccordionButton onClick={navigateToChat}>채팅하기</AccordionButton></li>
+        <li>
+          <AccordionButton onClick={navigateTohotArticles}>중고거래</AccordionButton>
+        </li>
+        <li>
+          <AccordionButton onClick={navigateTowriteArticle}>매물 등록하기</AccordionButton>
+        </li>
+        <li>
+          <AccordionButton onClick={navigateToChat}>채팅하기</AccordionButton>
+        </li>
       </MenuList>
     </Modal>
-  )
+  );
 }
 
 const Modal = styled.div`
@@ -317,7 +355,7 @@ const MenuList = styled.ul`
   z-index: 100;
   position: absolute;
   border-top: 2px solid ${gray2};
-  transition: transform .3s, opacity .1s;
+  transition: transform 0.3s, opacity 0.1s;
   
   li {
     padding: 1rem;
@@ -345,8 +383,8 @@ const CloseMenu = styled.button`
   cursor: pointer;
 
   @media (min-width: 768px) {
-  display: none;
- }
+    display: none;
+  }
 `;
 
 const AccordionButton = styled.button`
@@ -377,7 +415,7 @@ const Input = styled.input`
   background-color: ${gray1};
   font-size: 16px;
   width: 100vw;
-  height : 40px;
+  height: 40px;
   border: 0;
   border-radius: 6px;
   text-indent: 6px;
@@ -393,5 +431,6 @@ const Input = styled.input`
   @media (min-width: 768px) {
     display: none;
   }
-`
+`;
+
 export default Header;

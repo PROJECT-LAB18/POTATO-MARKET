@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
-import { primaryColor } from '../styles/Global';
+import { primaryColor } from "../styles/Global";
 
 const FormButton = styled.button`
   display: block;
@@ -15,12 +15,11 @@ const FormButton = styled.button`
   text-align: center;
   cursor: pointer;
   ${(props) =>
-    props.primary &&
-    css`
+    (props.primary && css`
       background-color: ${primaryColor};
       color: #fff;
       border: none;
-    ` || css`
+      `) || css`
       background-color: #fff;
       color: ${primaryColor};
       border: 1px solid ${primaryColor};

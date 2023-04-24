@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import imageCompression from "browser-image-compression";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import { WriteInput } from "./WriteForm";
 
@@ -10,8 +10,15 @@ import closeButton from "@/assets/icon-close-button.svg"
 
 import { gray4, primaryColor } from "@/styles/global";
 
-function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, setPreviewImg}){
-  console.log(postImg);
+function AddPhoto({
+  myinputRef,
+  name,
+  required,
+  postImg,
+  setPostImg,
+  previewImg,
+  setPreviewImg
+}){
   const uploadFile = async (event) => {
     const files = event.target.files;
     const uploadedImages = [];
@@ -27,7 +34,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
         const compressedFile = await imageCompression(file, options);
         uploadedImages.push(compressedFile);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     setPostImg(uploadedImages);
@@ -37,7 +44,7 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
     Promise.all(postImageUrl).then((results) => {
       setPreviewImg(results);
     });
-  }, [postImg]);
+  }, [postImg, setPreviewImg]);
 
   const removeImage = (index) => {
     const newPostImg = [...postImg];
@@ -51,22 +58,38 @@ function AddPhoto({myinputRef, name, required, postImg, setPostImg, previewImg, 
 
   return <Container>    
     <PhotoContainer className="photoContainer">
-      <WriteInput accept=".png, .jpeg, .jpg, .svg" id="addPhoto" label="중고 물품 등록" multiple={true} myinputRef={myinputRef} name={name} required={required} type="file"
-      onChange={uploadFile} onClick={(e)=>e.target.value = null}
+      <WriteInput
+        accept=".png, .jpeg, .jpg, .svg"
+        id="addPhoto"
+        label="중고 물품 등록"
+        multiple={true}
+        myinputRef={myinputRef}
+        name={name}
+        required={required}
+        type="file"
+        onChange={uploadFile}
+        onClick={(e)=>e.target.value = null}
       />
       {
         previewImg.map((url, index) => {
-          return <div key={url} className="uploadImageList">
-            <ProductImage tabIndex="0">
-              <img alt={postImg[index].name} src={url} />
-            </ProductImage>
-            <button type="button" onClick={()=>removeImage(index)}>
-              <img alt={`${postImg[index].name} 제거 버튼`} src={closeButton} />
-            </button>
-          </div>
+          return (
+            <div key={url} className="uploadImageList">
+              <ProductImage tabIndex="0">
+                <img alt={postImg[index].name} src={url} />
+              </ProductImage>
+              <button type="button" onClick={()=>removeImage(index)}>
+                <img
+                  alt={`${postImg[index].name} 제거 버튼`}
+                  height="20"
+                  src={closeButton}
+                  width="20"
+                />
+              </button>
+            </div>
+          );
         })
       }
-      {previewImg.length>=5 ? '' : <ProductImage/>}
+      {previewImg.length>=5 ? "" : <ProductImage/>}
     </PhotoContainer>
     <PhotoUploadTitle>• 판매할 상품의 사진을 업로드해주세요.</PhotoUploadTitle>
   </Container>
@@ -76,7 +99,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  .uploadImageList{
+  .uploadImageList {
     position: relative;
     button {
       position: absolute;
@@ -89,18 +112,18 @@ const Container = styled.div`
   }
 
   @media all and (max-width: 1023px) {
-    .photoContainer{
+    .photoContainer {
       padding-top: 0;
     }
   }
-`
+`;
 
 const PhotoUploadTitle = styled.span`
   display: inline-block;
   font-size: 12px;
   color: ${primaryColor};
   margin-bottom: 30px;
-`
+`;
 
 const PhotoContainer = styled.div`
   display: flex;
@@ -117,7 +140,7 @@ const PhotoContainer = styled.div`
     }
   }
     
-  input[type="file"]{
+  input[type="file"] {
     cursor: pointer;
     background: url(${addIcon}) no-repeat;
     background-position: center;
@@ -127,7 +150,7 @@ const PhotoContainer = styled.div`
     border: 1px solid ${gray4};
     border-radius: 10px;
     overflow: hidden;
-    &::file-selector-button{
+    &::file-selector-button {
       border: none;
       background: none;
       color: transparent;
@@ -135,12 +158,12 @@ const PhotoContainer = styled.div`
     }
   }
 
-  div{
+  div {
     width: 90px;
     height: 90px;
     border-radius: 10px;
   }
-`
+`;
 
 const ProductImage = styled.div`
   border: 1px dashed ${gray4};
@@ -150,9 +173,9 @@ const ProductImage = styled.div`
   position: relative;
   overflow: hidden;
 
-  img{
+  img {
     width: 100%;
   }
-`
+`;
 
 export default AddPhoto;

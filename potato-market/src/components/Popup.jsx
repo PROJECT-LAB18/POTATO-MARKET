@@ -1,17 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { primaryColor, gray4 } from '@/styles/global';
+import { primaryColor, gray4 } from "@/styles/global";
 
 function Popup({ text, onClose }) {
   return (
     <PopWrapper>
       <div className="pop">
         <p>{text}</p>
-        <button type="button" onClick={onClose}>확인</button>
+        <button type="button" onClick={onClose}>
+          확인
+        </button>
       </div>
     </PopWrapper>
-  )
-};
+  );
+}
 
 export const PopWrapper = styled.div`
   z-index: 100;
@@ -23,7 +25,7 @@ export const PopWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(0, 0, 0, 0.4);
   .pop {
     width: 320px;
     min-height: 80px;
@@ -50,6 +52,6 @@ export const PopWrapper = styled.div`
       padding-top: 10px;
     }
   }
-`
+`;
 
 export default Popup;

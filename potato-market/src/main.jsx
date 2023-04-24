@@ -1,57 +1,56 @@
-// import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { lazy, Suspense } from "react"
+import ReactDOM from "react-dom/client"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { RecoilRoot } from "recoil";
 
-import App from './App'
-
-import NotFound from './components/NotFound';
-import ChatPage from './pages/ChatPage';
-import Home from './pages/Home';
-import HotArticles from './pages/HotArticles';
-import MyPage from './pages/MyPage';
-import Detailarticle from './pages/productdetail';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import WriteArticle from './pages/WriteArticle';
+const App = lazy(()=> import("./App"));
+const NotFound = lazy(()=> import("./components/NotFound"));
+const ChatPage = lazy(()=> import("./pages/ChatPage"));
+const Home = lazy(()=> import("./pages/Home"));
+const HotArticles = lazy(()=> import("./pages/HotArticles"));
+const MyPage = lazy(()=> import("./pages/MyPage"));
+const Detailarticle = lazy(()=> import("./pages/productdetail"));
+const SignIn = lazy(()=> import("./pages/SignIn"));
+const SignUp = lazy(()=> import("./pages/SignUp"));
+const WriteArticle = lazy(()=> import("./pages/WriteArticle"));
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     errorElement: <NotFound title={"페이지에 접근할 수 없습니다."} />,
     children: [
       {
-        path: '',
+        path: "",
         element: <Home />,
       },
       {
-        path: 'hotarticles',
+        path: "hotarticles",
         element: <HotArticles />,
       },
       {
-        path: 'detailarticle/:id',
+        path: "detailarticle/:id",
         element: <Detailarticle />
       },
       {
-        path: 'writearticle',
+        path: "writearticle",
         element: <WriteArticle />,
       },
       {
-        path: 'mypage',
+        path: "mypage",
         element: <MyPage />,
       },
       {
-        path: 'signin',
+        path: "signin",
         element: <SignIn />,
       },
       {
-        path: 'signup',
+        path: "signup",
         element: <SignUp />,
       },
       {
-        path: 'chat',
+        path: "chat",
         element: <ChatPage />,
       },
 
@@ -59,8 +58,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <RecoilRoot>
-    <RouterProvider router={router} />
-  </RecoilRoot>,
+  <Suspense>
+      <RouterProvider router={router} />
+    </Suspense>
+  </RecoilRoot>
 )
