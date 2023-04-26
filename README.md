@@ -23,7 +23,11 @@
 
 ### [프로젝트 발표 자료](https://docs.google.com/presentation/d/1-NoVMkBrdMonBgcdk9808pR6g228xTydlKt7xHja9qY/edit#slide=id.p)
 
+<br>
+
 ## 🏠 [배포 페이지](https://potato-market-lab18.web.app/)
+
+<br>
 
 ## ⚔ 사용된 기술
 
@@ -35,9 +39,13 @@
 <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" />
 <br>
 
+<br>
+
 ## 🎨 주요 기능 소개
 
 작성 중입니다.
+
+<br>
 
 ## 🥽 개발 환경 설치 및 실행
 
@@ -59,6 +67,8 @@ VITE_STORAGE_BUCKET = []
 VITE_MESSAGE_SENDER_ID = []
 VITE_APP_ID = []
 ```
+
+<br>
 
 ## 🙌 구성원
 
