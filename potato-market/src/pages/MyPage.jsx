@@ -6,15 +6,13 @@ import imageCompression from "browser-image-compression";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
+import { storage, usersRef, userWriteRef, auth } from "@/api/firebase";
 import icon_temp4 from "@/assets/icon_temp4.svg";
 import profileBg from "@/assets/profile-bg.svg";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import LoginState from "@/components/LoginState";
 import { PopWrapper } from "@/components/Popup";
-
 import Product from "@/components/product";
-
-import { storage, usersRef, userWriteRef, auth } from "@/firebase";
 import { userId, userInformation } from "@/stores/userAuth";
 import { ContainerGlobalStyle } from "@/styles/ContainerGlobalStyle";
 import { CustomButton } from "@/styles/CustomButton";

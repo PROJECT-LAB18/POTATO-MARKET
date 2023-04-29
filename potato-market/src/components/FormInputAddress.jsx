@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 
-import { FormInputLocation } from "./FormInput";
+import { FormInputLocation } from "@/components/FormInput";
 
 const FormInputAddress = ({ location, setLocation }) => {
   const [openPostcode, setOpenPostcode] = useState(false);

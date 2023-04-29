@@ -43,7 +43,7 @@ export default defineConfig({
           fbAuth: ["firebase/compat/auth"],
           fbStore: ["firebase/compat/firestore"],
           fbDb: ["firebase/compat/database"],
-          dbStorage: ["firebase/compat/storage"],
+          fbStorage: ["firebase/compat/storage"],
           recoil: ["recoil", "recoil-persist"],
           styled: ["styled-components", "styled-reset", "styled-normalize"],
           swiper: ["swiper"],

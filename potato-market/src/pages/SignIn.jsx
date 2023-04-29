@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
+import firebase, { auth, usersRef } from "@/api/firebase";
 import FormInput from "@/components/FormInput";
 import LoginState from "@/components/LoginState";
 import Popup from "@/components/Popup";
-import firebase, { auth, usersRef } from "@/firebase";
 import { userId } from "@/stores/userAuth";
 import FormButton from "@/styles/FormButton";
 

@@ -4,13 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled, { createGlobalStyle } from "styled-components";
 
+import { userWriteRef } from "@/api/firebase";
 import mainBanner01 from "@/assets/banner-main01.png";
 import mainBanner02 from "@/assets/banner-main02.png";
 import Product from "@/components/product";
-
-import { userWriteRef } from "@/firebase";
 import { onChat } from "@/stores/onChat";
-
 import { gray1, gray2 } from "@/styles/Global";
 import ProductList from "@/styles/ProductList";
 

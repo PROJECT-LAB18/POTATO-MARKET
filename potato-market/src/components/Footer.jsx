@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-import facebookLogo from "../assets/facebook.svg" ; 
-import githubLogo from "../assets/github.svg" ; 
-import instagramLogo from "../assets/instagram.svg" ; 
-import naverblogLogo from "../assets/naverblog.svg" ; 
-import youtubeLogo from "../assets/youtube.svg" ; 
-import { gray1, gray4 } from "../styles/Global";
+import facebookLogo from "@/assets/facebook.svg" ; 
+import githubLogo from "@/assets/github.svg" ; 
+import instagramLogo from "@/assets/instagram.svg" ; 
+import naverblogLogo from "@/assets/naverblog.svg" ; 
+import youtubeLogo from "@/assets/youtube.svg" ; 
+import { gray1, gray4 } from "@/styles/Global";
 
 const Footer = () => {
   return (
