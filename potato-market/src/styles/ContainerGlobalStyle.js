@@ -1,6 +1,11 @@
 import { createGlobalStyle } from "styled-components";
 
 export const ContainerGlobalStyle = createGlobalStyle`
+  body {
+    color: #212529;
+    background-color: #FFF;
+    min-height: 100vh;
+  }
   .wrapper {
     width: 980px;
     margin: 70px auto 120px auto;
