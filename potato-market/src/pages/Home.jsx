@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useRecoilState } from "recoil";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
 import mainBanner01 from "@/assets/banner-main01.png";
 import mainBanner02 from "@/assets/banner-main02.png";
@@ -36,10 +36,9 @@ function Home() {
 
   return (
     <main>
-      <HomeGlobal />
       <MainTop>
         <div className="home-main-description">
-        <h2>
+          <h2>
             당신 근처의
             <br />
             감자마켓
@@ -50,12 +49,12 @@ function Home() {
           </p>
         </div>
         <div className="home-main-image">
-          <img alt="이웃과 함께하는 감자마켓" height="685" src={mainBanner01} width="804"/>
+          <img alt="이웃과 함께하는 감자마켓" height="685" src={mainBanner01} width="804" />
         </div>
       </MainTop>
       <MainReversed>
         <div className="home-main-image">
-          <img alt="채팅으로 거래하기" height="684" src={mainBanner02} width="532"/>
+          <img alt="채팅으로 거래하기" height="684" src={mainBanner02} width="532" />
         </div>
         <div className="home-main-description">
           <h2>
@@ -64,7 +63,9 @@ function Home() {
           </h2>
           <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
           <div className="link-wrap">
-            <Link href="https://potato-market-lab18.web.app/hotArticles" to="/hotarticles">인기매물 보기</Link>
+            <Link href="https://potato-market-lab18.web.app/hotArticles" to="/hotarticles">
+              인기매물 보기
+            </Link>
             <button
               type="button"
               onClick={() => {
@@ -79,7 +80,7 @@ function Home() {
       <HotArticles8>
         <h2>중고거래 인기매물</h2>
         <ProductList className="Hot8">
-        {readyToRender ? (
+          {readyToRender ? (
             checkArr.map(
               ({ content, title, price, side, imgsrc, id, check, heart, recommend }, index) => (
                 <Product
@@ -100,13 +101,15 @@ function Home() {
             <p>Render Failed</p>
           )}
         </ProductList>
-        <UnderlineButton as={"a"} onClick={() => navigate(`/hotArticles`)}>인기매물 더보기</UnderlineButton>
+        <UnderlineButton as={"a"} onClick={() => navigate(`/hotArticles`)}>
+          인기매물 더보기
+        </UnderlineButton>
       </HotArticles8>
 
       <HomeKeywords>
         <UnderlineButton>중고거래 인기검색어</UnderlineButton>
         <ul>
-        <li>
+          <li>
             <a href="/">자전거</a>
           </li>
           <li>
@@ -145,36 +148,18 @@ function Home() {
 // Styled Components
 const black = "#212529";
 
-const HomeGlobal = createGlobalStyle`
-  body {
-    color: ${black};
-    background-color: #FFF;
-    min-height: 100vh;
-  }
-  h2 {
-    font-weight: 700;
-    font-size: 3rem;
-    text-align: center;
-  }
-  @media (min-width: 768px) and (max-width: 1200px){
-    h2 {
-      font-size: 2.5rem;
-    }
-  }
-  @media (max-width: 768px){
-    h2 {
-      font-size: 1.5rem;
-    }
-  }
-`;
-
 const MainTop = styled.section`
-  background-color: #FBF7F2;
+  background-color: #fbf7f2;
   display: flex;
   justify-content: center;
   max-height: 47.5rem;
   padding: 30px 0;
   margin: 0 auto;
+  h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
+  }
   .home-main-description {
     display: flex;
     flex-direction: column;
@@ -210,10 +195,16 @@ const MainTop = styled.section`
   }
   @media (min-width: 768px) and (max-width: 1200px) {
     padding: 30px 100px;
+    h2 {
+      font-size: 2.5rem;
+    }
   }
   @media (max-width: 768px) {
     padding: 50px;
     margin-top: 50px;
+    h2 {
+      font-size: 1.5rem;
+    }
     .home-main-description {
       padding-left: 0;
     }
@@ -221,7 +212,7 @@ const MainTop = styled.section`
 `;
 
 const MainReversed = styled(MainTop)`
-  background-color: #FFF;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   max-height: 47.5rem;
@@ -244,7 +235,7 @@ const MainReversed = styled(MainTop)`
     width: 100%;
     gap: 1.174rem;
     margin-top: 30px;
-    a, 
+    a,
     button {
       color: ${black};
       font-size: 1.125rem;
@@ -265,7 +256,7 @@ const MainReversed = styled(MainTop)`
       margin-top: 10px;
     }
   }
-  @media (min-width:768px) and (max-width: 1200px) {
+  @media (min-width: 768px) and (max-width: 1200px) {
     padding: 30px 100px;
     .home-main-description {
       margin-left: 50px;
@@ -279,7 +270,7 @@ const MainReversed = styled(MainTop)`
     .link-wrap {
       flex-direction: column;
       width: fit-content;
-      a, 
+      a,
       button {
         padding: 0.5rem 1rem;
         font-size: 1rem;
@@ -296,18 +287,23 @@ const HotArticles8 = styled.section`
   .Hot8 {
     width: 980px;
     margin: 60px auto 5rem;
-    @media (max-width: 480px){
+    @media (max-width: 480px) {
       display: flex;
       flex-flow: column;
       align-items: center;
       width: 90%;
     }
-    @media (min-width: 481px) and (max-width: 767px){
+    @media (min-width: 481px) and (max-width: 767px) {
       width: 480px;
     }
-    @media (min-width: 768px) and (max-width: 1023px){
+    @media (min-width: 768px) and (max-width: 1023px) {
       width: 760px;
     }
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 3rem;
+    text-align: center;
   }
   a {
     display: flex;
