@@ -18,6 +18,7 @@
 <br>
 
 ### 팀 목표
+
 - 혼자서 많은 기능을 구현하기보다, 함께 검토하면서 좋은 코드로 확실한 하나의 기능을 개발하는 것을 추구. 이를 위해 **페어프로그래밍** 으로 프로젝트 진행
 - 제품으로서 가치를 전달할 수 있는 핵심 기능위주로 구현하기
 - 갈등 상황에서는 감정보다는 논리적 근거를 통해 논쟁하고, 해결하는 것이 목표
@@ -33,98 +34,99 @@
 
 ## 🏠 [배포 페이지](https://potato-market-lab18.web.app/)
 
+> [https://potato-market-lab18.web.app/](https://potato-market-lab18.web.app/)
+
 <br>
 
 ## ⚔ 사용된 기술
 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
-<img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" />
-<img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white" />
-<img src="https://img.shields.io/badge/Vite-blue?style=for-the-badge&logo=vite&logoColor=white" />
-<img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" />
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" /> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black" /> <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"> <img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white" /> <img src="https://img.shields.io/badge/Vite-blue?style=for-the-badge&logo=vite&logoColor=white" /> <img src="https://img.shields.io/badge/Styled_Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" /> <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" />
 <br>
 
 <br>
 
 ## 🎨 주요 기능 소개
 
-### **홈(”/”)**
+### ▶️ [홈 ("/")](https://potato-market-lab18.web.app/)
 
-### **인기매물 (”/HotArticles”)**
+<img src="assets/func-home.PNG" width="800px" /> <br>
 
-- Firebase
-    - firestore : 게시글 작성 완료시 firestore 의 닉네임, 프로필사진, 주소, 조회수, 관심순, 댓글수 데이터를 받아 중고 매물 리스트 페이지에 작성된 날짜 순으로 렌더링
+### ▶️ [인기매물 ("/HotArticles")](https://potato-market-lab18.web.app/hotArticles)
 
-<img src="https://user-images.githubusercontent.com/92783354/236143937-9423d62c-5a31-4110-b774-de73212e5adf.png" width="800px" />
-<br>
+- Firebase - firestore : 게시글 작성 완료시 firestore 의 닉네임, 프로필사진, 주소, 조회수, 관심순, 댓글수 데이터를 받아 중고 매물 리스트 페이지에 작성된 날짜 순으로 렌더링
 
-### **제품 상세 (”/productDetail”)**
+<img src="assets/func-hotarticles.PNG" width="800px" /> <br>
+
+### ▶️ [제품 상세 ("/productDetail")](https://potato-market-lab18.web.app/detailarticle/IwxaAzpUhdXKz27bGjLd)
 
 - `useParams()` 사용해 uid와 게시글 데이터를 받아와 렌더링
 - `UpdateDoc` 사용해서 조회수 기능, 댓글 기능 구현
 - 게시글 작성자의 uid 와 로그인된 uid 가 일치하면 게시글 수정/삭제 버튼 노출
 - 게시글 수정/삭제 기능은 `UpdateDoc`/`DeleteDoc` 으로 구현
 
-<img src="https://user-images.githubusercontent.com/92783354/236144486-77d34b7d-eead-4b7c-ae3b-5d8305d83e55.png" width="600px" />
-<br>
+<img src="assets/func-productdetail.PNG" width="800px" /> <br>
+<img src="assets/func-productdetail.gif" width="600px" /> <br>
 
-### **게시글 작성 (”/WriteArticles”)**
+### ▶️ [게시글 작성 ("/WriteArticles")](https://potato-market-lab18.web.app/writeArticle)
 
 - 다수의 이미지 파일 업로드 및 프리뷰 기능
-- firebase
-    - storage : 게시글 작성시 이미지 파일을 storage 에 저장
-        
-        업로드한 이미지는 browser-image-compression 라이브러리를 통해 압축하여 Storage에 저장됨
-        
-    - firestore : 사용자의 uid, 닉네임, 주소, 제목 및 본문 데이터를 받아 firestore에 저장
+- Firebase - storage : 게시글 작성시 이미지 파일을 storage 에 저장. 업로드한 이미지는 browser-image-compression 라이브러리를 통해 압축하여 Storage에 저장됨
+- Firebase - firestore : 사용자의 uid, 닉네임, 주소, 제목 및 본문 데이터를 받아 firestore에 저장
 
-<img src="https://user-images.githubusercontent.com/92783354/236144785-945f3453-80ce-4cc5-ad90-81a42c057b61.png" width="600px" />
-<br>
+<img src="assets/func-writearticle.gif" width="600px" /> <br>
 
-### **로그인 (”/SignIn”)**
+### ▶️ [로그인 ("/SignIn")](https://potato-market-lab18.web.app/signin)
 
-- 로그인 시도 시, Authentication 에 저장된 계정을 대조해서 확인
+- 로그인 시도 시, Firebase - Authentication 에 저장된 계정을 대조해서 확인
 - 일치하는 계정이 없을 경우 경고 팝업 노출
-- 로그인 완료되면 해당 유저의 UID를 인식한 뒤,동일한 UID로 이름 지어진 user 컬렉션의 문서를 찾아 회원 정보를 가져옴. 가져온 회원 정보는 recoil로 관리 중인 상태에 담아 이용
+- 로그인 완료되면 해당 유저의 UID를 인식한 뒤, 동일한 UID로 이름 지어진 user 컬렉션의 문서를 찾아 회원 정보를 가져옴. 가져온 회원 정보는 recoil로 관리 중인 상태에 담아 이용
 
-<img src="https://user-images.githubusercontent.com/92783354/236145110-8ae8589e-3fd2-477d-990b-b7493172e1b2.gif" width="500px" />
-<br>
+<img src="assets/func-signin.gif" width="400px" /> <br>
 
-### **회원가입 (”/SignUp”)**
+### ▶️ [회원가입 ("/SignUp")]()
 
-- firebase Authentication 이용하여 회원가입 시도 시, 이메일/비밀번호를 기반으로 새 계정 생성
+- Firebase - Authentication : 회원가입 시도 시, 이메일/비밀번호를 기반으로 새 계정 생성
 - 다음 조건에 따라 회원가입 유효성 검사 진행
-    - 회원가입 유효성 검사
-    - 비밀번호 : 6-8자 입력 문구 노출
-    - 비밀번호 확인 : 비밀번호 일치 여부 확인 문구 노출
-    - 닉네임 : 제출 시 중복 닉네임 검사
-    - 이용약관 : 필수 약관 클릭 검사
-    
-  <br>
-  
-### **마이페이지 (”/myPage”)**
+  - 비밀번호 : 6-8자 입력 문구 노출
+  - 비밀번호 확인 : 비밀번호 일치 여부 확인 문구 노출
+  - 닉네임 : 제출 시 중복 닉네임 검사
+  - 이용약관 : 필수 약관 클릭 검사
+- 사용자 동네 설정을 위해 다음 주소 API를 이용해서 시/구/동 정도 저장
+- Firebase - stroage : 사용자의 프로필 사진을 최적화 한 뒤, 파이어베이스에 저장
+- Firebase - firestore : users 컬렉션에 새 계정의 UID로 이름지어진 신규 문서 생성 후 회원 정보 저장
 
-### **채팅**
+<img src="assets/func-signup.gif" width="600px" /> <br>
 
-- **Firebase**
-    - 로그인된 사용자의 uid 를 받아 업데이트
-    - onSnapShot, updateDoc 을 이용해서 firestore database 변화 있을 시 자동 렌더링되도록 구현
-    
-  <img src="https://user-images.githubusercontent.com/92783354/236145417-89c2a0d6-2cd1-49e1-807b-53a99d313139.png" width="500px" />
-<br>
+### ▶️ [마이페이지 ("/myPage")](https://potato-market-lab18.web.app/myPage)
 
-## 6. [성능 개선 작업](https://velog.io/@drk/React-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0-Cleanup-function)
+- 로그인과 동시에 recoil에 저장된 사용자의 정보와 사용자가 게시한 매물 정도를 나열
+- Firestore의 updateDoc과 Storage를 이용한 회원 정보 수정. Authentication의 delete를 이용한 회원 탈퇴 기능 제공
+
+<img src="assets/func-mypage.gif" width="600px" /> <br>
+
+### ▶️ 채팅
+
+- Firebase를 이용해 로그인된 사용자의 uid 를 받아 업데이트
+- onSnapShot, updateDoc 을 이용해서 firestore database 변화 있을 시 자동 렌더링되도록 구현
+
+<img src="assets/func-chat.gif" width="400px" /> <br>
+
+### ▶️ 기타 페이지 알림
+
+<img src="assets/func-statelogout.PNG" width="400px" />
+<img src="assets/func-statelogin.PNG" width="400px" /> <br>
+<img src="assets/func-cantaccess.PNG" width="500px" /> <br>
+
+## 👑 [성능 개선 작업](https://velog.io/@drk/React-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0-Cleanup-function)
 
 중고 매물 거래 플랫폼의 특성 상 고화질의 이미지를 업로드하고 불러오다보니 이미지로 인한 성능 저하가 눈에 띄게 보였습니다.
 
 또한 불필요한 조건부 렌더링으로 인해 CLS 점수가 매우 낮게 나왔고, 이를 개선하는 작업을 진행하였습니다.
 
-  <img src="https://user-images.githubusercontent.com/92783354/236145840-5dd5cb15-d80e-4231-bc74-93ea8bf472c6.png" width="700px" />
-  <img src="https://user-images.githubusercontent.com/92783354/236145853-f365fc4a-4193-451a-824b-ce558a8e565c.png" width="700px" />
-<br>
+<img src="https://user-images.githubusercontent.com/92783354/236145840-5dd5cb15-d80e-4231-bc74-93ea8bf472c6.png" width="700px" /> <br>
+<img src="https://user-images.githubusercontent.com/92783354/236145853-f365fc4a-4193-451a-824b-ce558a8e565c.png" width="700px" /> <br>
 
-### ▶️ **[이미지 최적화](https://velog.io/@dksyu_0618/%EA%B0%90%EC%9E%90%EB%A7%88%EC%BC%93-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B5%9C%EC%A0%81%ED%99%94)**
+### ▶️ [이미지 최적화](https://velog.io/@dksyu_0618/%EA%B0%90%EC%9E%90%EB%A7%88%EC%BC%93-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%B5%9C%EC%A0%81%ED%99%94)
 
 vite 에는 이미지 최적화 기능을 포함하고 있지 않기 때문에 별도의 최적화 작업이 필요했습니다.
 
@@ -132,17 +134,17 @@ vite 에는 이미지 최적화 기능을 포함하고 있지 않기 때문에 �
 
 ```jsx
 "devDependencies": {
-	"@vheemstra/vite-plugin-imagemin": "1.0.8",
-	"imagemin-mozjpeg": "10.0.0",
+  "@vheemstra/vite-plugin-imagemin": "1.0.8",
+  "imagemin-mozjpeg": "10.0.0",
   "imagemin-webp": "8.0.0",
-	"imagemin-gifsicle": "7.0.0",
-	"imagemin-pngquant": "9.0.2",
+  "imagemin-gifsicle": "7.0.0",
+  "imagemin-pngquant": "9.0.2",
   "imagemin-svgo": "10.0.1",
 }
 ```
 
 - vite-plugin-imagemin : 이미지 최적화를 위한 각 하위 라이브러리를 사용하도록 설정하는 플러그인
-- imagemin-* : 각 이미지 형식에 따른 이미지 압축 플러그인
+- imagemin-\* : 각 이미지 형식에 따른 이미지 압축 플러그인
 
 다음으로는 makeWebp 옵션에서 imageminWebp()를 사용하여 jpg, png 로 업로드된 이미지들을 WebP 형식으로 변환해주었습니다.
 
@@ -166,6 +168,7 @@ plugins: [
     }),
   ],
 ```
+
 <br>
 
 ### ▶️ [코드 스플리팅 (React.lazy)](https://ramincoding.tistory.com/entry/React-Reactlazy-%EC%BD%94%EB%93%9C-%EC%8A%A4%ED%94%8C%EB%A6%AC%ED%8C%85%EC%9C%BC%EB%A1%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0)
@@ -194,6 +197,7 @@ function App(){
     )
 }
 ```
+
 <br>
 
 ## 🥽 개발 환경 설치 및 실행
