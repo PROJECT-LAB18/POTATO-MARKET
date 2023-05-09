@@ -5,7 +5,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import { db } from "@/firebase";
+import { db } from "@/api/firebase";
 import { userInformation } from "@/stores/userAuth.js";
 import { gray5, primaryColor } from "@/styles/global";
 

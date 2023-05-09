@@ -4,18 +4,17 @@ import { doc, getDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import { onChat } from "../stores/onChat";
-
+import { db } from "@/api/firebase";
 import chat_bg from "@/assets/chat/chat-bg.svg"
 import chat_close_button from "@/assets/chat/chat-close-button.svg"
 import send_img from "@/assets/chat/chat-send.svg"
 import chat_reset from "@/assets/chat/chat_reset.svg"
-import { db } from "@/firebase";
+import { onChat } from "@/stores/onChat";
 import { userInformation, userId } from "@/stores/userAuth.js"
 
 function Comment() {
   const inputValue = useRef();
-  const [lender, setLender] = useState(0);
+  const [render, setRender] = useState(0);
   const userInfo = useRecoilValue(userInformation);
   const userUid = useRecoilValue(userId);
   const [chat, setChat] = useRecoilState(onChat);
@@ -25,18 +24,19 @@ function Comment() {
   const userSnap = getDoc(userRef);
   const commentRef = db.collection('comment');
 
-  if (!lender) {
+  if (!render) {
     userSnap.then((item) => { setChatData(item.data()) });
-    setLender(1);
+    setRender(1);
   }
 
   useEffect(() => {
     async function fetchData() {
       onSnapshot(commentRef, () => {
-        setLender(0);
+        setRender(0);
       });
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSnapshot]);
 
   useLayoutEffect(() => {
@@ -60,7 +60,7 @@ function Comment() {
       inputValue.current.value = "";
       updateDoc(userRef, chatData).then(() => {
         userSnap.then(() => {
-          setLender(0)
+          setRender(0)
         })
       })
     });
@@ -92,7 +92,7 @@ function Comment() {
                   const newData = { chat: [] };
                   updateDoc(userRef, newData).then(() => {
                     userSnap.then(() => {
-                      setLender(0);
+                      setRender(0);
                     });
                   });
                 }}
@@ -107,7 +107,7 @@ function Comment() {
             </div>
             <div className="div-warpper">
               <ul ref={scrollRef}>
-                {lender ? (
+                {render ? (
                   chatData.chat.map((item, index) => (
                     <li key={index}>
                       <img alt={item.img} src={item.img} />

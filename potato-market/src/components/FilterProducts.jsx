@@ -1,13 +1,13 @@
-import Product from "./product";
-
 import styled from "styled-components";
 
 import errorImg from "@/assets/errorImg.svg";
+import Product from "@/components/product";
 
 const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
   const filteredProducts = newArr.filter(({ title }) =>
     title.toLowerCase().includes(searchKeyword.toLowerCase())
   );
+  
   if (filteredProducts.length === 0) {
     setHasResults(false);
     return (
@@ -17,7 +17,9 @@ const FilteredProducts = ({ newArr, searchKeyword ,setHasResults}) => {
       </NotFoundImg>
     );
   }
+  
   setHasResults(true);
+
   return filteredProducts.map( ({ content, title, price, side, imgsrc, id, check, heart ,location, recommend},index) => (
     <Product
       key={index}

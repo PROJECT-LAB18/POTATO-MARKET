@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-import { primaryColor } from "../styles/Global";
+import { primaryColor } from "@/styles/Global";
 
 const FormButton = styled.button`
   display: block;

@@ -3,11 +3,10 @@ import { useNavigate } from "react-router";
 
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useRecoilValue } from "recoil";
-
 import styled, { css } from "styled-components";
 
+import firebase from "@/api/firebase";
 import AddPhoto from "@/components/AddPhoto";
-import firebase from "@/firebase";
 import { userId, userInformation } from "@/stores/userAuth.js"
 import { gray4, gray6, primaryColor } from "@/styles/global";
 

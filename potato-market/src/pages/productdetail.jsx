@@ -6,19 +6,16 @@ import { doc, getDoc, updateDoc, increment, onSnapshot, deleteDoc } from "fireba
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
-import close_button from "../assets/closebutton.svg";
-import LoadingSpinner from "../components/LoadingSpinner";
-import Product from "../components/product";
-import Recommend from "../components/Recommend";
-import SwiperPhoto from "../components/swiper";
-import { WriteInput } from "../components/WriteForm";
-
+import { db, userWriteRef } from "@/api/firebase";
+import close_button from "@/assets/closebutton.svg";
 import icon_temp4 from "@/assets/icon_temp4.svg";
-import { db, userWriteRef } from "@/firebase";
-
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Product from "@/components/product";
+import Recommend from "@/components/Recommend";
+import SwiperPhoto from "@/components/swiper";
+import { WriteInput } from "@/components/WriteForm";
 import { userId } from "@/stores/userAuth.js";
 import { CustomButton } from "@/styles/CustomButton";
-
 import moneyUnit from "@/utils/moneyUnit";
 
 function Detailarticle() {

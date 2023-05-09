@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import { userId } from "../stores/userAuth";
-
 import toggleBox from "@/assets/header_toggle.svg";
 import LogoutButton from "@/components/LogoutButton";
+import { userId } from "@/stores/userAuth";
 
 function Toggle() {
   const login = useRecoilValue(userId);
@@ -16,12 +15,20 @@ function Toggle() {
       {login === null ? (
         <ul>
           <li>
-            <Link className="textLink" href="https://potato-market-lab18.web.app/signin" to="/SignIn">
+            <Link 
+              className="textLink" 
+              href="https://potato-market-lab18.web.app/signin" 
+              to="/SignIn"
+              >
               로그인
             </Link>
           </li>
           <li>
-            <Link className="textLink" href="https://potato-market-lab18.web.app/signup" to="/SignUp">
+            <Link 
+              className="textLink" 
+              href="https://potato-market-lab18.web.app/signup" 
+              to="/SignUp"
+              >
               회원가입
             </Link>
           </li>
@@ -32,7 +39,11 @@ function Toggle() {
             <LogoutButton />
           </li>
           <li>
-            <Link className="textLink" href="https://potato-market-lab18.web.app/myPage" to={"/myPage"}>
+            <Link 
+              className="textLink" 
+              href="https://potato-market-lab18.web.app/myPage" 
+              to={"/myPage"}
+              >
               마이페이지
             </Link>
           </li>

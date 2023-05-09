@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
+import { auth, db, storage, usersRef } from "@/api/firebase";
 import FormInput, { FormInputImage } from "@/components/FormInput";
 import FormInputAddress from "@/components/FormInputAddress";
 import FormTerms from "@/components/FormTerms";
 import LoginState from "@/components/LoginState";
 import Popup from "@/components/Popup";
-import { auth, db, storage, usersRef } from "@/firebase";
 import { userId } from "@/stores/userAuth";
 import FormButton from "@/styles/FormButton";
 import { gray3, gray8, primaryColor } from "@/styles/Global";

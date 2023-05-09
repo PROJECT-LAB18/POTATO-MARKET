@@ -4,9 +4,8 @@ import { useSetRecoilState } from "recoil";
 
 import styled from "styled-components";
 
-import { toggle } from "../stores/toggle";
-
-import firebase from "@/firebase";
+import firebase from "@/api/firebase";
+import { toggle } from "@/stores/toggle";
 import { userId, userInformation } from "@/stores/userAuth.js"
 
 const auth = firebase.auth();

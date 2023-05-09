@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
-import LoginState from "../components/LoginState";
+import LoginState from "@/components/LoginState";
 
 import WriteForm from "@/components/WriteForm";
 import { userId } from "@/stores/userAuth.js"

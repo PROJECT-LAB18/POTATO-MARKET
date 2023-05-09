@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import styled from "styled-components";
 
-import { WriteInput } from "./WriteForm";
-
-import addIcon from "@/assets/icon-add-photo.svg"
-import closeButton from "@/assets/icon-close-button.svg"
+import addIcon from "@/assets/icon-add-photo.svg";
+import closeButton from "@/assets/icon-close-button.svg";
+import { WriteInput } from "@/components/WriteForm";
 
 import { gray4, primaryColor } from "@/styles/global";
 

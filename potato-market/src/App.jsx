@@ -4,14 +4,13 @@ import { Outlet } from "react-router-dom";
 
 import { useRecoilState, useRecoilValue, useSetRecoilState  } from "recoil";
 
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import { auth, db } from "@/api/firebase";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
-import { auth, db } from "./firebase";
-import { onChat } from "./stores/onChat";
-import GlobalStyle from "./styles/Global";
-
+import { onChat } from "@/stores/onChat";
 import { userId, userInformation } from "@/stores/userAuth.js"
+import GlobalStyle from "@/styles/Global";
 
 const Comment = lazy(() => import("./components/comment"));
 

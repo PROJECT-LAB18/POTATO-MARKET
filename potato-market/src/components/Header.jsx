@@ -5,22 +5,18 @@ import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import styled from "styled-components";
 
-import Toggle from "./Toggle";
-
-import { userId, userInformation } from "../stores/userAuth";
-
-import { primaryColor, gray1, gray3, gray7, gray2 } from "../styles/Global";
-
 import closeIcon from "@/assets/closebutton.svg";
 import defaultProfile from "@/assets/defaultProfile.svg";
 import hamburger from "@/assets/hamburger.svg";
 import mainLogo from "@/assets/logo(symbol+name).svg";
 import searchIcon from "@/assets/searchIcon.svg";
 import xButton from "@/assets/xButton.svg";
-
+import Toggle from "@/components/Toggle";
 import { onChat } from "@/stores/onChat";
 import { searchKeywordState } from "@/stores/state";
 import { toggle } from "@/stores/toggle";
+import { userId, userInformation } from "@/stores/userAuth";
+import { primaryColor, gray1, gray3, gray7, gray2 } from "@/styles/Global";
 
 function Header() {
   const login = useRecoilValue(userId);
